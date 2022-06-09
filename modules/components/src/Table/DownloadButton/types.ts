@@ -70,6 +70,7 @@ export interface DownloadButtonProps extends ThemeCommon.CustomCSS {
 }
 
 export interface SingleDownloadButtonProps extends Partial<ProcessedExporterDetailsInterface> {
+  className?: string;
   clickHandler?: () => void;
   disabled: boolean;
 }

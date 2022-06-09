@@ -15,18 +15,17 @@ const {
   ES_HOST,
   ES_USER,
   ES_PASS,
-  ES_LOG,
+  ES_LOG, //TODO: ES doesn't include a logger anymore
   PING_PATH,
 } = ENV_CONFIG;
 
-export const buildEsClient = (esHost = '', esUser = '', esPass = '', esLog = 'error') => {
+export const buildEsClient = (esHost = '', esUser = '', esPass = '') => {
   if (!esHost) {
     console.error('no elasticsearch host was provided');
   }
 
-  let esConfig = {
+  const esConfig = {
     node: esHost,
-    log: esLog,
   };
 
   if (esUser) {
@@ -43,7 +42,7 @@ export const buildEsClient = (esHost = '', esUser = '', esPass = '', esLog = 'er
 };
 
 export const buildEsClientViaEnv = () => {
-  return buildEsClient(ES_HOST, ES_USER, ES_PASS, ES_LOG);
+  return buildEsClient(ES_HOST, ES_USER, ES_PASS);
 };
 
 export default async ({

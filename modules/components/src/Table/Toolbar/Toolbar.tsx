@@ -1,60 +1,74 @@
 import { useMemo } from 'react';
 import { css } from '@emotion/react';
 import cx from 'classnames';
+import { merge } from 'lodash';
 
 import TableColumnSelectButton from '@/Table/ColumnsSelectButton';
 import DownloadButton from '@/Table/DownloadButton';
-import TableCounter from '@/Table/Counter';
+import TableCounter from '@/Table/CountDisplay';
 import { useThemeContext } from '@/ThemeContext';
 import getDisplayName from '@/utils/getComponentDisplayName';
 import { emptyObj } from '@/utils/noops';
 
-const TableToolbar = () => {
+import { ToolbarProps } from './types';
+
+const Toolbar = ({
+  className: customClassName,
+  theme: { CountDisplay: customCountDisplayProps } = emptyObj,
+}: ToolbarProps) => {
   const {
     components: {
       Table: {
-        TableToolbar: { TableCounter: themeTableCounterProps = emptyObj } = emptyObj,
+        Toolbar: {
+          className: themeClassName,
+          CountDisplay: themeCountDisplayProps = emptyObj,
+        } = emptyObj,
       } = emptyObj,
     } = emptyObj,
-  } = useThemeContext({ callerName: 'Table - TableToolbar' });
+  } = useThemeContext({ callerName: 'Table - Toolbar' });
+  const className = cx('Toolbar', customClassName, themeClassName);
+  const countDisplayTheme = merge({}, themeCountDisplayProps, customCountDisplayProps);
 
   return useMemo(
     () => (
       <section
-        className={cx('tableToolbar')}
+        className={className}
         css={css`
+          align-items: flex-start;
           display: flex;
-          flex: none;
-          margin-bottom: 0.5rem;
+          justify-content: space-between;
         `}
       >
         <TableCounter
           css={css`
-            margin-left: 0.3rem;
+            flex-shrink: 0;
+            margin: 0.3rem 0 0 0.3rem;
 
             .Spinner {
               justify-content: space-between;
               width: 65%;
             }
           `}
-          theme={themeTableCounterProps}
+          theme={countDisplayTheme}
         />
 
         <ul
           className="buttons"
           css={css`
             display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
             list-style: none;
-            margin: 0 0 0 1rem;
+            margin: 0 0 -0.3rem 0.7rem;
+            padding: 0;
           `}
         >
           {/* TODO: Allow adding buttons here */}
           {[TableColumnSelectButton, DownloadButton].map((Component) => (
             <li
               css={css`
-                &:not(:first-of-type) {
-                  margin-left: 0.3rem;
-                }
+                margin-left: 0.3rem;
+                margin-bottom: 0.3rem;
               `}
               key={getDisplayName(Component)}
             >
@@ -64,8 +78,8 @@ const TableToolbar = () => {
         </ul>
       </section>
     ),
-    [themeTableCounterProps],
+    [className, countDisplayTheme],
   );
 };
 
-export default TableToolbar;
+export default Toolbar;

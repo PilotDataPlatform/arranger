@@ -8,22 +8,31 @@ import { useThemeContext } from '@/ThemeContext';
 import { emptyObj } from '@/utils/noops';
 
 import { isPlural } from './helpers';
-import { CounterProps } from './types';
+import { CountDisplayProps } from './types';
 
-const TableCounter = ({
-  className,
+const CountDisplay = ({
+  className: customClassName,
   css: customCSS,
-  theme: { hideLoader: customHideLoader, Spinner: customSpinnerProps = emptyObj } = emptyObj,
-}: CounterProps) => {
+  theme: {
+    fontColor: customFontColor,
+    fontSize: customFontSize,
+    hideLoader: customHideLoader,
+    Spinner: customSpinnerProps = emptyObj,
+  } = emptyObj,
+}: CountDisplayProps) => {
   const { currentPage, documentType, isLoading, pageSize, missingProvider, total } =
     useTableContext({
-      callerName: 'Table - TableCounter',
+      callerName: 'Table - CountDisplay',
     });
   const {
+    colors,
     components: {
       Table: {
-        TableCounter: {
+        CountDisplay: {
+          className: themeClassName,
           hideLoader: themeHideLoader,
+          fontColor: themeFontColor = colors?.grey?.[700],
+          fontSize: themeFontSize = '0.8rem',
           Spinner: themeSpinnerProps = emptyObj,
         } = emptyObj,
       } = emptyObj,
@@ -38,13 +47,18 @@ const TableCounter = ({
 
   return (
     <article
-      className={cx('currentlyDisplayed', className)}
+      className={cx('currentlyDisplayed', customClassName, themeClassName)}
       css={[
         css`
           align-items: center;
+          color: ${customFontColor || themeFontColor};
           display: flex;
           flex-grow: 1;
-          font-size: 0.8rem;
+          font-size: ${customFontSize || themeFontSize};
+
+          > * {
+            flex: 0 0 auto;
+          }
         `,
         customCSS,
       ]}
@@ -86,4 +100,4 @@ const TableCounter = ({
   );
 };
 
-export default TableCounter;
+export default CountDisplay;

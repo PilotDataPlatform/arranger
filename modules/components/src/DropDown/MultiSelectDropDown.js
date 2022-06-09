@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
+import cx from 'classnames';
 import { merge } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
@@ -15,10 +16,11 @@ const DropDownMenu = ({
   buttonAriaLabelClosed = 'Open selection menu',
   buttonAriaLabelOpen = 'Close selection menu',
   children,
+  className: customClassName = '',
   disabled = false,
   items = [],
   itemSelectionLegend = 'Select items',
-  itemToString = (item) => item.label,
+  itemToString = (item, closeDropDown) => item.label,
   onChange = noopFn,
   resetToDefaultAriaLabel = 'Reset to default selection',
   selectAllAriaLabel = 'Select all items',
@@ -66,6 +68,7 @@ const DropDownMenu = ({
         arrowColor: themeArrowColor,
         arrowDisabledColor: themeArrowDisabledColor,
         arrowTransition: themeArrowTransition,
+        className: themeClassName,
         css: themeDropDownButtonCSS,
         fontColor: themeDropDownFontColor = colors?.grey?.[800],
 
@@ -125,39 +128,41 @@ const DropDownMenu = ({
     itemsRef.current?.[items.length - 1]?.focus?.();
   };
 
-  const handleEsc = useCallback(
-    (event) => {
-      if (isOpen && event.key === 'Escape') {
-        setIsOpen(false);
-        buttonRef.current?.focus?.();
-      }
-    },
-    [isOpen],
-  );
+  const handleAction = useCallback((event) => {
+    event?.preventDefault?.();
+    setIsOpen((isOpen) => !isOpen);
+  }, []);
 
   const handleBlur = useCallback(
     (event) => {
       const nextTarget = event.relatedTarget;
 
-      if (isOpen && panelRef.current && !panelRef.current?.contains?.(nextTarget)) {
-        setIsOpen(false);
-      }
+      panelRef.current && !panelRef.current?.contains?.(nextTarget) && handleAction();
     },
-    [isOpen],
+    [handleAction, panelRef],
   );
 
   const handleClickOutside = useCallback(
     (event) => {
       if (
-        isOpen &&
         panelRef.current &&
         !panelRef.current?.contains?.(event.target) &&
         event.target !== buttonRef.current
       ) {
-        setIsOpen(false);
+        handleAction();
       }
     },
-    [buttonRef, isOpen, panelRef],
+    [buttonRef, handleAction, panelRef],
+  );
+
+  const handleEsc = useCallback(
+    (event) => {
+      if (event.key === 'Escape') {
+        handleAction();
+        isOpen && buttonRef.current?.focus?.();
+      }
+    },
+    [handleAction, isOpen],
   );
 
   const handleKeyPress = (item) => (event) => {
@@ -258,12 +263,12 @@ const DropDownMenu = ({
   }, [handleClickOutside, handleEsc, isOpen]);
 
   useEffect(() => {
-    setIsDisabled(disabled, items.length < 1);
+    setIsDisabled(disabled || items.length < 1);
   }, [disabled, items]);
 
   return (
-    <div
-      className="DropdownContainer"
+    <article
+      className={cx('DropdownContainer', customClassName, themeClassName)}
       css={css`
         position: relative;
       `}
@@ -272,14 +277,11 @@ const DropDownMenu = ({
         aria-label={isOpen ? buttonAriaLabelOpen : buttonAriaLabelClosed}
         aria-haspopup="true"
         aria-expanded={isOpen}
-        className="dropDownButton"
+        className="DropDownButton"
         css={[themeDropDownButtonCSS, customDropDownButtonCSS]}
         disabled={isDisabled}
         onBlur={handleBlur}
-        onClick={(e) => {
-          e.preventDefault();
-          setIsOpen((isOpen) => !isOpen);
-        }}
+        onClick={handleAction}
         ref={buttonRef}
         theme={buttonTheme}
       >
@@ -432,7 +434,7 @@ const DropDownMenu = ({
                         />
                       )}
 
-                      {itemToString(item)}
+                      {itemToString(item, handleAction)}
                     </label>
                   </li>
                 );
@@ -443,7 +445,7 @@ const DropDownMenu = ({
           )}
         </fieldset>
       )}
-    </div>
+    </article>
   );
 };
 

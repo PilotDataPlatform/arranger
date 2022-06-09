@@ -11,9 +11,13 @@ import {
 import { DropDownThemeProps } from '@/DropDown/types';
 import { ThemeCommon } from '@/ThemeContext/types';
 
-import { DownloadButtonThemeProps } from './DownloadButton/types';
-import { TableToolbarThemeProps } from './Toolbar/types';
 import { ColumnSelectButtonThemeProps } from './ColumnsSelectButton/types';
+import { CountDisplayThemeProps } from './CountDisplay/types';
+import { DownloadButtonThemeProps } from './DownloadButton/types';
+import { MaxRowsSelectorThemeProps } from './MaxRowsSelector/types';
+import { PageSelectorThemeProps } from './PageSelector/types';
+import { PaginationThemeProps } from './Pagination/types';
+import { ToolbarThemeProps } from './Toolbar/types';
 
 export type FieldList = ColumnMappingInterface['field'][];
 
@@ -101,6 +105,7 @@ export interface TableThemeProps
   noDataMessage?: ThemeCommon.ChildrenType;
 
   // Child components
+  CountDisplay: CountDisplayThemeProps;
   ColumnSelectButton: ColumnSelectButtonThemeProps;
   DownloadButton: DownloadButtonThemeProps;
   DropDown: DropDownThemeProps;
@@ -114,6 +119,9 @@ export interface TableThemeProps
       hoverFontColor: string;
       verticalBorderColor: string;
     };
+  MaxRowsSelector: MaxRowsSelectorThemeProps;
+  PageSelector: PageSelectorThemeProps;
+  Pagination: PaginationThemeProps;
   Row: TableInnerBoxModelProperties &
     ThemeCommon.FontProperties & {
       horizontalBorderColor: string;
@@ -123,11 +131,12 @@ export interface TableThemeProps
       verticalBorderColor: string;
     };
   TableBody: Omit<TableInnerBoxModelProperties, 'borderRadius' | 'padding'>;
-  TableToolbar: TableToolbarThemeProps;
   TableWrapper: ThemeCommon.BoxModelProperties & ThemeCommon.CustomCSS & { width?: string };
+  Toolbar: ToolbarThemeProps;
 }
 
 export interface TableProps {
+  className?: string;
   disableRowSelection?: boolean;
   hideWarning?: boolean;
   theme?: Partial<TableThemeProps>;
@@ -139,5 +148,5 @@ export interface UseTableDataProps {
 }
 
 export * from './ColumnsSelectButton/types';
-export * from './Counter/types';
+export * from './CountDisplay/types';
 export * from './DownloadButton/types';

@@ -7,7 +7,7 @@ export const DOWNLOAD_STREAM_BUFFER_SIZE =
   Number(process.env.DOWNLOAD_STREAM_BUFFER_SIZE || '') || 2000;
 export const ENABLE_ADMIN = (process.env.ENABLE_ADMIN || '').toLowerCase() === 'true' || false;
 export const ENABLE_LOGS = (process.env.ENABLE_LOGS || '').toLowerCase() === 'true' || false;
-export const ES_HOST = process.env.ES_HOST || 'http://localhost:9200';
+export const ES_HOST = process.env.ES_HOST || 'http://127.0.0.1:9200';
 export const ES_INDEX = process.env.ES_INDEX || '';
 export const ES_LOG = process.env.ES_LOG?.split?.(',') || 'error';
 export const ES_PASS = process.env.ES_PASS || '';

@@ -100,8 +100,8 @@ export const TableContextProvider = ({
 
   useEffect(() => {
     setIsStaleTableData(true);
-    setTableData([]);
-  }, [currentColumnsDict, sqon]);
+    // setTableData([]);
+  }, [currentColumnsDict, currentPage, sqon, pageSize]);
 
   useEffect(() => {
     if (
@@ -117,6 +117,8 @@ export const TableContextProvider = ({
           documentType,
         },
         endpoint: '/graphql/TableDataQuery',
+        first: pageSize,
+        offset: currentPage * pageSize,
         queryName: 'tableData',
         sort: sorting.map(({ field, desc }) => ({
           field,
@@ -135,6 +137,7 @@ export const TableContextProvider = ({
         .finally(() => setIsLoadingTableData(false));
     }
   }, [
+    currentPage,
     documentType,
     fetchData,
     hasVisibleColumns,
@@ -142,6 +145,7 @@ export const TableContextProvider = ({
     isLoadingConfigs,
     isLoadingTableData,
     isStaleTableData,
+    pageSize,
     sorting,
     visibleColumnsDict,
   ]);

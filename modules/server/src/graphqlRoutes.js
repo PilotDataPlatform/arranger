@@ -117,11 +117,13 @@ const createEndpoint = async ({
     types: typesWithMappings,
   });
 
-  const noSchemaHandler = (req, res) =>
-    res.json({
+  const noSchemaHandler = (req, res) => {
+    console.log('Something went wrong initialising a GraphQL endpoint');
+    return res.json({
       error:
         'schema is undefined. Make sure you provide a valid GraphQL Schema. https://www.apollographql.com/docs/graphql-tools/generate-schema.html',
     });
+  };
 
   console.log('------------------------------------');
 
@@ -138,28 +140,39 @@ const createEndpoint = async ({
       };
     };
 
-    new ApolloServer({
+    console.log('- Starting GraphQL server...');
+
+    const server = new ApolloServer({
       schema,
       context: ({ req, res, con }) => buildContext(req, res, con),
-    }).applyMiddleware({
+    });
+
+    await server.start();
+
+    server.applyMiddleware({
       app: router,
       path: '/graphql',
     });
 
-    console.log('- GraphQL server running at .../graphql');
+    console.log('  GraphQL server running at .../graphql');
   } else {
     router.use('/graphql', noSchemaHandler);
   }
 
   if (mockSchema) {
-    new ApolloServer({
+    console.log('\n- Starting GraphQL mock server...');
+    const mockServer = new ApolloServer({
       schema: mockSchema,
-    }).applyMiddleware({
+    });
+
+    await mockServer.start();
+
+    mockServer.applyMiddleware({
       app: router,
       path: '/mock/graphql',
     });
 
-    console.log('- GraphQL mock server running at .../mock/graphql');
+    console.log('  GraphQL mock server running at .../mock/graphql');
   } else {
     router.use('/mock/graphql', noSchemaHandler);
   }
@@ -220,7 +233,7 @@ export default async ({
     ];
   } catch (error) {
     // if enpoint creation fails, follow to the next server step to respond with an error
-    console.info('\n---\nError thrown while generating the GraphQL endpoints.');
+    console.info('\n------\nError thrown while generating the GraphQL endpoints.');
     console.error(error?.message || error);
 
     return (req, res) =>

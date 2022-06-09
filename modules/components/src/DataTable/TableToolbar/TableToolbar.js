@@ -8,7 +8,7 @@ import { useDataContext } from '@/DataContext';
 import DropDown, { MultiSelectDropDown } from '@/DropDown';
 import MetaMorphicChild from '@/MetaMorphicChild';
 import { currentFilterValue } from '@/SQONViewer/utils';
-import { isPlural } from '@/Table/Counter/helpers';
+import { isPlural } from '@/Table/CountDisplay/helpers';
 import TextFilter, { generateNextSQON } from '@/TextFilter';
 import { useThemeContext } from '@/ThemeContext';
 import download from '@/utils/download';

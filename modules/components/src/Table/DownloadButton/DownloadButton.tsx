@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import cx from 'classnames';
 import { merge } from 'lodash';
 import urlJoin from 'url-join';
 
@@ -10,7 +11,7 @@ import { useTableContext } from '@/Table/helpers';
 import { useThemeContext } from '@/ThemeContext';
 import { ARRANGER_API } from '@/utils/config';
 import download from '@/utils/download';
-import { emptyObj } from '@/utils/noops';
+import noopFn, { emptyObj } from '@/utils/noops';
 import stringCleaner from '@/utils/stringCleaner';
 
 import { useExporters } from './helpers';
@@ -42,6 +43,7 @@ import { ProcessedExporterDetailsInterface, DownloadButtonProps } from './types'
  *   Disables the exporter in the abscence of row selections.
  */
 const DownloadButton = ({
+  className: customClassName,
   theme: {
     customExporters,
     disableRowSelection: customDisableRowSelection,
@@ -69,6 +71,7 @@ const DownloadButton = ({
     components: {
       Table: {
         DownloadButton: {
+          className: themeClassName,
           customExporters: themeCustomExporters,
           disableRowSelection: themeDisableRowSelection,
           downloadUrl: themeDownloadUrl = urlJoin(ARRANGER_API, 'download'),
@@ -105,19 +108,23 @@ const DownloadButton = ({
         } as unknown as SQONType)
       : sqon;
 
-  const handleExporterClick = ({
-    exporterColumns,
-    exporterDownloadUrl = downloadUrl,
-    exporterFileName,
-    exporterFn,
-    exporterLabel,
-    exporterMaxRows = maxRows,
-    exporterRequiresRowSelection,
-  }: ProcessedExporterDetailsInterface) =>
+  const handleExporterClick = (
+    {
+      exporterColumns,
+      exporterDownloadUrl = downloadUrl,
+      exporterFileName,
+      exporterFn,
+      exporterLabel,
+      exporterMaxRows = maxRows,
+      exporterRequiresRowSelection,
+    }: ProcessedExporterDetailsInterface,
+    closeDropDownFn = noopFn,
+  ) =>
     (exporterFn && exporterRequiresRowSelection && !hasSelectedRows) || !exporterFn
       ? undefined
-      : () =>
-          exporterFn?.(
+      : () => {
+          closeDropDownFn();
+          return exporterFn?.(
             {
               files: [
                 {
@@ -140,22 +147,24 @@ const DownloadButton = ({
             },
             download,
           );
+        };
 
   // check if we're given more than one custom exporter
   return hasMultipleExporters ? (
     <MultiSelectDropDown
       buttonAriaLabelClosed="Open downloads menu"
       buttonAriaLabelOpen="Close downloads menu"
+      className={cx('DownloadButton', customClassName, themeClassName)}
       disabled={disableButton}
       itemSelectionLegend="Select on of the download options"
       items={exporterDetails as ProcessedExporterDetailsInterface[]}
-      itemToString={(exporter) => {
+      itemToString={(exporter, closeDropDownFn) => {
         return (
           <TransparentButton
             css={css`
               width: 100%;
             `}
-            onClick={handleExporterClick(exporter)}
+            onClick={handleExporterClick(exporter, closeDropDownFn)}
           >
             <MetaMorphicChild>{exporter.exporterLabel || 'unlabeled exporter'}</MetaMorphicChild>
           </TransparentButton>
@@ -168,6 +177,7 @@ const DownloadButton = ({
   ) : (
     // else, use a custom function if any is given, or use the default saveTSV if the flag is on
     <SingleDownloadButton
+      className={cx('DownloadButton', customClassName, themeClassName)}
       clickHandler={handleExporterClick(exporterDetails as ProcessedExporterDetailsInterface)}
       disabled={isLoading || !!missingProvider}
       {...exporterDetails}

@@ -57,7 +57,7 @@ describe('@overture-stack/arranger-server', () => {
 
     await esClient.indices.create({
       index: esIndex,
-      ...mapppings,
+      body: mapppings,
     });
 
     for (let datum of data) {
