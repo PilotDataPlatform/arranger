@@ -1,5 +1,6 @@
-import mapHits from './mapHits';
 import { get } from 'lodash';
+
+import mapHits from './mapHits';
 import esSearch from './esSearch';
 
 export default async ({ esClient, index }) => {

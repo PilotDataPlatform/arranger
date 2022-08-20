@@ -71,6 +71,9 @@ const Cell = ({
 
           > li {
             line-height: 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
 
           ${listStyle

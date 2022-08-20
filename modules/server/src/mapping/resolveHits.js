@@ -4,6 +4,7 @@ import { chunk } from 'lodash';
 import { buildQuery } from '../middleware';
 import compileFilter from './utils/compileFilter';
 import esSearch from './utils/esSearch';
+import loadExtendedFields from './utils/loadExtendedFields';
 
 const findCopyToSourceFields = (mapping, path = '', results = {}) => {
   Object.entries(mapping).forEach(([k, v]) => {
@@ -19,12 +20,21 @@ const findCopyToSourceFields = (mapping, path = '', results = {}) => {
 };
 
 export const hitsToEdges = ({
+  copyToSourceFields = {},
+  extendedFields = [],
   hits,
   nestedFields,
   Parallel,
-  copyToSourceFields = {},
   systemCores = process?.env?.SYSTEM_CORES || 2,
 }) => {
+  const extendedFieldsObj = extendedFields.reduce(
+    (acc, field) => ({
+      ...acc,
+      [field.field]: field,
+    }),
+    {},
+  );
+
   /*
     If there's a large request, we'll trigger ludicrous mode and do some parallel
     map-reduce based on # of cores available. Otherwise, only one child-process
@@ -40,8 +50,8 @@ export const hitsToEdges = ({
       (chunk) =>
         //Parallel.spawn output has a .then but it's not returning an actual promise
         new Promise((resolve) => {
-          new Parallel({ hits: chunk, nestedFields, copyToSourceFields })
-            .spawn(({ hits, nestedFields, copyToSourceFields }) => {
+          new Parallel({ copyToSourceFields, extendedFieldsObj, hits: chunk, nestedFields })
+            .spawn(({ copyToSourceFields, extendedFieldsObj, hits, nestedFields }) => {
               /*
                 everthing inside spawn is executed in a separate thread, so we have
                 to use good old ES5 and require for run-time dependecy bundling.
@@ -76,46 +86,50 @@ export const hitsToEdges = ({
                 let joinParent = (parent, field) => (parent ? `${parent}.${field}` : field);
 
                 let resolveNested = ({ node, nestedFields, parent = '' }) => {
-                  if (!isObject(node) || !node) return node;
-
-                  return Object.entries(node).reduce((acc, pair) => {
-                    const field = pair[0];
-                    const hits = pair[1];
-                    // TODO: inner hits query if necessary
-                    const fullPath = joinParent(parent, field);
-                    acc[field] = nestedFields.includes(fullPath)
-                      ? {
-                          hits: {
-                            edges: hits.map((node) => ({
-                              node: Object.assign(
-                                {},
-                                node,
-                                resolveNested({
+                  if (node && isObject(node)) {
+                    return Object.entries(node).reduce((acc, pair) => {
+                      const field = pair[0];
+                      const hits = pair[1];
+                      // TODO: inner hits query if necessary
+                      const fullPath = joinParent(parent, field);
+                      acc[field] = nestedFields.includes(fullPath)
+                        ? {
+                            hits: {
+                              edges: hits.map((node) => ({
+                                node: Object.assign(
+                                  {},
                                   node,
-                                  nestedFields,
-                                  parent: fullPath,
-                                }),
-                              ),
-                            })),
-                            total: hits.length,
-                          },
-                        }
-                      : isObject(hits) && hits
-                      ? Object.assign(
-                          hits.constructor(),
-                          resolveNested({
+                                  resolveNested({
+                                    node,
+                                    nestedFields,
+                                    parent: fullPath,
+                                  }),
+                                ),
+                              })),
+                              total: hits.length,
+                            },
+                          }
+                        : isObject(hits) && hits
+                        ? Object.assign(
+                            hits.constructor(),
+                            resolveNested({
+                              node: hits,
+                              nestedFields,
+                              parent: fullPath,
+                            }),
+                          )
+                        : resolveNested({
                             node: hits,
                             nestedFields,
                             parent: fullPath,
-                          }),
-                        )
-                      : resolveNested({
-                          node: hits,
-                          nestedFields,
-                          parent: fullPath,
-                        });
-                    return acc;
-                  }, {});
+                          });
+                      return acc;
+                    }, {});
+                  }
+
+                  return extendedFieldsObj?.[parent]?.isArray && !Array.isArray(node)
+                    ? [node]
+                    : node;
                 };
                 let source = x._source;
                 let nested_nodes = resolveNested({
@@ -159,6 +173,9 @@ export default ({ type, Parallel, getServerSideFilter }) =>
     let nestedFields = type.nested_fields;
 
     const { esClient } = context;
+    const { index } = type;
+
+    const extendedFields = await loadExtendedFields({ esClient, index });
 
     /**
    * @todo: I left this chunk here for reference, in case someone actually understands what it actually is trying to do
@@ -238,10 +255,11 @@ export default ({ type, Parallel, getServerSideFilter }) =>
     return {
       edges: () =>
         hitsToEdges({
+          copyToSourceFields,
+          extendedFields,
           hits,
           nestedFields,
           Parallel,
-          copyToSourceFields,
         }),
       total: () => hits.total.value,
     };
