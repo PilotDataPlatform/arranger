@@ -2,7 +2,7 @@ import createFieldAggregation from '../../buildAggregations/createFieldAggregati
 
 test('it should compute aggregation cardinality (for field files.kf_id)', () => {
   const input = {
-    field: 'files.kf_id',
+    fieldName: 'files.kf_id',
     graphqlField: {
       cardinality: {},
     },
@@ -18,7 +18,7 @@ test('it should compute aggregation cardinality (for field files.kf_id)', () => 
 
 test('it should compute aggregation cardinality (for field family_id)', () => {
   const input = {
-    field: 'family_id',
+    fieldName: 'family_id',
     graphqlField: {
       cardinality: {},
     },
@@ -34,7 +34,7 @@ test('it should compute aggregation cardinality (for field family_id)', () => {
 
 test('it should compute top hits aggregation', () => {
   const input = {
-    field: 'observed_phenotype.name',
+    fieldName: 'observed_phenotype.name',
     size: 1,
     source: ['observed_Phenotype.parents'],
     graphqlField: {
@@ -86,7 +86,7 @@ test('it should compute top hits aggregation', () => {
 
 test('it should compute top hits aggregation and revert nested', () => {
   const input = {
-    field: 'observed_phenotype.name',
+    fieldName: 'observed_phenotype.name',
     size: 1,
     source: ['observed_Phenotype.parents'],
     isNested: 1,
@@ -146,12 +146,14 @@ test('it should compute top hits aggregation and filter by term aggregation', ()
     kind: 'Variable',
     value: {
       op: 'and',
-      content: [{ op: 'in', content: { field: 'observed_phenotype.is_tagged', value: 'true' } }],
+      content: [
+        { op: 'in', content: { fieldName: 'observed_phenotype.is_tagged', value: 'true' } },
+      ],
     },
   };
 
   const input = {
-    field: 'observed_phenotype.name',
+    fieldName: 'observed_phenotype.name',
     size: 1,
     source: ['observed_Phenotype.parents'],
     graphqlField: {
@@ -224,7 +226,7 @@ test('it should compute top hits aggregation and filter by term aggregation', ()
 
 test('it should handle multiple aggregation types per field', () => {
   const input = {
-    field: 'sequencing_experiments.mean_depth',
+    fieldName: 'sequencing_experiments.mean_depth',
     graphqlField: {
       stats: { max: {} },
       histogram: {
@@ -252,7 +254,7 @@ test('it should handle multiple aggregation types per field', () => {
 
 test('it should generate nested terms filters in aggs ', () => {
   const input = {
-    field: 'donors.zygosity',
+    fieldName: 'donors.zygosity',
     graphqlField: {
       buckets: {
         key: {},
