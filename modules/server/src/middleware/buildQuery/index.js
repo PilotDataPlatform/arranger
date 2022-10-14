@@ -294,6 +294,7 @@ export const opSwitch = ({ nestedFieldNames, filter }) => {
 
 export default function ({ nestedFieldNames, filters: rawFilters }) {
   if (Object.keys(rawFilters || {}).length === 0) return {};
+
   return opSwitch({
     nestedFieldNames,
     filter: normalizeFilters(rawFilters),

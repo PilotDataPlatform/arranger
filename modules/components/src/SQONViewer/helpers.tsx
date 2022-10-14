@@ -81,7 +81,7 @@ export const useDataBubbles = ({
     colors,
     components: {
       SQONViewer: {
-        SQONClear: themeSQONClearProps = emptyObj,
+        SQONClear: { label: themeSQONClearLabel = 'Clear', ...themeSQONClearProps } = emptyObj,
         SQONFieldName: themeSQONFieldNameProps = emptyObj,
         SQONLessOrMore: themeSQONLessOrMoreProps = emptyObj,
         SQONValue: {
@@ -126,7 +126,7 @@ export const useDataBubbles = ({
         ...themeSQONClearProps,
       }}
     >
-      Clear
+      {themeSQONClearLabel}
     </Bubble>
   );
 

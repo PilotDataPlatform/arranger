@@ -5,14 +5,14 @@ import SQON from 'sqon-builder';
 // TODO: This legacyProps import will fail when <Arranger /> is deprecated
 // Should be safe to remove afterwards, if the migration path worked out
 import { legacyProps } from '@/Arranger/Arranger';
-import { CustomThemeType, BaseThemeInterface } from '@/ThemeContext/types';
+import { CustomThemeType, ThemeOptions } from '@/ThemeContext/types';
 
 export type DisplayType = 'all' | 'bits' | 'boolean' | 'bytes' | 'date' | 'list' | 'number';
 
 export interface ColumnMappingInterface {
   accessor: string;
   canChangeShow: boolean;
-  displayFormat?: string;
+  displayFormat?: string | null;
   displayName?: string;
   displayValues?: Record<string, string>;
   fieldName: string;
@@ -73,20 +73,21 @@ export type FetchDataFn = (options?: {
   queryName?: string;
 }) => Promise<{ total?: number; data?: any } | void>;
 
-export interface DataProviderProps<Theme = BaseThemeInterface> {
+export interface DataProviderProps<Theme = ThemeOptions> {
+  apiUrl: string;
   children?: React.ReactNode;
   configs?: ConfigsInterface;
   customFetcher?: APIFetcherFn;
   documentType: string;
   legacyProps?: typeof legacyProps; // TODO: deprecate along with <Arranger/>
-  url?: string;
   theme?: CustomThemeType<Theme>;
 }
 
 export type SQONType = typeof SQON | null;
 
 export interface DataContextInterface {
-  apiFetcher?: APIFetcherFn;
+  apiFetcher: APIFetcherFn;
+  apiUrl: string;
   documentType: string;
   extendedMapping: ExtendedMappingInterface[];
   fetchData: FetchDataFn;
@@ -98,6 +99,7 @@ export interface DataContextInterface {
 }
 
 export interface UseDataContextProps {
+  apiUrl?: string;
   callerName?: string;
   customFetcher?: FetchDataFn;
 }

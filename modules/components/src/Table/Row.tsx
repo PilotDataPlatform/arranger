@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Row } from '@tanstack/react-table';
+import { flexRender, Row } from '@tanstack/react-table';
 import cx from 'classnames';
 
 import MetaMorphicChild from '@/MetaMorphicChild';
@@ -85,7 +85,7 @@ const TableRow = ({
     >
       {hasVisibleCells ? (
         visibleCells?.map((cellObj) => {
-          const value = getDisplayValue(cellObj?.row?.original, cellObj.column);
+          const value = getDisplayValue(cellObj?.row?.original, cellObj.column.columnDef);
 
           return (
             <Cell
@@ -94,7 +94,7 @@ const TableRow = ({
               value={value}
               theme={{ padding: themeTablePadding, textOverflow: themeTableTextOverflow }}
             >
-              {cellObj.renderCell()}
+              {flexRender(cellObj.column.columnDef.cell, cellObj.getContext())}
             </Cell>
           );
         })

@@ -5,7 +5,9 @@ import { GenericFn } from '@/utils/noops';
 export interface SQONViewerThemeProps {
   EmptyMessage: ThemeCommon.NonButtonThemeProps;
   SQONBubble: ThemedButtonProps;
-  SQONClear: ThemedButtonProps;
+  SQONClear: {
+    label?: string;
+  } & ThemedButtonProps;
   SQONFieldName: ThemedButtonProps;
   SQONGroup: ThemeCommon.NonButtonThemeProps;
   SQONLessOrMore: ThemedButtonProps;
