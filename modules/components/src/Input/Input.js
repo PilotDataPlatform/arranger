@@ -26,7 +26,7 @@ export default ({
         ref={componentRef}
         className={`inputWrapper ${isFocused ? 'focused' : ''} ${className}`}
       >
-        <span className="inputIcon">{icon}</span>
+        {icon && <span className="inputIcon">{icon}</span>}
         <Component
           onFocus={() => update({ isFocused: true })}
           onBlur={() => update({ isFocused: false })}

@@ -167,7 +167,6 @@ storiesOf('Portal', module).add('Portal', () => (
             render={(props) => {
               return (
                 <>
-                  <DemoHeader update={update} />
                   <Portal {...{ ...props, graphqlField, projectId }} />
                 </>
               );

@@ -130,6 +130,7 @@ class DatesAgg extends React.Component {
             css={css`
               font-size: 13px;
               margin: 0 10px;
+              color: #595959;
             `}
           >
             to
