@@ -8,6 +8,9 @@
   border-width: 1px 0 0 0;
   font-size: 12px;
 }
+.aggregation-card[data-type='keyword'] {
+  min-height: 74px;
+}
 .aggregation-card:first-child {
   margin-top: 0;
 }
@@ -25,7 +28,13 @@
   border-bottom: none;
 }
 .aggregation-card .filter {
-  padding: 7px 0;
+  position: absolute;
+  background: white;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 1px 7px #0000001a;
+  border-radius: 6px;
+  padding: 7px;
 }
 .aggregation-card .filter .inputWrapper:only-child {
   width: 100%;
