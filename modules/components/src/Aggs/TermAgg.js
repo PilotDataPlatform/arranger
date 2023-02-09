@@ -248,7 +248,6 @@ const TermAgg = ({
             isMore={!showingMore}
             onClick={() => {
               setShowingMore(!showingMore);
-              setShowingSearch(!showingMore);
               if (showingMore) scrollToAgg();
             }}
             howManyMore={decoratedBuckets.length - maxTerms}
