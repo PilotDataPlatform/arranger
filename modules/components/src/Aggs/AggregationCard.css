@@ -1,10 +1,12 @@
+@import '../../public/themeStyles/constants.css';
+
 .aggregation-card {
   padding: 10px 20px;
   margin-top: 5px;
   margin-bottom: 5px;
   background: white;
   border-style: solid;
-  border-color: #edf1f4;
+  border-color: var(--background-color-1);
   border-width: 1px 0 0 0;
   font-size: 12px;
 }
@@ -21,7 +23,6 @@
 .aggregation-card .title-wrapper {
   padding-top: 10px;
   padding-bottom: 6px;
-  color: #404c9a;
 }
 .aggregation-card .title-wrapper.collapsed {
   padding-bottom: 0px;
@@ -51,14 +52,14 @@
   cursor: pointer;
 }
 .aggregation-card .title {
-  color: #595959;
+  color: var(--font-color-primary);
   background: white;
 }
 .aggregation-card .arrow.collapsed {
   transform: rotate(0deg);
 }
 .aggregation-card .arrow {
-  color: #595959;
+  color: var(--font-color-primary);
   cursor: pointer;
   font-size: 14px;
   font-weight: 100;
@@ -73,7 +74,7 @@
   position: absolute;
   right: 24px;
   top: 11px;
-  color: #595959;
+  color: var(--font-color-primary);
 }
 .aggregation-card .search-icon {
   font-size: 13px;
@@ -81,7 +82,6 @@
 
 .aggregation-card .showMore-wrapper {
   margin-top: 5px;
-  color: #90278e;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -95,7 +95,7 @@
   padding: 6px;
 }
 .aggregation-card .bucket .textHighlight {
-  color: #595959;
+  color: var(--font-color-primary);
   font-weight: 600;
   padding-left: 5px;
 }
@@ -131,8 +131,8 @@
 }
 .aggregation-card .bucket-item .bucket-count {
   border-radius: 2px;
-  background-color: #edf1f4;
-  color: #595959;
+  background-color: var(--background-color-2);
+  color: var(--font-color-primary);
   padding-left: 8px;
   padding-right: 8px;
   display: flex;
