@@ -60,6 +60,7 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
+    "antd": "^5.1.7",
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5"
   },
