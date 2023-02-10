@@ -1,3 +1,45 @@
+@import '../../public/themeStyles/constants.css';
+
+.aggregation-card {
+  padding: 10px 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background: white;
+  border-style: solid;
+  border-color: var(--background-color-1);
+  border-width: 1px 0 0 0;
+  font-size: 12px;
+}
+.aggregation-card[data-type='keyword'] {
+  min-height: 74px;
+}
+.aggregation-card:first-child {
+  margin-top: 0;
+}
+.aggregation-card .header {
+  margin-top: -10px;
+  background: white;
+}
+.aggregation-card .title-wrapper {
+  padding-top: 10px;
+  padding-bottom: 6px;
+}
+.aggregation-card .title-wrapper.collapsed {
+  padding-bottom: 0px;
+  border-bottom: none;
+}
+.aggregation-card .filter {
+  position: absolute;
+  background: white;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 1px 7px #0000001a;
+  border-radius: 6px;
+  padding: 7px;
+}
+.aggregation-card .filter .inputWrapper:only-child {
+  width: 100%;
+}
 .aggregation-card .title-wrapper,
 .aggregation-card .filter {
   display: flex;
@@ -5,31 +47,120 @@
   justify-content: space-between;
   align-items: center;
 }
-.aggregation-card .header {
-  background: white;
+.aggregation-card .title-control {
+  display: flex;
+  cursor: pointer;
 }
-.aggregation-card .arrow:after {
-  content: '›';
+.aggregation-card .title {
+  color: var(--font-color-primary);
+  background: white;
 }
 .aggregation-card .arrow.collapsed {
   transform: rotate(0deg);
 }
 .aggregation-card .arrow {
-  transform: rotate(90deg);
-  transition: all 0.5s;
+  color: var(--font-color-primary);
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 100;
+  position: absolute;
+  transition: all 0.5s;
+  right: 0;
+  top: 10px;
+  transform: rotate(90deg);
 }
 .aggregation-card .action-icon {
   cursor: pointer;
+  position: absolute;
+  right: 24px;
+  top: 11px;
+  color: var(--font-color-primary);
 }
-.aggregation-card .showMore-wrapper {
-  display: flex;
-  justify-content: flex-end;
+.aggregation-card .search-icon {
+  font-size: 13px;
 }
 
+.aggregation-card .showMore-wrapper {
+  margin-top: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #3c7da6;
+  font-weight: 600;
+}
 .aggregation-card .no-data {
   color: #999;
   display: block;
   font-size: 0.8em;
   padding: 6px;
+}
+.aggregation-card .bucket .textHighlight {
+  color: var(--font-color-primary);
+  font-weight: 600;
+  padding-left: 5px;
+}
+.aggregation-card .bucket-link {
+  display: flex;
+  align-items: center;
+}
+.aggregation-card input[type='checkbox'] {
+  pointer-events: none;
+  margin-right: 5px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.aggregation-card .filter .showMore-wrapper {
+  margin-left: 5px;
+  margin-top: 0px;
+}
+.aggregation-card .filter input {
+  border: none;
+  flex: 1 1 0;
+  font-size: 12px;
+}
+.aggregation-card .bucket {
+  padding-top: 2px;
+}
+.aggregation-card .bucket.collapsed {
+  padding-top: 0px;
+}
+.aggregation-card .bucket-item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.aggregation-card .bucket-item .bucket-count {
+  border-radius: 2px;
+  background-color: var(--background-color-2);
+  color: var(--font-color-primary);
+  padding-left: 8px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.aggregation-card .bucket .header {
+  font-size: 11px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+.showMore-wrapper.more::before {
+  margin-right: 4px;
+  content: '+';
+}
+.showMore-wrapper.less::before {
+  margin-right: 4px;
+  content: '-';
+}
+.facetContainer .react-datepicker-wrapper input,
+.aggregation-card .react-datepicker-wrapper input {
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #cacbcf;
+}
+.facetContainer .react-datepicker-wrapper input {
+  width: 130px;
+}
+.aggregation-card .react-datepicker-wrapper input {
+  width: 100px;
 }

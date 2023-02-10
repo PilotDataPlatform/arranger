@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, withState } from 'recompose';
 import { isEmpty, orderBy, partition, truncate } from 'lodash';
-import DefaultSearchIcon from 'react-icons/lib/fa/search';
+import { SearchOutlined } from '@ant-design/icons';
 import { css } from 'emotion';
 
 import './AggregationCard.css';
@@ -94,7 +94,7 @@ const TermAgg = ({
   handleValueClick = () => {},
   isActive = () => {},
   Content = 'div',
-  SearchIcon = DefaultSearchIcon,
+  SearchIcon = SearchOutlined,
   maxTerms = 5,
   collapsible = true,
   isExclude: externalIsExclude = () => {},
@@ -140,6 +140,7 @@ const TermAgg = ({
     ...(field && { 'data-field': field }),
     ...(type && { 'data-type': type }),
   };
+
   return (
     <AggsWrapper
       componentRef={aggWrapperRef}
@@ -147,33 +148,24 @@ const TermAgg = ({
       stickyHeader
       dataFields={dataFields}
       {...{ displayName, WrapperComponent, collapsible }}
-      ActionIcon={<DefaultSearchIcon onClick={() => setShowingSearch(!stateShowingSearch)} />}
+      ActionIcon={
+        <SearchOutlined
+          className="search-icon"
+          onClick={() => setShowingSearch(!stateShowingSearch)}
+        />
+      }
       filters={[
         ...(stateShowingSearch
           ? [
               <>
                 <InputComponent
-                  className={css`
-                    flex-grow: 1;
-                  `}
                   type="text"
                   value={searchText}
                   placeholder={searchPlaceholder}
-                  icon={<DefaultSearchIcon />}
                   onChange={({ target: { value } }) => setSearchText(value || '')}
                   setSearchText={setSearchText}
                   aria-label={`Search data`}
                 />
-                {showingMore && isMoreEnabled && (
-                  <MoreOrLessButton
-                    isMore={false}
-                    onClick={() => {
-                      setShowingMore(false);
-                      setShowingSearch(false);
-                      scrollToAgg();
-                    }}
-                  />
-                )}
               </>,
             ]
           : []),
@@ -256,7 +248,6 @@ const TermAgg = ({
             isMore={!showingMore}
             onClick={() => {
               setShowingMore(!showingMore);
-              setShowingSearch(!showingMore);
               if (showingMore) scrollToAgg();
             }}
             howManyMore={decoratedBuckets.length - maxTerms}

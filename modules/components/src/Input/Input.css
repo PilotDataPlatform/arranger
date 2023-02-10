@@ -1,10 +1,18 @@
+@import '../../public/themeStyles/constants.css';
+
 .inputWrapper {
-  border: solid 2px lightgrey;
-  padding: 5px;
+  border: solid 1px #707070;
+  border-radius: 6px;
+  padding: 4px 4px 4px 8px;
 }
 
-.inputWrapper.focused {
-  box-shadow: 0px 0px 10px skyblue;
+.inputWrapper input {
+  color: var(--font-color-primary);
+}
+
+.inputWrapper input::placeholder {
+  font-style: italic;
+  color: var(--font-color-light);
 }
 
 .inputWrapper input:focus {

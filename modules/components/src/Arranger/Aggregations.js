@@ -51,7 +51,10 @@ export const AggregationsListDisplay = ({
           ...customContent,
         };
       })
-      .map((agg) => aggComponents[agg.type]?.({ ...agg, ...componentProps }));
+      .map((agg) => {
+        console.log(agg);
+        return aggComponents[agg.type]?.({ ...agg, ...componentProps });
+      });
 
   if (aggComponentInstances) {
     // sort the list by the index specified for each component to prevent order bumping
@@ -114,19 +117,19 @@ export const AggregationsList = ({
 );
 
 /**
-* customFacets allows custom content to be passed to each facet in the aggregation list. 
-*   This can overwrite any property in the agg object in the aggregation list
-*   The structure of this property is:
-*   [
-*     {
-*       content: {
-*         field: 'field_name', // identify which facet this object customizes
-*         displayName: 'New Display Name for This Field', // modify displayName of the facet
-*       },
-*     },
-*   ]
-* 
-*/
+ * customFacets allows custom content to be passed to each facet in the aggregation list.
+ *   This can overwrite any property in the agg object in the aggregation list
+ *   The structure of this property is:
+ *   [
+ *     {
+ *       content: {
+ *         field: 'field_name', // identify which facet this object customizes
+ *         displayName: 'New Display Name for This Field', // modify displayName of the facet
+ *       },
+ *     },
+ *   ]
+ *
+ */
 const Aggregations = ({
   onValueChange = () => {},
   setSQON,

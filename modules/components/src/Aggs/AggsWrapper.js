@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { css } from 'emotion';
+import { RightOutlined } from '@ant-design/icons';
 
 import './AggregationCard.css';
 
@@ -36,7 +37,9 @@ export default ({
                 className="title-control"
                 onClick={collapsible ? () => setState({ isCollapsed: !isCollapsed }) : () => {}}
               >
-                {collapsible && <span className={`arrow ${isCollapsed ? 'collapsed' : ''}`} />}
+                {collapsible && (
+                  <RightOutlined className={`arrow ${isCollapsed ? 'collapsed' : ''}`} />
+                )}
                 <span className="title">{displayName}</span>
               </div>
               {ActionIcon && <div className="action-icon">{ActionIcon}</div>}
