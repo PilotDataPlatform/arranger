@@ -52,7 +52,6 @@ export const AggregationsListDisplay = ({
         };
       })
       .map((agg) => {
-        console.log(agg);
         return aggComponents[agg.type]?.({ ...agg, ...componentProps });
       });
 
