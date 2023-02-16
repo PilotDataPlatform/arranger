@@ -9,7 +9,7 @@ import { getSingleValue } from './utils';
 
 const STANDARD_DATE = 'yyyy-MM-dd';
 
-const dateHandler = ({ value, ...props } = {}) => {
+export const dateHandler = ({ value, ...props } = {}) => {
   switch (true) {
     case isNil(value):
       return '';

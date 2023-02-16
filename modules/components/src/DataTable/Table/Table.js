@@ -8,6 +8,8 @@ import createStyle from './style';
 import ReactTable from './EnhancedReactTable';
 import CustomPagination from './CustomPagination';
 
+import SearchTable from './SearchTable';
+
 const enhance = compose(
   defaultProps({
     setSelectedTableRows: noop,
@@ -61,7 +63,6 @@ class DataTable extends React.Component {
     return this.state.selectedTableRows.includes(key);
   };
 
-  // QUESTION: onFetchData? isn't this doing the actual fetching
   onFetchData = (state) => {
     const { fetchData, config, sqon, alwaysSorted = [], keepSelectedOnPageChange } = this.props;
     const { selectedTableRows } = this.state;
@@ -154,13 +155,14 @@ class DataTable extends React.Component {
       selectType: 'checkbox',
       keyField,
     };
+
     return (
       <>
         <DetectScrollbarSize
           onLoad={(scrollbarSize) => this.setState({ scrollbarSize })}
           onChange={(scrollbarSize) => this.setState({ scrollbarSize })}
         />
-        <ReactTable
+        {/* <ReactTable
           minRows={0}
           className={`-striped -highlight ${createStyle({ scrollbarSize })}`}
           style={style}
@@ -192,6 +194,20 @@ class DataTable extends React.Component {
           )}
           {...checkboxProps}
           {...fetchFromServerProps}
+        /> */}
+        <SearchTable
+          onSortedChange={onSortedChange}
+          onPageChange={(page) => this.props.onPaginationChange({ page })}
+          onPageSizeChange={(pageSize, page) => this.props.onPaginationChange({ pageSize, page })}
+          defaultSorted={sorted ? sorted : defaultSorted}
+          columns={columns}
+          defaultPageSize={defaultPageSize}
+          PaginationComponent={(props) => (
+            <CustomPagination {...props} maxPagesOptions={maxPagesOptions} />
+          )}
+          fetchData={this.props.fetchData}
+          fetchDataParams={{ config: this.props.config, sqon: this.props.sqon, queryName: 'Table' }}
+          loading={this.props.loading !== null ? this.props.loading : this.state.loading}
         />
       </>
     );
