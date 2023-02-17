@@ -30,21 +30,7 @@ export default class extends Component {
     this.state = {
       config: null,
       extended: [],
-      toggled: {},
     };
-  }
-
-  getStorageKey() {
-    return `arranger-columnstate-toggled-${this.props.storageKey || ''}`;
-  }
-
-  getStoredToggled() {
-    if (this.props.sessionStorage) {
-      const storedColumnSelections = window.sessionStorage.getItem(this.getStorageKey()) || '{}';
-      return JSON.parse(storedColumnSelections);
-    } else {
-      return {};
-    }
   }
 
   async componentDidMount() {
@@ -83,7 +69,6 @@ export default class extends Component {
           order: config.defaultSorted[0].desc ? 'desc' : 'asc',
         },
       ];
-      console.log(config);
       let {
         data: {
           [this.props.graphqlField]: { extended },
@@ -102,12 +87,9 @@ export default class extends Component {
         },
       });
 
-      const toggled = this.getStoredToggled();
-
       this.setState({
         extended,
         config,
-        toggled,
       });
     } catch (e) {
       console.warn(e);
@@ -163,23 +145,6 @@ export default class extends Component {
     this.setState({ temp }, () => this.save(temp));
   };
 
-  setColumnSelections(toggled) {
-    this.setState({ toggled });
-    if (this.props.sessionStorage) {
-      window.sessionStorage.setItem(this.getStorageKey(), JSON.stringify(toggled));
-    }
-  }
-
-  toggle = ({ field, show }) => {
-    const toggled = { ...this.state.toggled, [field]: show };
-    this.setColumnSelections(toggled);
-  };
-
-  toggleMultiple = (changes) => {
-    const toggled = { ...this.state.toggled, ...changes };
-    this.setColumnSelections(toggled);
-  };
-
   saveOrder = (orderedFields) => {
     const columns = this.state.config.columns;
     if (
@@ -196,14 +161,12 @@ export default class extends Component {
   };
 
   render() {
-    let { config, extended, toggled } = this.state;
+    let { config, extended } = this.state;
     return config
       ? this.props.render({
           loading: false,
           update: this.update,
           add: this.add,
-          toggle: this.toggle,
-          toggleMultiple: this.toggleMultiple,
           saveOrder: this.saveOrder,
           state: {
             ...config,
@@ -214,7 +177,7 @@ export default class extends Component {
                 Header: extendedField?.displayName || column.field,
                 extendedType: extendedField?.type,
                 isArray: extendedField?.isArray,
-                show: column.field in toggled ? toggled[column.field] : column.show,
+                show: column.show,
                 extendedDisplayValues: extendedField?.displayValues,
               };
             }),
