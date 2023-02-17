@@ -12,9 +12,9 @@ import SearchTable from './SearchTable';
 
 const enhance = compose(
   defaultProps({
-    setSelectedTableRows: noop, // TODO: to remove. part of checkbox logic
+    onSelectedTableRows: noop,
     onPaginationChange: noop,
-    selectedTableRows: null, // TODO: to remove. part of checkbox logic
+    selectedTableRows: null,
   }),
 );
 
@@ -39,7 +39,7 @@ class DataTable extends React.Component {
   }
 
   setSelectedTableRows = (selectedTableRows) => {
-    this.props.setSelectedTableRows(selectedTableRows);
+    this.props.onSelectedTableRows(selectedTableRows);
     this.setState({ selectedTableRows });
   };
 
@@ -123,8 +123,16 @@ class DataTable extends React.Component {
     const { toggleSelectedTableRow, toggleAll, isSelected, onFetchData } = this;
     const {
       config,
+      sqon,
+      fetchData,
       defaultPageSize,
+      pageSize,
+      page,
+      onPaginationChange,
       onSortedChange,
+      onPageChange,
+      onSelectedTableRows,
+      selectedTableRows,
       propsData,
       loading: propsLoading,
       style,
@@ -132,17 +140,24 @@ class DataTable extends React.Component {
       sorted,
     } = this.props;
     const { columns, keyField, defaultSorted } = config;
-    const { data, selectedTableRows, pages, loading, scrollbarSize } = this.state;
+    const {
+      data,
+      selectedTableRows: stateSelectedTableRows,
+      pages,
+      loading: stateLoading,
+      scrollbarSize,
+    } = this.state;
+    const loading = propsLoading !== null ? propsLoading : stateLoading;
 
     const fetchFromServerProps = {
       pages,
-      loading: propsLoading !== null ? propsLoading : loading,
+      loading,
       manual: true,
       onFetchData,
     };
 
     const checkboxProps = {
-      selectAll: selectedTableRows.length === data.length,
+      selectAll: stateSelectedTableRows.length === data.length,
       isSelected,
       toggleSelection: toggleSelectedTableRow,
       toggleAll,
@@ -182,7 +197,7 @@ class DataTable extends React.Component {
             }),
             {},
           )}
-          defaultPageSize={defaultPageSize}
+          defaultPageSize={pageSize}
           PaginationComponent={(props) => (
             <CustomPagination {...props} maxPagesOptions={maxPagesOptions} />
           )}
@@ -191,13 +206,18 @@ class DataTable extends React.Component {
         /> */}
         <SearchTable
           columns={columns}
-          onPaginationChange={this.props.onPaginationChange}
+          fetchData={fetchData}
+          fetchDataParams={{ config, sqon, queryName: 'Table' }}
           defaultPageSize={defaultPageSize}
+          pageSize={pageSize}
+          onPaginationChange={onPaginationChange}
+          page={page}
+          onPageChange={onPageChange}
+          sorted={sorted}
           onSortedChange={onSortedChange}
-          // defaultSorted={sorted ? sorted : defaultSorted}
-          fetchData={this.props.fetchData}
-          fetchDataParams={{ config: this.props.config, sqon: this.props.sqon, queryName: 'Table' }}
-          loading={this.props.loading !== null ? this.props.loading : this.state.loading}
+          selectedTableRows={selectedTableRows}
+          onSelectedTableRows={onSelectedTableRows}
+          loading={loading}
         />
       </>
     );

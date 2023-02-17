@@ -6,45 +6,35 @@ export default ({
   fetchData,
   fetchDataParams,
   defaultPageSize,
+  pageSize,
   onPaginationChange,
+  selectedTableRows,
+  onSelectedTableRows,
+  page,
+  onPageChange,
   onSortedChange,
   loading,
-  ...props
 }) => {
   const [searchResults, setSearchResults] = useState({ data: [], total: 0 });
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedFiles, setSelectedFiles] = useState([]);
 
-  const [pageSize, setPageSize] = useState(defaultPageSize);
-  const [page, setPage] = useState(0);
-
-  const onChange = (pagination, filters, sorter, extra) => {
+  const onChange = (pagination, _, sorter, extra) => {
     const { action } = extra;
 
     if (action === 'sort') {
-      const sort = [{ field: sorter.field, order: sorter.order === 'ascend' ? 'asc' : 'desc' }];
-      onSortedChange(sort);
-      setPage(0);
-      setPageSize(defaultPageSize);
+      const sorted = [{ field: sorter.field, order: sorter.order === 'ascend' ? 'asc' : 'desc' }];
+      onSortedChange(sorted);
+      onPageChange(0);
     }
 
-    console.log(pagination);
-  };
-
-  // onPaginationChange(pageSize, sorted, selectedTableRows)
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: (rowKeys, rowRecords) => {
-      setSelectedFiles(rowRecords);
-      setSelectedRowKeys(rowKeys);
-    },
+    if (action === 'paginate') {
+      const { current: currentPage, pageSize } = pagination;
+      onPageChange(currentPage);
+      onPaginationChange(pageSize);
+    }
   };
 
   useEffect(() => {
-    // test if changing sort changes config (fetchDataParams)
     (async function () {
-      console.log(fetchDataParams);
       const options = {
         ...fetchDataParams,
         first: pageSize,
@@ -57,6 +47,13 @@ export default ({
     })();
   }, [fetchDataParams, page, pageSize]);
 
+  const rowSelection = {
+    selectedRowKeys: selectedTableRows,
+    onChange: (rowKeys) => {
+      onSelectedTableRows(rowKeys);
+    },
+  };
+
   return (
     <Table
       columns={columns}
@@ -68,10 +65,13 @@ export default ({
         current: page + 1,
         pageSize,
         total: searchResults.total,
-        pageSizeOptions: ['10', '20', '50'],
+        pageSizeOptions: [
+          defaultPageSize,
+          defaultPageSize * 2,
+          defaultPageSize * 4 + defaultPageSize,
+        ],
         showSizeChanger: true,
       }}
-      // onChange={onTableChange}
     />
   );
 };
