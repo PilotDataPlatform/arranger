@@ -77,6 +77,13 @@ export default class extends Component {
       });
 
       const config = data[graphqlField].columnsState.state;
+      config.defaultSorted = [
+        {
+          field: config.defaultSorted[0].id,
+          order: config.defaultSorted[0].desc ? 'desc' : 'asc',
+        },
+      ];
+      console.log(config);
       let {
         data: {
           [this.props.graphqlField]: { extended },

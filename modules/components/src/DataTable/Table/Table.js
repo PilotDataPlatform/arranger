@@ -12,9 +12,9 @@ import SearchTable from './SearchTable';
 
 const enhance = compose(
   defaultProps({
-    setSelectedTableRows: noop,
+    setSelectedTableRows: noop, // TODO: to remove. part of checkbox logic
     onPaginationChange: noop,
-    selectedTableRows: null,
+    selectedTableRows: null, // TODO: to remove. part of checkbox logic
   }),
 );
 
@@ -22,7 +22,7 @@ class DataTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTableRows: props.selectedTableRows || props.initalSelectedTableRows || [],
+      selectedTableRows: props.selectedTableRows || props.initalSelectedTableRows || {}, //TODO: used for checkbox logic, remove
       data: [],
       pages: -1,
       loading: false,
@@ -73,13 +73,7 @@ class DataTable extends React.Component {
       config,
       sqon,
       queryName: 'Table',
-      sort: [
-        ...state.sorted.map((sort) => ({
-          field: sort.id,
-          order: sort.desc ? 'desc' : 'asc',
-        })),
-        ...alwaysSorted,
-      ],
+      sort: config.sort,
       offset: state.page * state.pageSize,
       first: state.pageSize,
     })
@@ -196,15 +190,11 @@ class DataTable extends React.Component {
           {...fetchFromServerProps}
         /> */}
         <SearchTable
-          onSortedChange={onSortedChange}
-          onPageChange={(page) => this.props.onPaginationChange({ page })}
-          onPageSizeChange={(pageSize, page) => this.props.onPaginationChange({ pageSize, page })}
-          defaultSorted={sorted ? sorted : defaultSorted}
           columns={columns}
+          onPaginationChange={this.props.onPaginationChange}
           defaultPageSize={defaultPageSize}
-          PaginationComponent={(props) => (
-            <CustomPagination {...props} maxPagesOptions={maxPagesOptions} />
-          )}
+          onSortedChange={onSortedChange}
+          // defaultSorted={sorted ? sorted : defaultSorted}
           fetchData={this.props.fetchData}
           fetchDataParams={{ config: this.props.config, sqon: this.props.sqon, queryName: 'Table' }}
           loading={this.props.loading !== null ? this.props.loading : this.state.loading}

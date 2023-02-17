@@ -1,5 +1,10 @@
 import React from 'react';
-import { FileOutlined } from '@ant-design/icons';
+import {
+  FileOutlined,
+  FileZipOutlined,
+  FileImageOutlined,
+  FolderOutlined,
+} from '@ant-design/icons';
 
 import { dateHandler } from './columnTypes';
 
@@ -15,12 +20,9 @@ const getFileSize = (size, options = {}) => {
     : (size / (1024 * 1024 * 1024)).toFixed(options.roundingLimit).toString().concat(' GB');
 };
 
-const capitalizeText = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-
-const renderText = (text) => capitalizeText(text);
+const renderText = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
 const renderFileSize = (text) => {
-  // check whether record is folder or file - needs to be added by back end
   return getFileSize(text);
 };
 
@@ -28,8 +30,40 @@ const renderDate = (text) => {
   return dateHandler({ value: text });
 };
 
-const renderIcon = (text, record) => {
-  return <FileOutlined />;
+const renderIcon = (_, record) => {
+  if (record.type === 'file') {
+    const fileExtension = record.name.split('.').length > 1 ? record.name.split('.').at(-1) : null;
+    if (fileExtension) {
+      switch (fileExtension) {
+        case 'zip':
+          return <FileZipOutlined />;
+        case 'doc':
+          return <FileZipOutlined />;
+        case 'pdf':
+          return <FileImageOutlined />;
+        case 'jpg':
+          return <FileImageOutlined />;
+        case 'img':
+          return <FileImageOutlined />;
+        case 'jpeg':
+          return <FileImageOutlined />;
+        case 'png':
+          return <FileImageOutlined />;
+        case 'svg':
+          return <FileImageOutlined />;
+        default:
+          return <FileOutlined />;
+      }
+    }
+
+    if (record.name.includes('imaging') || record.name.includes('image')) {
+      return <FileImageOutlined />;
+    }
+
+    return <FileOutlined />;
+  }
+
+  return <FolderOutlined />;
 };
 
 export default function renderField(field) {
@@ -38,7 +72,7 @@ export default function renderField(field) {
       return renderFileSize;
     case 'created_time':
       return renderDate;
-    case 'icon':
+    case 'type':
       return renderIcon;
     default:
       return renderText;

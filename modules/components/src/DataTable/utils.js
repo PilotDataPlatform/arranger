@@ -70,7 +70,7 @@ export const withNormalizedColumns = withProps(
 
 // add width
 const PILOT_TABLE_COLUMNS = [
-  { field: 'icon', title: <FileOutlined />, sorter: true, order: 1 },
+  { field: 'type', title: <FileOutlined />, sorter: true, order: 1 },
   { field: 'name', sorter: true, title: 'Name', order: 2 },
   { field: 'owner', sorter: true, title: 'Added', order: 3 },
   { field: 'created_time', sorter: true, title: 'Created', order: 4 },

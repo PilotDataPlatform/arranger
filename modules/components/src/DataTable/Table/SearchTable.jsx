@@ -1,20 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
 
-export default ({ columns, fetchData, fetchDataParams, loading, ...props }) => {
-  const [tableData, setTableData] = useState([]);
+export default ({
+  columns,
+  fetchData,
+  fetchDataParams,
+  defaultPageSize,
+  onPaginationChange,
+  onSortedChange,
+  loading,
+  ...props
+}) => {
+  const [searchResults, setSearchResults] = useState({ data: [], total: 0 });
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
-  // console.log(columns);
-  // console.log(props)
-  // const onTableChange = (pagination, filters, sorter, extra) => {
 
-  //   switch (extra.action) {
-  //     case 'sort':
-  //       onSortedChange()
-  //   }
+  const [pageSize, setPageSize] = useState(defaultPageSize);
+  const [page, setPage] = useState(0);
 
-  // }
+  const onChange = (pagination, filters, sorter, extra) => {
+    const { action } = extra;
+
+    if (action === 'sort') {
+      const sort = [{ field: sorter.field, order: sorter.order === 'ascend' ? 'asc' : 'desc' }];
+      onSortedChange(sort);
+      setPage(0);
+      setPageSize(defaultPageSize);
+    }
+
+    console.log(pagination);
+  };
+
+  // onPaginationChange(pageSize, sorted, selectedTableRows)
+
   const rowSelection = {
     selectedRowKeys,
     onChange: (rowKeys, rowRecords) => {
@@ -24,26 +42,35 @@ export default ({ columns, fetchData, fetchDataParams, loading, ...props }) => {
   };
 
   useEffect(() => {
+    // test if changing sort changes config (fetchDataParams)
     (async function () {
+      console.log(fetchDataParams);
       const options = {
         ...fetchDataParams,
-        // make the below values dynamic
-        first: 20,
-        offset: 0,
-        sort: [{ field: 'container_code', order: 'asc' }],
+        first: pageSize,
+        offset: page,
+        sort: fetchDataParams.config.sort,
       };
 
       const result = await fetchData(options);
-      setTableData(result.data);
+      setSearchResults(result);
     })();
-  }, [fetchDataParams]);
+  }, [fetchDataParams, page, pageSize]);
 
   return (
     <Table
       columns={columns}
-      dataSource={tableData}
+      dataSource={searchResults.data}
       rowKey={(record) => record.id}
       rowSelection={rowSelection}
+      onChange={onChange}
+      pagination={{
+        current: page + 1,
+        pageSize,
+        total: searchResults.total,
+        pageSizeOptions: ['10', '20', '50'],
+        showSizeChanger: true,
+      }}
       // onChange={onTableChange}
     />
   );
