@@ -5,70 +5,22 @@ import urlJoin from 'url-join';
 import { ARRANGER_API, PROJECT_ID } from '../utils/config';
 import { Table, TableToolbar } from './';
 
-const STORED_PROPS = {
-  PAGE_SIZE: 'PAGE_SIZE',
-  SORT_ORDER: 'SORT_ORDER',
-  SELECTED_ROWS: 'SELECTED_ROWS',
-};
-
 class DataTableWithToolbar extends React.Component {
   constructor(props) {
     super(props);
 
-    let pageSize = 20;
+    let pageSize = 10;
+    let page = 1;
     let sorted = props.config.defaultSorted || [];
     let selectedTableRows = [];
 
-    // Read initial config settings from session storage, if enabled:
-    if (this.props.sessionStorage) {
-      const storedSorted = JSON.parse(
-        window.sessionStorage.getItem(this.getStorageKey(STORED_PROPS.SORT_ORDER)),
-      );
-      const storedPageSize = JSON.parse(
-        window.sessionStorage.getItem(this.getStorageKey(STORED_PROPS.PAGE_SIZE)),
-      );
-      const storedSelectedRows = JSON.parse(
-        window.sessionStorage.getItem(this.getStorageKey(STORED_PROPS.SELECTED_ROWS)),
-      );
-      if (storedSorted) {
-        sorted = storedSorted;
-        this.props.config.defaultSorted = sorted;
-      }
-      if (storedPageSize) {
-        pageSize = storedPageSize;
-      }
-      if (storedSelectedRows && storedSelectedRows.length) {
-        selectedTableRows = storedSelectedRows;
-      }
-    }
-
     this.state = {
+      defaultPageSize: pageSize,
       pageSize,
+      page,
       sorted,
       selectedTableRows,
     };
-
-    props.onSortedChange?.(sorted);
-  }
-
-  getStorageKey(prop) {
-    switch (prop) {
-      case STORED_PROPS.PAGE_SIZE:
-        return `arranger-table-pagesize-${this.props.storageKey || ''}`;
-      case STORED_PROPS.SORT_ORDER:
-        return `arranger-table-sorted-${this.props.storageKey || ''}`;
-      case STORED_PROPS.SELECTED_ROWS:
-        return `arranger-table-selectedrows-${this.props.storageKey || ''}`;
-      default:
-        return '';
-    }
-  }
-
-  storeProperty(prop, value) {
-    if (this.props.sessionStorage) {
-      const stringValue = JSON.stringify(value);
-      window.sessionStorage.setItem(this.getStorageKey(prop), stringValue);
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,7 +35,6 @@ class DataTableWithToolbar extends React.Component {
       allowTSVExport = true,
       alwaysSorted = [],
       columnDropdownText,
-      config,
       customActions = null,
       customHeaderContent = null,
       data = null,
@@ -105,7 +56,6 @@ class DataTableWithToolbar extends React.Component {
       onColumnsChange = () => {},
       onFilterChange = () => {},
       onMultipleColumnsChange = () => {},
-      onSortedChange = () => {},
       projectId = PROJECT_ID,
       sessionStorage,
       selectedTableRows = [],
@@ -116,7 +66,8 @@ class DataTableWithToolbar extends React.Component {
       toolbarStyle,
       transformParams,
     } = this.props;
-    const { page, pageSize, sorted, total } = this.state;
+    const config = { ...this.props.config, sort: this.state.sorted };
+    const { defaultPageSize, pageSize, page, sorted, total } = this.state;
 
     const url = downloadUrl || urlJoin(ARRANGER_API, projectId, 'download');
 
@@ -162,22 +113,27 @@ class DataTableWithToolbar extends React.Component {
           sqon={sqon}
           config={config}
           fetchData={fetchData}
-          setSelectedTableRows={(selectedTableRows) => {
+          onSelectedTableRows={(selectedTableRows) => {
             setSelectedTableRows(selectedTableRows);
-            this.storeProperty(STORED_PROPS.SELECTED_ROWS, selectedTableRows);
           }}
-          onPaginationChange={(state) => {
-            this.setState(state);
-            if (state.pageSize) {
-              this.storeProperty(STORED_PROPS.PAGE_SIZE, state.pageSize);
-            }
+          onPaginationChange={(pageSize) => {
+            // React table
+            // this.setState(state);
+            this.setState((prevState) => ({ ...prevState, pageSize }));
           }}
           onSortedChange={(sorted) => {
-            this.setState({ sorted, page: 0 });
-            onSortedChange(sorted);
-            this.storeProperty(STORED_PROPS.SORT_ORDER, sorted);
+            this.setState((prevState) => ({
+              ...prevState,
+              sorted,
+              pageSize: this.state.defaultPageSize,
+            }));
           }}
-          defaultPageSize={pageSize}
+          onPageChange={(page) => {
+            this.setState((prevState) => ({ ...prevState, page }));
+          }}
+          pageSize={pageSize}
+          defaultPageSize={defaultPageSize}
+          page={page}
           defaultSorted={sorted}
           sorted={sorted}
           loading={loading}

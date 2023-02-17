@@ -38,7 +38,7 @@ export default ({
       const options = {
         ...fetchDataParams,
         first: pageSize,
-        offset: page,
+        offset: page - 1,
         sort: fetchDataParams.config.sort,
       };
 
@@ -62,7 +62,7 @@ export default ({
       rowSelection={rowSelection}
       onChange={onChange}
       pagination={{
-        current: page + 1,
+        current: page,
         pageSize,
         total: searchResults.total,
         pageSizeOptions: [
