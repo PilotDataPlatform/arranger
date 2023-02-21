@@ -16,6 +16,7 @@ class DataTableWithToolbar extends React.Component {
 
     this.state = {
       defaultPageSize: pageSize,
+      defaultPage: page,
       pageSize,
       page,
       sorted,
@@ -26,7 +27,7 @@ class DataTableWithToolbar extends React.Component {
   componentWillReceiveProps(nextProps) {
     // sets page to 1 when sort / facted search changes
     if (!isEqual(nextProps.sqon, this.props.sqon)) {
-      this.setState({ page: this.state.defaultPageSize });
+      this.setState({ page: this.state.defaultPage });
     }
   }
 
