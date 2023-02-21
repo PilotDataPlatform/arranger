@@ -5,8 +5,26 @@ import {
   FileImageOutlined,
   FolderOutlined,
 } from '@ant-design/icons';
+import { format, isValid, parseISO } from 'date-fns';
+import { isNil } from 'lodash';
 
-import { dateHandler } from './columnTypes';
+const STANDARD_DATE = 'yyyy-MM-dd';
+const dateHandler = ({ value, ...props } = {}) => {
+  switch (true) {
+    case isNil(value):
+      return '';
+    case isValid(new Date(value)):
+      return format(new Date(value), STANDARD_DATE);
+    case isValid(parseISO(value)):
+      return format(parseISO(value), STANDARD_DATE);
+    case !isNaN(parseInt(value, 10)):
+      return format(parseInt(value, 10), STANDARD_DATE);
+    default: {
+      console.error('unhandled data', value, props);
+      return value;
+    }
+  }
+};
 
 const getFileSize = (size, options = {}) => {
   options.roundingLimit = options.roundingLimit ?? 2;

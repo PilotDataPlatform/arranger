@@ -1,9 +1,11 @@
 import React from 'react';
+import SearchTable from './Table/SearchTable';
+
 import { isEqual } from 'lodash';
 import urlJoin from 'url-join';
 
 import { ARRANGER_API, PROJECT_ID } from '../utils/config';
-import { Table, TableToolbar } from './';
+import { TableToolbar } from './';
 
 class DataTableWithToolbar extends React.Component {
   constructor(props) {
@@ -35,7 +37,6 @@ class DataTableWithToolbar extends React.Component {
     const {
       allowTogglingColumns = true,
       allowTSVExport = true,
-      alwaysSorted = [],
       columnDropdownText,
       customActions = null,
       customHeaderContent = null,
@@ -50,26 +51,21 @@ class DataTableWithToolbar extends React.Component {
       exportTSVText,
       fetchData,
       filterInputPlaceholder,
-      initalSelectedTableRows,
       InputComponent,
-      keepSelectedOnPageChange = false,
       loading = null,
-      maxPagesOptions,
       onColumnsChange = () => {},
       onFilterChange = () => {},
       onMultipleColumnsChange = () => {},
       projectId = PROJECT_ID,
-      sessionStorage,
       selectedTableRows = [],
       setSelectedTableRows = () => {},
       showFilterInput = true,
       sqon,
-      tableStyle,
       toolbarStyle,
       transformParams,
     } = this.props;
     const config = { ...this.props.config, sort: this.state.sorted };
-    const { defaultPageSize, pageSize, page, sorted, total } = this.state;
+    const { defaultPageSize, pageSize, page, total } = this.state;
 
     const url = downloadUrl || urlJoin(ARRANGER_API, projectId, 'download');
 
@@ -109,20 +105,20 @@ class DataTableWithToolbar extends React.Component {
           transformParams={transformParams}
           type={config.type}
         />
-        <Table
-          style={tableStyle}
-          propsData={data}
-          sqon={sqon}
-          config={config}
+        <SearchTable
+          columns={config.columns}
           fetchData={fetchData}
-          onSelectedTableRows={(selectedTableRows) => {
-            setSelectedTableRows(selectedTableRows);
-          }}
+          fetchDataParams={{ config, sqon, queryName: 'table' }}
+          defaultPageSize={defaultPageSize}
+          pageSize={pageSize}
           onPaginationChange={(pageSize) => {
-            // React table
-            // this.setState(state);
             this.setState((prevState) => ({ ...prevState, pageSize }));
           }}
+          page={page}
+          onPageChange={(page) => {
+            this.setState((prevState) => ({ ...prevState, page }));
+          }}
+          defaultSorted={config.defaultSorted}
           onSortedChange={(sorted) => {
             this.setState((prevState) => ({
               ...prevState,
@@ -130,20 +126,11 @@ class DataTableWithToolbar extends React.Component {
               pageSize: this.state.defaultPageSize,
             }));
           }}
-          onPageChange={(page) => {
-            this.setState((prevState) => ({ ...prevState, page }));
-          }}
-          pageSize={pageSize}
-          defaultPageSize={defaultPageSize}
-          page={page}
-          defaultSorted={sorted}
-          sorted={sorted}
-          loading={loading}
-          maxPagesOptions={maxPagesOptions}
-          alwaysSorted={alwaysSorted}
-          initalSelectedTableRows={initalSelectedTableRows || this.state.selectedTableRows}
-          keepSelectedOnPageChange={sessionStorage || keepSelectedOnPageChange} // If false, this will reset the selection to empty on reload. To keep selections after reload set this to true. Use sessionStorage or specific property to set this.
           selectedTableRows={selectedTableRows}
+          onSelectedTableRows={(selectedTableRows) => {
+            setSelectedTableRows(selectedTableRows);
+          }}
+          loading={loading}
         />
       </>
     );
