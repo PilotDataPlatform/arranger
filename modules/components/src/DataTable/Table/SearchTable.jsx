@@ -8,11 +8,12 @@ export default ({
   defaultPageSize,
   pageSize,
   onPaginationChange,
-  selectedTableRows,
-  onSelectedTableRows,
   page,
   onPageChange,
+  defaultSorted,
   onSortedChange,
+  selectedTableRows,
+  onSelectedTableRows,
   loading,
 }) => {
   const [searchResults, setSearchResults] = useState({ data: [], total: 0 });
@@ -21,9 +22,10 @@ export default ({
     const { action } = extra;
 
     if (action === 'sort') {
-      const sorted = [{ field: sorter.field, order: sorter.order === 'ascend' ? 'asc' : 'desc' }];
+      const sorted = sorter.column
+        ? [{ field: sorter.field, order: sorter.order === 'ascend' ? 'asc' : 'desc' }]
+        : defaultSorted;
       onSortedChange(sorted);
-      onPageChange(0);
     }
 
     if (action === 'paginate') {

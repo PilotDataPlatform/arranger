@@ -110,12 +110,12 @@ class DataTable extends React.Component {
         (lastColumn, i) => lastColumn.show !== this.props.config.columns[i].show,
       )
     ) {
-      this.onFetchData(this.state.lastState);
+      // this.onFetchData(this.state.lastState);
     }
 
     // TODO: in receive props? better if else ladder?
     if (this.props.sqon !== lastProps.sqon) {
-      this.onFetchData(this.state.lastState);
+      // this.onFetchData(this.state.lastState);
     }
   }
 
@@ -140,6 +140,7 @@ class DataTable extends React.Component {
       sorted,
     } = this.props;
     const { columns, keyField, defaultSorted } = config;
+    console.log(config);
     const {
       data,
       selectedTableRows: stateSelectedTableRows,
@@ -213,7 +214,7 @@ class DataTable extends React.Component {
           onPaginationChange={onPaginationChange}
           page={page}
           onPageChange={onPageChange}
-          sorted={sorted}
+          defaultSorted={defaultSorted}
           onSortedChange={onSortedChange}
           selectedTableRows={selectedTableRows}
           onSelectedTableRows={onSelectedTableRows}
