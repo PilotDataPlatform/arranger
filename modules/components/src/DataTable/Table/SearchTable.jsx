@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
 
+import './searchTable.css';
+
 export default ({
   columns,
   fetchData,
@@ -64,6 +66,7 @@ export default ({
 
   return (
     <Table
+      className="searchTable"
       tableLayout="fixed"
       loading={loading}
       columns={columns}

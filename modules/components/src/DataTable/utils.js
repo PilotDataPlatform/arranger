@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileOutlined } from '@ant-design/icons';
+import { FileOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 
 import searchTableType from './searchTableTypes';
 import { withProps } from 'recompose';
@@ -12,13 +12,63 @@ export function getSingleValue(data) {
   }
 }
 
-// add width
+const ColumnTitle = ({ title, field, titleProps }) => {
+  const { sortColumn, sortOrder } = titleProps;
+
+  let sortIcon = <DownOutlined className="column-title__icon" />;
+  if (sortColumn?.field === field) {
+    if (sortOrder === 'ascend') {
+      sortIcon = <UpOutlined className="column-title__icon column-title__icon--active" />;
+    }
+    if (sortOrder === 'descend') {
+      sortIcon = <DownOutlined className="column-title__icon column-title__icon--active" />;
+    }
+  }
+
+  return (
+    <div class="column-title__container">
+      <span>{title}</span>
+      {sortIcon}
+    </div>
+  );
+};
+
 const PILOT_TABLE_COLUMNS = [
-  { field: 'type', title: <FileOutlined />, sorter: true, order: 1 },
-  { field: 'name', sorter: true, title: 'Name', order: 2 },
-  { field: 'owner', sorter: true, title: 'Added', order: 3 },
-  { field: 'created_time', sorter: true, title: 'Created', order: 4 },
-  { field: 'size', sorter: true, title: 'Size', order: 5 },
+  {
+    field: 'type',
+    sorter: true,
+    title: (titleProps) => (
+      <ColumnTitle title={<FileOutlined />} field="type" titleProps={titleProps} />
+    ),
+    width: 65,
+    order: 1,
+  },
+  {
+    field: 'name',
+    sorter: true,
+    title: (titleProps) => <ColumnTitle title="Name" field="name" titleProps={titleProps} />,
+    order: 2,
+  },
+  {
+    field: 'owner',
+    sorter: true,
+    title: (titleProps) => <ColumnTitle title="Added" field="owner" titleProps={titleProps} />,
+    order: 3,
+  },
+  {
+    field: 'created_time',
+    sorter: true,
+    title: (titleProps) => (
+      <ColumnTitle title="Created" field="created_time" titleProps={titleProps} />
+    ),
+    order: 4,
+  },
+  {
+    field: 'size',
+    sorter: true,
+    title: (titleProps) => <ColumnTitle title="Size" field="size" titleProps={titleProps} />,
+    order: 5,
+  },
   { field: 'zone', title: 'Destination', order: 6 },
 ];
 

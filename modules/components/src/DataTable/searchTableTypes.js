@@ -38,7 +38,9 @@ const getFileSize = (size, options = {}) => {
     : (size / (1024 * 1024 * 1024)).toFixed(options.roundingLimit).toString().concat(' GB');
 };
 
-const renderText = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+const renderText = (text) => text;
+
+const renderZone = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
 const renderFileSize = (text) => {
   return getFileSize(text);
@@ -92,6 +94,8 @@ export default function renderField(field) {
       return renderDate;
     case 'type':
       return renderIcon;
+    case 'zone':
+      return renderZone;
     default:
       return renderText;
   }

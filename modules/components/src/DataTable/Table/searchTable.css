@@ -1,0 +1,65 @@
+@import '../../../public/themeStyles/constants.css';
+
+.searchTable .ant-spin-nested-loading .ant-spin {
+  max-height: 550px;
+}
+
+/* Columns */
+.searchTable
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  display: none;
+}
+
+.searchTable .ant-table-column-sorter {
+  display: none;
+}
+
+.column-title__container {
+  display: flex;
+  align-items: center;
+}
+
+.column-title__container .column-title__icon {
+  margin-left: 7px;
+}
+
+.column-title__container .column-title__icon--active {
+  color: #1677ff;
+}
+
+/* Pagination */
+.searchTable .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #bbbfc1;
+}
+
+.searchTable .ant-select .ant-select-arrow {
+  color: var(--font-color-lightest);
+}
+
+.searchTable .ant-select.ant-select-single.ant-select-show-arrow .ant-select-selection-item {
+  color: var(--font-color-light);
+}
+
+.searchTable .ant-table-pagination {
+  border: none;
+  padding: 0 16px;
+}
+
+.searchTable .ant-table-pagination li :where(a, button span) {
+  color: var(--font-color-light);
+}
+
+.searchTable .ant-table-pagination .ant-pagination-item-active {
+  border-color: transparent;
+}
+
+.searchTable .ant-table-pagination .ant-pagination-item-active > a {
+  color: var(--primary-color-1);
+}
+
+.searchTable .ant-table-pagination .ant-pagination-disabled :where(.anticon-left, .anticon-right) {
+  color: #a5b0b6;
+  opacity: 0.6;
+}
