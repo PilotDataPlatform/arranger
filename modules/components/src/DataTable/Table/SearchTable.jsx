@@ -14,9 +14,9 @@ export default ({
   onSortedChange,
   selectedTableRows,
   onSelectedTableRows,
-  loading,
 }) => {
   const [searchResults, setSearchResults] = useState({ data: [], total: 0 });
+  const [loading, setLoading] = useState(false);
 
   const onChange = (pagination, _, sorter, extra) => {
     const { action } = extra;
@@ -37,6 +37,7 @@ export default ({
 
   useEffect(() => {
     (async function () {
+      setLoading(true);
       const options = {
         ...fetchDataParams,
         first: pageSize,
@@ -44,8 +45,13 @@ export default ({
         sort: fetchDataParams.config.sort,
       };
 
-      const result = await fetchData(options);
-      setSearchResults(result);
+      try {
+        const result = await fetchData(options);
+        setSearchResults(result);
+      } catch (e) {
+        console.log(e);
+      }
+      setLoading(false);
     })();
   }, [fetchDataParams, page, pageSize]);
 
@@ -58,6 +64,8 @@ export default ({
 
   return (
     <Table
+      tableLayout="fixed"
+      loading={loading}
       columns={columns}
       dataSource={searchResults.data}
       rowKey={(record) => record.id}

@@ -52,7 +52,6 @@ class DataTableWithToolbar extends React.Component {
       fetchData,
       filterInputPlaceholder,
       InputComponent,
-      loading = null,
       onColumnsChange = () => {},
       onFilterChange = () => {},
       onMultipleColumnsChange = () => {},
@@ -130,7 +129,6 @@ class DataTableWithToolbar extends React.Component {
           onSelectedTableRows={(selectedTableRows) => {
             setSelectedTableRows(selectedTableRows);
           }}
-          loading={loading}
         />
       </>
     );
