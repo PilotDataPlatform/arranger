@@ -1,7 +1,41 @@
 @import '../../../public/themeStyles/constants.css';
 
+.searchTable.ant-table-wrapper .ant-table .ant-table-tbody {
+  color: var(--font-color-primary);
+}
+
+.searchTable.ant-table-wrapper .ant-table-tbody > tr > td {
+  padding: 14px 16px;
+}
+
 .searchTable .ant-spin-nested-loading .ant-spin {
   max-height: 550px;
+}
+
+/* Head */
+.searchTable.ant-table-wrapper .ant-table-thead {
+  background: transparent;
+}
+
+.searchTable.ant-table-wrapper .ant-table-thead > tr > th {
+  padding: 10px 12px;
+  color: var(--font-color-primary);
+  background: none;
+  border-bottom: 1px solid #edf1f4;
+  border-top: 1px solid #edf1f4;
+}
+
+.searchTable.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:first-child {
+  border-start-start-radius: 0;
+}
+
+.searchTable.ant-table-wrapper.ant-table-wrapper
+  .ant-table-container
+  table
+  > thead
+  > tr:first-child
+  > *:last-child {
+  border-start-end-radius: 0;
 }
 
 /* Columns */
@@ -56,7 +90,7 @@
 }
 
 .searchTable .ant-table-pagination .ant-pagination-item-active > a {
-  color: var(--primary-color-1);
+  color: #1677ff;
 }
 
 .searchTable .ant-table-pagination .ant-pagination-disabled :where(.anticon-left, .anticon-right) {
