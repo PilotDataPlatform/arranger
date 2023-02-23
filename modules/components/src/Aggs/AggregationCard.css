@@ -1,5 +1,9 @@
 @import '../../public/themeStyles/constants.css';
 
+.aggregations {
+  border-right: 1px solid var(--background-color-1);
+}
+
 .aggregation-card {
   padding: 10px 20px;
   margin-top: 5px;
@@ -15,6 +19,7 @@
 }
 .aggregation-card:first-child {
   margin-top: 0;
+  border-top: none;
 }
 .aggregation-card .header {
   margin-top: -10px;

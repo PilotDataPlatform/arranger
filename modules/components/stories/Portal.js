@@ -90,7 +90,6 @@ const Portal = ({ style, ...props }) => {
   return (
     <div style={{ display: 'flex', ...style }}>
       <Aggregations
-        style={{ width: 300 }}
         componentProps={{
           getTermAggProps: () => ({
             maxTerms: 3,

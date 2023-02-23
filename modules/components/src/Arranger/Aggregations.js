@@ -76,9 +76,7 @@ export const AggregationsList = ({
   sqon,
   projectId,
   graphqlField,
-  style,
   api,
-  Wrapper = BaseWrapper,
   containerRef,
   componentProps = {
     getTermAggProps: () => ({}),
@@ -87,7 +85,6 @@ export const AggregationsList = ({
     getDatesAggProps: () => ({}),
   },
   aggs = [],
-  debounceTime,
   getCustomItems,
   customFacets = [],
 }) => (

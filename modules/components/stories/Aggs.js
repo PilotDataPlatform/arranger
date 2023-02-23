@@ -197,11 +197,7 @@ storiesOf('Aggs', module)
       render={({ sqon, update }) => (
         <div>
           <div>SQON: {JSON.stringify(sqon)}</div>
-          <div
-            css={`
-              width: 300px;
-            `}
-          >
+          <div>
             {aggs.map((agg) => (
               // TODO: switch on agg type
               <TermAgg
@@ -243,11 +239,7 @@ storiesOf('Aggs', module)
       {({ state: { sqon }, setState }) => (
         <div>
           <div>SQON: {JSON.stringify(sqon)}</div>
-          <div
-            css={`
-              width: 300px;
-            `}
-          >
+          <div>
             <DatesAgg
               field="disease_type"
               displayName="Disease Type"
@@ -333,11 +325,7 @@ storiesOf('Aggs', module)
       render={({ sqon, update }) => (
         <div>
           <div>SQON: {JSON.stringify(sqon)}</div>
-          <div
-            css={`
-              width: 300px;
-            `}
-          >
+          <div>
             {bolleanAggs.map((agg) => (
               <BooleanAgg
                 key={agg.field}
@@ -370,11 +358,7 @@ storiesOf('Aggs', module)
             onChange={(e) => update({ index: e.target.value })}
           />
           {index && (
-            <div
-              css={`
-                width: 300px;
-              `}
-            >
+            <div>
               <AggsPanel aggs={aggs} index={index} debounceTime={200} />
             </div>
           )}
