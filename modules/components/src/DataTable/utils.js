@@ -1,6 +1,8 @@
-import columnTypes from './columnTypes';
+import React from 'react';
+import { FileOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
+
+import searchTableType from './searchTableTypes';
 import { withProps } from 'recompose';
-import { isNil, sortBy } from 'lodash';
 
 export function getSingleValue(data) {
   if (typeof data === 'object' && data) {
@@ -10,52 +12,95 @@ export function getSingleValue(data) {
   }
 }
 
-export function normalizeColumns({
+const ColumnTitle = ({ title, field, titleProps }) => {
+  const { sortColumn, sortOrder } = titleProps;
+
+  let sortIcon = <DownOutlined className="column-title__icon" />;
+  if (sortColumn?.field === field) {
+    if (sortOrder === 'ascend') {
+      sortIcon = <UpOutlined className="column-title__icon column-title__icon--active" />;
+    }
+    if (sortOrder === 'descend') {
+      sortIcon = <DownOutlined className="column-title__icon column-title__icon--active" />;
+    }
+  }
+
+  return (
+    <div class="column-title__container">
+      <span>{title}</span>
+      {sortIcon}
+    </div>
+  );
+};
+
+const PILOT_TABLE_COLUMNS = [
+  {
+    field: 'type',
+    sorter: true,
+    title: (titleProps) => (
+      <ColumnTitle title={<FileOutlined />} field="type" titleProps={titleProps} />
+    ),
+    width: '4%',
+    order: 1,
+  },
+  {
+    field: 'name',
+    sorter: true,
+    title: (titleProps) => <ColumnTitle title="Name" field="name" titleProps={titleProps} />,
+    width: '27%',
+    order: 2,
+  },
+  {
+    field: 'owner',
+    sorter: true,
+    title: (titleProps) => <ColumnTitle title="Added" field="owner" titleProps={titleProps} />,
+    width: '26%',
+    order: 3,
+  },
+  {
+    field: 'created_time',
+    sorter: true,
+    title: (titleProps) => (
+      <ColumnTitle title="Created" field="created_time" titleProps={titleProps} />
+    ),
+    width: '13%',
+    order: 4,
+  },
+  {
+    field: 'size',
+    sorter: true,
+    title: (titleProps) => <ColumnTitle title="Size" field="size" titleProps={titleProps} />,
+    width: '10%',
+    order: 5,
+  },
+  { field: 'zone', title: 'Destination', width: '20%', order: 6 },
+];
+
+const normalizeSearchTableColumns = ({
   columns = [],
   customTypes,
   customColumns = [],
   customTypeConfigs = {},
-}) {
-  const types = {
-    ...columnTypes,
-    ...customTypes,
-  };
+}) =>
+  PILOT_TABLE_COLUMNS.reduce((resultingColumn, column) => {
+    const configColumn = columns.find((c) => c.field === column.field);
 
-  const mappedColumns = columns
-    .map((column) => {
-      const customCol =
-        customColumns.find((cc) => cc.content.field === column.field)?.content || {};
+    resultingColumn.push({
+      ...column,
+      ...(configColumn ?? {}),
+      dataIndex: column.field,
+      key: column.field,
+      render: searchTableType(column.field),
+    });
 
-      return {
-        ...column,
-        show: typeof column.show === 'boolean' ? column.show : true,
-        Cell: column.Cell || types[column.isArray ? 'list' : column.type],
-        hasCustomType: isNil(column.hasCustomType)
-          ? !!(customTypes || {})[column.type]
-          : column.hasCustomType,
-        ...(!column.accessor && !column.id ? { id: column.field } : {}),
-        ...(customTypeConfigs[column.type] || {}),
-        ...customCol,
-      };
-    })
-    .filter((x) => x.show || x.canChangeShow);
+    return resultingColumn;
+  }, []);
 
-  // filter out override columns
-  const filteredCustomCols = customColumns.filter(
-    (cc) => !mappedColumns.some((col) => col.field === cc.content.field),
-  );
-
-  return sortBy(filteredCustomCols, 'index').reduce(
-    (arr, { index, content }, i) => [...arr.slice(0, index + i), content, ...arr.slice(index + i)],
-    mappedColumns,
-  );
-}
-
-export const withNormalizedColumns = withProps(
+export const withSearchTableColumns = withProps(
   ({ config = {}, customTypes, customColumns, customTypeConfigs }) => ({
     config: {
       ...config,
-      columns: normalizeColumns({
+      columns: normalizeSearchTableColumns({
         columns: config.columns,
         customTypes,
         customColumns,

@@ -23,41 +23,6 @@ injectGlobal`
   }
 `;
 
-const DemoHeader = ({ update }) => {
-  return (
-    <div
-      css={`
-        z-index: 1;
-        flex: none;
-        display: flex;
-        line-height: 40px;
-        padding: 0 20px;
-        font-size: 20px;
-        font-weight: bold;
-        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
-          0 2px 4px -1px rgba(0, 0, 0, 0.3);
-      `}
-    >
-      {process.env.STORYBOOK_PORTAL_NAME || process.env.STORYBOOK_PORTAL_NAME || 'Data Portal'}{' '}
-      Search Page
-      <div
-        css={`
-          margin-left: auto;
-          cursor: pointer;
-        `}
-        onClick={() => {
-          deleteValue('PROJECT_ID');
-          deleteValue('ACTIVE_INDEX');
-          deleteValue('ACTIVE_INDEX_NAME');
-          update({ index: '', graphqlField: '', projectId: '' });
-        }}
-      >
-        Logout
-      </div>
-    </div>
-  );
-};
-
 const ChooseProject = ({ index, projectId, update, projects }) => {
   return (
     <div
@@ -125,7 +90,6 @@ const Portal = ({ style, ...props }) => {
   return (
     <div style={{ display: 'flex', ...style }}>
       <Aggregations
-        style={{ width: 300 }}
         componentProps={{
           getTermAggProps: () => ({
             maxTerms: 3,
