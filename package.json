@@ -12,6 +12,9 @@
     "type": "git",
     "url": "https://github.com/PilotDataPlatform/arranger.git"
   },
+  "exports": {
+    "./components/Arranger": "./modules/components/Arranger/src/index.js"
+  },
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "watch": "npm run bootstrap && npm run lerna -- run --parallel watch",
