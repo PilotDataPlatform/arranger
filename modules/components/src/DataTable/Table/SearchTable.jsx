@@ -5,6 +5,7 @@ import './searchTable.css';
 
 export default ({
   columns,
+  projectCode,
   fetchData,
   fetchDataParams,
   defaultPageSize,
@@ -45,6 +46,7 @@ export default ({
         first: pageSize,
         offset: page - 1,
         sort: fetchDataParams.config.sort,
+        projectCode,
       };
 
       try {

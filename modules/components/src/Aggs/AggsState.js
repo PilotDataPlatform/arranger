@@ -59,7 +59,7 @@ export default class extends Component {
       let { data } = await api({
         endpoint: `/${this.props.projectId}/graphql/aggsStateQuery`,
         body: {
-          project_code: 'indoctestproject',
+          project_code: this.props.projectCode,
           query: `query aggsStateQuery
             {
               ${graphqlField} {

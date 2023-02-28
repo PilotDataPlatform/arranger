@@ -56,6 +56,7 @@ class DataTableWithToolbar extends React.Component {
       onFilterChange = () => {},
       onMultipleColumnsChange = () => {},
       projectId = PROJECT_ID,
+      projectCode,
       selectedTableRows = [],
       setSelectedTableRows = () => {},
       showFilterInput = true,
@@ -106,6 +107,7 @@ class DataTableWithToolbar extends React.Component {
         />
         <SearchTable
           columns={config.columns}
+          projectCode={projectCode}
           fetchData={fetchData}
           fetchDataParams={{ config, sqon, queryName: 'table' }}
           defaultPageSize={defaultPageSize}

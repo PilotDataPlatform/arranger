@@ -75,6 +75,7 @@ export const AggregationsList = ({
   setSQON,
   sqon,
   projectId,
+  projectCode,
   graphqlField,
   api,
   containerRef,
@@ -92,6 +93,7 @@ export const AggregationsList = ({
     api={api}
     debounceTime={300}
     projectId={projectId}
+    projectCode={projectCode}
     index={graphqlField}
     sqon={sqon}
     aggs={aggs}
@@ -131,6 +133,7 @@ const Aggregations = ({
   setSQON,
   sqon,
   projectId,
+  projectCode,
   graphqlField,
   className = '',
   style,
@@ -164,6 +167,7 @@ const Aggregations = ({
               api={api}
               debounceTime={300}
               projectId={projectId}
+              projectCode={projectCode}
               graphqlField={graphqlField}
               sqon={sqon}
               aggs={aggs}

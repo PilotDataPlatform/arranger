@@ -1,7 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 
-import columnsToGraphql from '@arranger/mapping-utils/dist/utils/columnsToGraphql';
+import columnsToGraphql from '@arranger/mapping-utils/src/utils/columnsToGraphql';
 
 import defaultApi from '../utils/api';
 
@@ -57,6 +57,7 @@ class Arranger extends React.Component {
       index,
       graphqlField,
       projectId,
+      projectCode,
       children,
       render,
       component,
@@ -69,6 +70,7 @@ class Arranger extends React.Component {
       sqon,
       selectedTableRows,
       projectId,
+      projectCode,
       index,
       graphqlField,
       fetchData: this.fetchData,

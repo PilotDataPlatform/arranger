@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "@pilotdataplatform/arranger",
   "description": "Pilot's version of arranger's faceted search",
   "author": {
@@ -21,7 +21,7 @@
     "publish::ci": "lerna publish from-package --yes --no-verify-access --force-publish=*",
     "test": "lerna run test --stream",
     "run-prod-server": "cd modules/server && npm run run-prod",
-    "dashboard": "cd modules/components && npm run dashboard",
+    "dashboard": "export STORYBOOK_ENV=dev; cd modules/components && npm run dashboard",
     "portal": "cd modules/components && npm run portal",
     "netlify-build": "npm i && npm run bootstrap -- --scope=@arranger/components --include-filtered-dependencies && cd modules/components && npm run build-storybook",
     "tag": "lerna version --force-publish --yes"

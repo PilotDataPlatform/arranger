@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Inside the portal story, this component doesn't really do anything. Kept it there in case we need to use <GetProjects /> one day
 class State extends React.Component {
   constructor(props) {
     super(props);

@@ -57,12 +57,12 @@ export const CurrentSQON = ({
   />
 );
 
-const CurrentSQONState = ({ sqon, setSQON, graphqlField, projectId, ...props }) => {
+const CurrentSQONState = ({ sqon, setSQON, graphqlField, projectId, projectCode, ...props }) => {
   return (
     <Component
       initialState={{ extendedMapping: null }}
       didMount={({ state: { extendedMapping }, setState }) =>
-        fetchExtendedMapping({ graphqlField, projectId, api: props.api }).then(
+        fetchExtendedMapping({ graphqlField, projectId, projectCode, api: props.api }).then(
           ({ extendedMapping }) => {
             return setState({ extendedMapping });
           },

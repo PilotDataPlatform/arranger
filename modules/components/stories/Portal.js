@@ -115,11 +115,25 @@ const Portal = ({ style, ...props }) => {
 storiesOf('Portal', module).add('Portal', () => (
   <>
     <StyleProvider selected="beagle" availableThemes={AVAILABLE_THEMES} />
-    <State
+    <Arranger
+      disableSocket
+      index="metadata-items-facet" // static
+      graphqlField="m1facetalias" // static
+      projectId="m2facet" // static
+      projectCode="indoctestproject" // dynamic
+      render={(props) => {
+        return (
+          <>
+            <Portal {...{ ...props, graphqlField: 'm1facetalias', projectId: 'm2facet' }} />
+          </>
+        );
+      }}
+    />
+    {/* <State
       initial={{
-        index: ACTIVE_INDEX,
-        graphqlField: ACTIVE_INDEX_NAME,
-        projectId: PROJECT_ID,
+        index: 'metadata-items-facet',
+        graphqlField: 'm1facetalias',
+        projectId: 'm2facet',
       }}
       render={({ index, graphqlField, projectId, update }) => {
         return index && projectId ? (
@@ -144,6 +158,6 @@ storiesOf('Portal', module).add('Portal', () => (
           />
         );
       }}
-    />
+    /> */}
   </>
 ));

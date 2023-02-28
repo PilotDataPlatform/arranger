@@ -16,7 +16,15 @@ export function toQuery(column) {
   );
 }
 
-export default function columnsToGraphql({ config = {}, sqon, queryName, sort, offset, first }) {
+export default function columnsToGraphql({
+  config = {},
+  sqon,
+  projectCode,
+  queryName,
+  sort,
+  offset,
+  first,
+}) {
   const fields = config.columns
     .filter(
       (column) =>
@@ -27,7 +35,7 @@ export default function columnsToGraphql({ config = {}, sqon, queryName, sort, o
     .join('\n');
 
   return {
-    project_code: 'indoctestproject',
+    project_code: projectCode,
     fields,
     query: `
         query($sort: [Sort], $first: Int, $offset: Int, $score: String, $sqon: JSON) {

@@ -49,7 +49,7 @@ export default class extends Component {
       let { data } = await api({
         endpoint: `/${this.props.projectId}/graphql/columnsStateQuery`,
         body: {
-          project_code: 'indoctestproject',
+          project_code: this.props.projectCode,
           query: `query columnsStateQuery
             {
               ${graphqlField} {
@@ -76,7 +76,7 @@ export default class extends Component {
       } = await api({
         endpoint: `/${this.props.projectId}/graphql`,
         body: {
-          project_code: 'indoctestproject',
+          project_code: this.props.projectCode,
           query: `
           query{
             ${this.props.graphqlField} {
