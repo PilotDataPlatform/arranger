@@ -1,6 +1,6 @@
 {
   "name": "@arranger/admin",
-  "version": "2.19.3",
+  "version": "1.0.0",
   "description": "Admin API for the Arranger server in graphql",
   "engineStrict": true,
   "type": "module",
@@ -10,10 +10,10 @@
   "scripts": {},
   "license": "APLv2",
   "dependencies": {
-    "@arranger/mapping-utils": "^2.19.3",
-    "@arranger/schema": "^2.19.3",
+    "@arranger/admin": "^1.0.0",
+    "@arranger/mapping-utils": "^1.0.0",
+    "@arranger/schema": "^1.0.0",
     "@elastic/elasticsearch": "7.5.0",
-    "@arranger/admin": "2.19.3",
     "convert-units": "^2.3.4",
     "date-fns": "^1.29.0",
     "express": "^4.16.3",
