@@ -117,7 +117,6 @@ storiesOf('Portal', module).add('Portal', () => (
     <StyleProvider selected="beagle" availableThemes={AVAILABLE_THEMES} />
     <Arranger
       disableSocket
-      index="metadata-items-facet" // static
       graphqlField="m1facetalias" // static
       projectId="m2facet" // static
       projectCode="indoctestproject" // dynamic

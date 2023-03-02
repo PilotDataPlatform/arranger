@@ -1,10 +1,10 @@
 {
   "name": "@arranger/components",
-  "version": "2.19.3",
+  "version": "1.0.0",
   "description": "Data Portal Components",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
     "prepare": "rm -rf dist && mkdir dist && babel src --out-dir dist --copy-files",
@@ -19,9 +19,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/overture-stack/arranger.git"
+    "url": "https://github.com/PilotDataPlatform/arranger.git"
   },
-  "author": "OICR",
+  "author": {
+    "name": "Indoc Research"
+  },
   "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/overture-stack/arranger/issues"
