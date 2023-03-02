@@ -24,7 +24,7 @@ jobs:
       - name: Get Version
         id: get-version
         shell: bash
-        run: echo "app_version=`sed -n 's/^ *"version":.*"\([^"]*\)".*/\1/p' modules/server-filter/package.json`" >> $GITHUB_OUTPUT
+        run: echo "app_version=`sed -n 's/^ *"version":.*"\([^"]*\)".*/\1/p' package.json`" >> $GITHUB_OUTPUT
 
   build-and-push-server-docker-image:
     needs: [extract-branch-name, get-version]
@@ -54,7 +54,7 @@ jobs:
           sep-tags: ','
           tags: |
             type=sha,enable=true,prefix=arranger-server-,suffix=,format=short
-            type=raw,prefix=arranger-server-,suffix=,value=${{needs.get-version.outputs.app_version}}}
+            type=raw,prefix=arranger-server-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='PILOT-2296'}}
       - name: Image digest
         run: echo ${{ steps.meta.outputs.tags }}
       - name: Build image and push to GitHub Container Registry
@@ -70,7 +70,7 @@ jobs:
           target: arranger-server
 
   build-and-push-admin-server-docker-image:
-    needs: [ extract-branch-name, get-version ]
+    needs: [extract-branch-name, get-version]
     if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
     name: Build server filter Docker image and push to repositories
     runs-on: ubuntu-20.04
@@ -97,7 +97,7 @@ jobs:
           sep-tags: ','
           tags: |
             type=sha,enable=true,prefix=arranger-admin-server-,suffix=,format=short
-            type=raw,prefix=arranger-admin-server-,suffix=,value=${{needs.get-version.outputs.app_version}}}
+            type=raw,prefix=arranger-admin-server-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='PILOT-2296'}}
       - name: Image digest
         run: echo ${{ steps.meta.outputs.tags }}
       - name: Build image and push to GitHub Container Registry
@@ -113,7 +113,7 @@ jobs:
           target: arranger-admin-server
 
   build-and-push-admin-ui-docker-image:
-    needs: [ extract-branch-name, get-version ]
+    needs: [extract-branch-name, get-version]
     if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
     name: Build server filter Docker image and push to repositories
     runs-on: ubuntu-20.04
@@ -140,7 +140,7 @@ jobs:
           sep-tags: ','
           tags: |
             type=sha,enable=true,prefix=arranger-admin-ui-,suffix=,format=short
-            type=raw,prefix=arranger-admin-ui-,suffix=,value=${{needs.get-version.outputs.app_version}}}
+            type=raw,prefix=arranger-admin-ui-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='PILOT-2296'}}
       - name: Image digest
         run: echo ${{ steps.meta.outputs.tags }}
       - name: Build image and push to GitHub Container Registry
