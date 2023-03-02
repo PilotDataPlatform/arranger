@@ -2,7 +2,7 @@ name: Build and Publish
 
 on:
   push:
-    branches: [PILOT-2296]
+    branches: [patched-version]
 
 jobs:
   extract-branch-name:
@@ -28,7 +28,7 @@ jobs:
 
   build-and-push-server-docker-image:
     needs: [extract-branch-name, get-version]
-    if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
+    if: ${{ needs.extract-branch-name.outputs.branch == 'patched-version'}}
     name: Build server filter Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
@@ -54,7 +54,7 @@ jobs:
           sep-tags: ','
           tags: |
             type=sha,enable=true,prefix=arranger-server-,suffix=,format=short
-            type=raw,prefix=arranger-server-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='PILOT-2296'}}
+            type=raw,prefix=arranger-server-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='patched-version'}}
       - name: Image digest
         run: echo ${{ steps.meta.outputs.tags }}
       - name: Build image and push to GitHub Container Registry
@@ -71,7 +71,7 @@ jobs:
 
   build-and-push-admin-server-docker-image:
     needs: [extract-branch-name, get-version]
-    if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
+    if: ${{ needs.extract-branch-name.outputs.branch == 'patched-version'}}
     name: Build admin server Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
@@ -97,7 +97,7 @@ jobs:
           sep-tags: ','
           tags: |
             type=sha,enable=true,prefix=arranger-admin-server-,suffix=,format=short
-            type=raw,prefix=arranger-admin-server-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='PILOT-2296'}}
+            type=raw,prefix=arranger-admin-server-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='patched-version'}}
       - name: Image digest
         run: echo ${{ steps.meta.outputs.tags }}
       - name: Build image and push to GitHub Container Registry
@@ -114,7 +114,7 @@ jobs:
 
   build-and-push-admin-ui-docker-image:
     needs: [extract-branch-name, get-version]
-    if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
+    if: ${{ needs.extract-branch-name.outputs.branch == 'patched-version'}}
     name: Build admin-ui Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
@@ -140,7 +140,7 @@ jobs:
           sep-tags: ','
           tags: |
             type=sha,enable=true,prefix=arranger-admin-ui-,suffix=,format=short
-            type=raw,prefix=arranger-admin-ui-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='PILOT-2296'}}
+            type=raw,prefix=arranger-admin-ui-,suffix=,value=${{needs.get-version.outputs.app_version}}, enable=${{needs.extract-branch-name.outputs.branch=='patched-version'}}
       - name: Image digest
         run: echo ${{ steps.meta.outputs.tags }}
       - name: Build image and push to GitHub Container Registry
