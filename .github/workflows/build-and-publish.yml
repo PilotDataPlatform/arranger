@@ -2,7 +2,7 @@ name: Build and Publish
 
 on:
   push:
-    branches: [patched-version]
+    branches: [PILOT-2296]
 
 jobs:
   extract-branch-name:
