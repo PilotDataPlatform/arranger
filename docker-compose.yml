@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   elasticsearch:
@@ -37,7 +37,6 @@ services:
     depends_on:
       - server
       - elasticsearch
-
   admin_ui:
     build:
       target: arranger-admin-ui
@@ -47,4 +46,3 @@ services:
       - PORT=4000
     depends_on:
       - admin_server
-

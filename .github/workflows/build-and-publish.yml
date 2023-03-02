@@ -72,7 +72,7 @@ jobs:
   build-and-push-admin-server-docker-image:
     needs: [extract-branch-name, get-version]
     if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
-    name: Build server filter Docker image and push to repositories
+    name: Build admin server Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -115,7 +115,7 @@ jobs:
   build-and-push-admin-ui-docker-image:
     needs: [extract-branch-name, get-version]
     if: ${{ needs.extract-branch-name.outputs.branch == 'PILOT-2296'}}
-    name: Build server filter Docker image and push to repositories
+    name: Build admin-ui Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
