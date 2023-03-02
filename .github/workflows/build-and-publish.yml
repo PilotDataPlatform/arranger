@@ -1,5 +1,9 @@
 name: Build and Publish
 
+on:
+  push:
+    branches: [patched-version]
+
 jobs:
   extract-branch-name:
     runs-on: ubuntu-20.04
