@@ -5,6 +5,10 @@ import Spinner from 'react-spinkit';
 
 const Table = ({
   onFilterChange = () => {},
+  onPaginationChange = () => {},
+  onPageChange = () => {},
+  onSortedChange = () => {},
+  onSelectedTableRows = () => {},
   projectId,
   projectCode,
   graphqlField,
@@ -16,6 +20,8 @@ const Table = ({
   InputComponent,
   showFilterInput = true,
   customHeaderContent = null,
+  page = 1,
+  pageSize = 10,
   ...props
 }) => {
   return (
@@ -59,6 +65,14 @@ const Table = ({
                 }),
               );
             }}
+            onPaginationChange={(pageSize) => {
+              onPaginationChange(pageSize);
+            }}
+            onPageChange={(currentPage) => {
+              onPageChange(currentPage);
+            }}
+            onSortedChange={(sorted) => onSortedChange(sorted)}
+            onSelectedTableRows={(selectedTableRows) => onSelectedTableRows(selectedTableRows)}
           />
         );
       }}

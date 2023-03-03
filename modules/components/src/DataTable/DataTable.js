@@ -11,8 +11,8 @@ class DataTableWithToolbar extends React.Component {
   constructor(props) {
     super(props);
 
-    let pageSize = 10;
-    let page = 1;
+    let pageSize = this.props.pageSize;
+    let page = this.props.page;
     let sorted = props.config.defaultSorted || [];
     let selectedTableRows = [];
 
@@ -53,8 +53,12 @@ class DataTableWithToolbar extends React.Component {
       filterInputPlaceholder,
       InputComponent,
       onColumnsChange = () => {},
-      onFilterChange = () => {},
       onMultipleColumnsChange = () => {},
+      onFilterChange,
+      onPaginationChange,
+      onPageChange,
+      onSortedChange,
+      onSelectedTableRows,
       projectId = PROJECT_ID,
       projectCode,
       selectedTableRows = [],
@@ -113,11 +117,13 @@ class DataTableWithToolbar extends React.Component {
           defaultPageSize={defaultPageSize}
           pageSize={pageSize}
           onPaginationChange={(pageSize) => {
+            onPaginationChange(pageSize);
             this.setState((prevState) => ({ ...prevState, pageSize }));
           }}
           page={page}
           onPageChange={(page) => {
             this.setState((prevState) => ({ ...prevState, page }));
+            onPageChange(page);
           }}
           defaultSorted={config.defaultSorted}
           onSortedChange={(sorted) => {
@@ -126,10 +132,12 @@ class DataTableWithToolbar extends React.Component {
               sorted,
               pageSize: this.state.defaultPageSize,
             }));
+            onSortedChange(sorted);
           }}
           selectedTableRows={selectedTableRows}
           onSelectedTableRows={(selectedTableRows) => {
             setSelectedTableRows(selectedTableRows);
+            onSelectedTableRows(selectedTableRows);
           }}
         />
       </>
