@@ -1,8 +1,8 @@
 {
-  "name": "@arranger/components",
-  "version": "1.0.0",
+  "name": "@pilotdataplatform/arranger-components",
+  "version": "1.0.8",
   "description": "Data Portal Components",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
@@ -63,6 +63,7 @@
     "@arranger/mapping-utils": "^2.19.3",
     "@babel/polyfill": "^7.12.1",
     "ajv": "^6.1.1",
+    "antd": "^5.1.7",
     "classnames": "^2.2.5",
     "convert-units": "^2.3.4",
     "date-fns": "^2.21.1",

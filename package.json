@@ -1,5 +1,5 @@
 {
-  "version": "1.1.7",
+  "version": "1.0.0",
   "name": "@pilotdataplatform/arranger",
   "description": "Pilot's version of arranger's faceted search",
   "author": {
@@ -73,7 +73,6 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "antd": "^5.1.7",
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5"
   },
