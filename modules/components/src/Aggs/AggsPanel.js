@@ -1,5 +1,5 @@
 import React from 'react';
-import { inCurrentFilters } from '../SQONView/utils';
+// import { inCurrentFilters } from '../SQONView/utils';
 import Location from '../Location';
 import TermAgg from './TermAgg';
 import AggsQuery from './AggsQuery';
@@ -21,13 +21,13 @@ export default ({ index, aggs = [], ...props }) =>
                   <TermAgg
                     field={field}
                     buckets={data.buckets}
-                    isActive={(d) =>
-                      inCurrentFilters({
-                        key: d.value,
-                        dotField: d.field,
-                        currentFilters: (search.filters || {}).content,
-                      })
-                    }
+                    // isActive={(d) =>
+                    //   inCurrentFilters({
+                    //     key: d.value,
+                    //     dotField: d.field,
+                    //     currentFilters: (search.filters || {}).content,
+                    //   })
+                    // }
                     handleFieldClick={(d) => {
                       // history.push({
                       //   search: stringify({
