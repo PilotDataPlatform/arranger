@@ -65,6 +65,8 @@ const Table = ({
                 }),
               );
             }}
+            page={page}
+            pageSize={pageSize}
             onPaginationChange={(pageSize) => {
               onPaginationChange(pageSize);
             }}
