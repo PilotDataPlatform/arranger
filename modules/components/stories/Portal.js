@@ -117,13 +117,13 @@ storiesOf('Portal', module).add('Portal', () => (
     <StyleProvider selected="beagle" availableThemes={AVAILABLE_THEMES} />
     <Arranger
       disableSocket
-      graphqlField="m1facetalias" // static
-      projectId="m2facet" // static
+      graphqlField="pilotdevtestalias" // static
+      projectId="pilotdev" // static
       projectCode="indoctestproject" // dynamic
       render={(props) => {
         return (
           <>
-            <Portal {...{ ...props, graphqlField: 'm1facetalias', projectId: 'm2facet' }} />
+            <Portal {...{ ...props, graphqlField: 'pilotdevtestalias', projectId: 'pilotdev' }} />
           </>
         );
       }}
