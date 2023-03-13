@@ -1,6 +1,5 @@
 {
-  "version": "independent",
-  "packages": ["modules/**"],
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "useWorkspaces": false
+  "lerna": "2.5.1",
+  "version": "2.19.3",
+  "packages": ["modules/admin-ui"]
 }
