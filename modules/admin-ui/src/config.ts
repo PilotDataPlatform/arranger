@@ -10,7 +10,7 @@ declare global {
 export const adminApiRoot =
   window?.__env__?.REACT_APP_ARRANGER_ADMIN_ROOT ||
   process?.env?.REACT_APP_ARRANGER_ADMIN_ROOT ||
-  'http://localhost:5050/admin/graphql';
+  'https://arranger-admin-server.dev.pilot.indocresearch.org/admin/graphql';
 
 const baseURLenv = window?.__env__?.REACT_APP_BASE_URL || process?.env?.REACT_APP_BASE_URL || '';
 
