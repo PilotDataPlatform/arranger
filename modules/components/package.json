@@ -11,7 +11,7 @@
     "watch": "babel src --out-dir dist --copy-files --watch",
     "build-storybook": "build-storybook -s ./public",
     "storybook": "start-storybook -p 8080 -c .storybook -s ./public",
-    "dashboard": "STORYBOOK_DASHBOARD=true start-storybook -p 6060 -c .storybook -s ./public",
+    "dashboard": "STORYBOOK_DASHBOARD=true start-storybook -p 6061 -c .storybook -s ./public",
     "portal": "STORYBOOK_PORTAL=true start-storybook -p 7070 -c .storybook -s ./public",
     "test": "jest",
     "flow": "flow",
