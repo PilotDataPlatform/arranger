@@ -77,13 +77,12 @@ const TableToolbar = ({
   onMultipleColumnsChange,
   page = 0,
   pageSize = 0,
-  propsData,
   selectedTableRows = [],
   setFilterVal,
   showFilterInput = true,
   sqon = {},
   style,
-  total = propsData?.total || 0,
+  total,
   transformParams = (params) => params,
   type = '',
 }) => {
@@ -118,8 +117,8 @@ const TableToolbar = ({
         style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}
       >
         <span className="numbers">
-          {`Showing ${(page * pageSize + 1).toLocaleString()} - ${Math.min(
-            (page + 1) * pageSize,
+          {`Showing ${((page - 1) * pageSize + 1).toLocaleString()} - ${Math.min(
+            page * pageSize,
             total,
           ).toLocaleString()}`}
         </span>{' '}

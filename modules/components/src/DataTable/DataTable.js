@@ -23,6 +23,7 @@ class DataTableWithToolbar extends React.Component {
       page,
       sorted,
       selectedTableRows,
+      searchResults: { data: [], total: 0 },
     };
   }
 
@@ -69,7 +70,7 @@ class DataTableWithToolbar extends React.Component {
       transformParams,
     } = this.props;
     const config = { ...this.props.config, sort: this.state.sorted };
-    const { defaultPageSize, pageSize, page, total } = this.state;
+    const { defaultPageSize, pageSize, page, searchResults } = this.state;
 
     const url = downloadUrl || urlJoin(ARRANGER_API, projectId, 'download');
 
@@ -100,12 +101,11 @@ class DataTableWithToolbar extends React.Component {
           onMultipleColumnsChange={onMultipleColumnsChange}
           page={page}
           pageSize={pageSize}
-          propsData={data}
           selectedTableRows={selectedTableRows}
           showFilterInput={showFilterInput}
           sqon={sqon}
           style={toolbarStyle}
-          total={total}
+          total={searchResults.total}
           transformParams={transformParams}
           type={config.type}
         />
@@ -114,6 +114,8 @@ class DataTableWithToolbar extends React.Component {
           projectCode={projectCode}
           fetchData={fetchData}
           fetchDataParams={{ config, sqon, queryName: 'table' }}
+          searchResults={searchResults}
+          setTableData={(searchResults) => this.setState({ searchResults })}
           defaultPageSize={defaultPageSize}
           pageSize={pageSize}
           onPaginationChange={(pageSize) => {

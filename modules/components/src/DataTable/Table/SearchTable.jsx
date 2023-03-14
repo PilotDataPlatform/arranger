@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
 
+import { isEqual } from 'lodash';
+
+import usePrevious from '../../utils/usePrevious';
 import './searchTable.css';
 
 export default ({
@@ -8,6 +11,8 @@ export default ({
   projectCode,
   fetchData,
   fetchDataParams,
+  searchResults,
+  setTableData,
   defaultPageSize,
   pageSize,
   onPaginationChange,
@@ -18,8 +23,8 @@ export default ({
   selectedTableRows,
   onSelectedTableRows,
 }) => {
-  const [searchResults, setSearchResults] = useState({ data: [], total: 0 });
   const [loading, setLoading] = useState(false);
+  const prevFetchDataParams = usePrevious(fetchDataParams);
 
   const onChange = (pagination, _, sorter, extra) => {
     const { action } = extra;
@@ -40,7 +45,15 @@ export default ({
 
   useEffect(() => {
     (async function () {
+      if (isEqual(prevFetchDataParams, fetchDataParams)) {
+        return;
+      }
+
       setLoading(true);
+      const remainingRecords = searchResults.total
+        ? searchResults.total - page * pageSize
+        : pageSize + 1;
+      console.log(remainingRecords);
       const options = {
         ...fetchDataParams,
         first: pageSize,
@@ -50,8 +63,9 @@ export default ({
       };
 
       try {
+        console.log('try fetching data');
         const result = await fetchData(options);
-        setSearchResults(result);
+        setTableData(result);
       } catch (e) {
         console.log(e);
       }
