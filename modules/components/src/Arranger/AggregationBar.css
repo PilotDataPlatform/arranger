@@ -1,0 +1,30 @@
+@import '../../public/themeStyles/constants.css';
+
+.aggregation-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 6px 12px;
+  background-color: #e6f5ff;
+}
+
+.aggregation-bar__title {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color-1);
+}
+
+.aggregation-bar__title p {
+  margin: 0 0 0 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.aggregation-bar .ant-btn-text {
+  font-size: 10px;
+  color: var(--font-color-primary);
+  border: none;
+  height: auto;
+  padding: 2px 12px 0 12px;
+  border-radius: 0;
+}

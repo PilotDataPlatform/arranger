@@ -17,9 +17,8 @@
 .aggregation-card[data-type='keyword'] {
   min-height: 74px;
 }
-.aggregation-card:first-child {
+.aggregations .aggregation-card:nth-child(2) {
   margin-top: 0;
-  border-top: none;
 }
 .aggregation-card .header {
   margin-top: -10px;

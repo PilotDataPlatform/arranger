@@ -1,6 +1,7 @@
 import React from 'react';
 import { sortBy } from 'lodash';
 
+import AggregrationBar from './AggregationBar';
 import { AggsState, AggsQuery } from '../Aggs';
 import aggComponents from '../Aggs/aggComponentsMap.js';
 
@@ -148,6 +149,7 @@ const Aggregations = ({
   },
   customFacets = [],
 }) => {
+  console.log(sqon);
   return (
     <Wrapper style={style} className={className}>
       <AggsState
@@ -157,22 +159,25 @@ const Aggregations = ({
         render={(aggsState) => {
           const aggs = aggsState.aggs.filter((x) => x.show);
           return (
-            <AggregationsList
-              onValueChange={onValueChange}
-              setSQON={setSQON}
-              style={style}
-              Wrapper={Wrapper}
-              containerRef={containerRef}
-              componentProps={componentProps}
-              api={api}
-              debounceTime={300}
-              projectId={projectId}
-              projectCode={projectCode}
-              graphqlField={graphqlField}
-              sqon={sqon}
-              aggs={aggs}
-              customFacets={customFacets}
-            />
+            <>
+              <AggregrationBar onButtonClick={() => setSQON(null)} />
+              <AggregationsList
+                onValueChange={onValueChange}
+                setSQON={setSQON}
+                style={style}
+                Wrapper={Wrapper}
+                containerRef={containerRef}
+                componentProps={componentProps}
+                api={api}
+                debounceTime={300}
+                projectId={projectId}
+                projectCode={projectCode}
+                graphqlField={graphqlField}
+                sqon={sqon}
+                aggs={aggs}
+                customFacets={customFacets}
+              />
+            </>
           );
         }}
       />
