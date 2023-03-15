@@ -149,7 +149,6 @@ const Aggregations = ({
   },
   customFacets = [],
 }) => {
-  console.log(sqon);
   return (
     <Wrapper style={style} className={className}>
       <AggsState
@@ -160,7 +159,7 @@ const Aggregations = ({
           const aggs = aggsState.aggs.filter((x) => x.show);
           return (
             <>
-              <AggregrationBar onButtonClick={() => setSQON(null)} />
+              <AggregrationBar aggs={aggs} onButtonClick={() => setSQON(null)} />
               <AggregationsList
                 onValueChange={onValueChange}
                 setSQON={setSQON}
