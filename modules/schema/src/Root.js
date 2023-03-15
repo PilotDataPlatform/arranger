@@ -3,7 +3,11 @@ import { GraphQLDate } from 'graphql-scalars';
 import { startCase } from 'lodash';
 import Parallel from 'paralleljs';
 
-import { createConnectionResolvers, saveSet, mappingToFields } from '@arranger/mapping-utils';
+import {
+  createConnectionResolvers,
+  saveSet,
+  mappingToFields,
+} from '@pilotdataplatform/arranger-mapping-utils';
 
 import { typeDefs as AggregationsTypeDefs } from './Aggregations';
 import { typeDefs as SetTypeDefs } from './Sets';

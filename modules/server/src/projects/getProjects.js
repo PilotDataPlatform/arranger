@@ -1,5 +1,5 @@
 import mapHits from '../utils/mapHits';
-import esSearch from '@arranger/mapping-utils/dist/utils/esSearch';
+import esSearch from '@pilotdataplatform/arranger-mapping-utils/dist/utils/esSearch';
 
 export async function fetchProjects({ es }) {
   let arrangerConfig = {

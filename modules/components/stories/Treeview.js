@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import NestedTreeView from '../src/NestedTreeView';
-import { mappingToDisplayTreeData } from '@arranger/mapping-utils';
+import { mappingToDisplayTreeData } from '@pilotdataplatform/arranger-mapping-utils';
 import { themeDecorator } from './decorators';
 
 const { elasticMappingToDisplayTreeData, MOCK_MAPPING } = mappingToDisplayTreeData;

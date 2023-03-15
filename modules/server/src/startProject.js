@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import makeSchema from '@arranger/schema';
-import { extendFields, addMappingsToTypes } from '@arranger/mapping-utils';
+import { extendFields, addMappingsToTypes } from '@pilotdataplatform/arranger-mapping-utils';
 import { fetchMappings } from './utils/fetchMappings';
 import mapHits from './utils/mapHits';
 import { setProject } from './utils/projects';
