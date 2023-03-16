@@ -52,6 +52,10 @@ class Arranger extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    console.log(this.selectedTableRows);
+  }
+
   render() {
     const {
       index,

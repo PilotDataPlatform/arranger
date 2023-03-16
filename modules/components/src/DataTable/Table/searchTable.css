@@ -7,6 +7,9 @@
 .searchTable.ant-table-wrapper .ant-table-tbody > tr > td {
   padding: 14px 16px;
 }
+.searchTable.ant-table-wrapper .ant-table-tbody > tr.ant-table-row-selected > td {
+  background: transparent;
+}
 
 .searchTable .ant-spin-nested-loading .ant-spin {
   max-height: 550px;
@@ -106,4 +109,13 @@
 
 .searchTable .ant-table-pagination .ant-pagination-options-size-changer .ant-select-selector {
   border-color: var(--primary-color-light-1) !important;
+}
+
+/* Checkboxes */
+.searchTable .ant-checkbox-indeterminate .ant-checkbox-inner:after {
+  background-color: var(--primary-color-light-1);
+}
+.searchTable .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--primary-color-light-1);
+  border-color: var(--primary-color-light-1);
 }
