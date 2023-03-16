@@ -5,6 +5,7 @@
   background: #fff;
   display: flex;
   flex: none;
+  border-top: 1px solid var(--background-color-1);
 }
 
 .tableToolbar__plugins {

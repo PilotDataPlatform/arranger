@@ -107,8 +107,16 @@
   color: var(--primary-color-light-1);
 }
 
-.searchTable .ant-table-pagination .ant-pagination-options-size-changer .ant-select-selector {
+.searchTable .ant-table-pagination .ant-pagination-options-size-changer .ant-select-selector:hover {
   border-color: var(--primary-color-light-1) !important;
+}
+
+.searchTable
+  .ant-table-pagination
+  .ant-pagination-options-size-changer.ant-select-focused
+  .ant-select-selector {
+  border-color: var(--primary-color-light-1) !important;
+  box-shadow: none;
 }
 
 /* Checkboxes */
