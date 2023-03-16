@@ -1,37 +1,42 @@
 import React from 'react';
+
 import SearchIcon from 'react-icons/lib/fa/search';
+import { SearchOutlined } from '@ant-design/icons';
 
 import TextInput from '../Input';
+import { Input } from 'antd';
 import { replaceFilterSQON } from '../SQONView/utils';
 
-export const generateNextSQON = (value) => ({ sqon, fields, entity }) =>
-  replaceFilterSQON(
-    {
-      op: 'and',
-      content: [
-        {
-          op: 'filter',
-          content: {
-            fields: fields,
-            value,
-            ...(entity && { entity }),
+export const generateNextSQON =
+  (value) =>
+  ({ sqon, fields, entity }) =>
+    replaceFilterSQON(
+      {
+        op: 'and',
+        content: [
+          {
+            op: 'filter',
+            content: {
+              fields: fields,
+              value,
+              ...(entity && { entity }),
+            },
           },
-        },
-      ],
-    },
-    sqon,
-  );
+        ],
+      },
+      sqon,
+    );
 
 const TextFilter = ({
   value,
   onChange,
   Icon = SearchIcon,
   placeholder = 'Filter',
-  InputComponent = TextInput,
+  InputComponent = Input,
   ...props
 }) => (
   <InputComponent
-    icon={<Icon />}
+    prefix={<SearchOutlined />}
     type="text"
     placeholder={placeholder}
     value={value}

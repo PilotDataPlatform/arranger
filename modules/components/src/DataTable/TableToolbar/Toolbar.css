@@ -1,44 +1,56 @@
 @import '../../../public/themeStyles/constants.css';
 
 .tableToolbar {
-  padding: 14px 19px 12px 15px;
+  padding: 4px 16px 2px 16px;
   background: #fff;
   display: flex;
   flex: none;
 }
 
-.tableToolbar .buttonWrapper {
+.tableToolbar__plugins {
+  flex-grow: 1;
+}
+.tableToolbar__plugins .buttonWrapper {
   display: flex;
 }
-
-.tableToolbar .buttonWrapper button {
-  display: flex;
-  background: none;
+.tableToolbar__plugins .buttonWrapper .ant-btn {
   border: none;
+  color: var(--font-color-primary);
+  box-shadow: none;
+  padding: 4px 8px;
+}
+.tableToolbar__plugins .buttonWrapper .ant-btn:hover {
+  color: var(--primary-color-light-1);
 }
 
 .tableToolbar .inputWrapper {
   border: none;
 }
 
-.tableToolbar .group {
-  margin-left: 10px;
+.tableToolbar .tableToolbar__filter {
+  margin-left: 16px;
   display: flex;
 }
 
-.tableToolbar .group > .ant-input-affix-wrapper {
-  padding: 1px 8px;
+.tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper {
+  padding: 1px 8px 0.5px 8px;
   border-radius: 6px;
+  max-height: 26px;
+  align-self: center;
 }
-.tableToolbar .group > .ant-input-affix-wrapper .ant-input-prefix {
+.tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper:focus {
+  border-color: var(--primary-color-light-1);
+}
+
+.tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper .ant-input-prefix {
   margin-right: 5px;
 }
-.tableToolbar .group > .ant-input-affix-wrapper .ant-input-prefix .anticon-search {
+.tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper .ant-input-prefix .anticon-search {
   color: var(--font-color-light);
   font-size: 12px;
   margin-top: 1px;
 }
-.tableToolbar .group > .ant-input-affix-wrapper .ant-input::placeholder {
+.tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper .ant-input::placeholder {
   color: var(--font-color-light);
   font-size: 12px;
   font-style: italic;
@@ -56,6 +68,6 @@
   margin-left: 3px;
 }
 
-.group {
+.tableToolbar__filter {
   display: flex;
 }

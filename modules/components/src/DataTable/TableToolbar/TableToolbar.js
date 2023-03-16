@@ -1,8 +1,10 @@
 import React from 'react';
 import { compose, withProps, withPropsOnChange, withState } from 'recompose';
 import { debounce } from 'lodash';
-import pluralize from 'pluralize';
 import { css } from 'emotion';
+
+import { Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 
 import DropDown, { MultiSelectDropDown } from '../../DropDown';
 import { addInSQON, currentFilterValue } from '../../SQONView/utils';
@@ -58,7 +60,6 @@ const TableToolbar = ({
   columnDropdownText = 'Show columns',
   columns,
   customActions = null,
-  customHeaderContent = null,
   debouncedOnFilterChange,
   defaultColumns,
   downloadUrl,
@@ -68,7 +69,7 @@ const TableToolbar = ({
   exporter = null,
   exporterLabel = 'Download',
   exportTSVFilename = '',
-  exportTSVText = 'Export TSV',
+  exportTSVText = 'Download Metadata',
   filterInputPlaceholder = 'Filter',
   filterVal,
   InputComponent,
@@ -86,9 +87,6 @@ const TableToolbar = ({
   transformParams = (params) => params,
   type = '',
 }) => {
-  const isPlural =
-    total > 1 && pageSize > 1 && (Math.ceil(total / pageSize) !== page || total % pageSize > 1);
-
   const { singleExporter, exporterArray, multipleExporters } = exporterProcessor(
     exporter,
     allowTSVExport,
@@ -111,38 +109,9 @@ const TableToolbar = ({
       : sqon;
 
   return (
-    <div style={{ display: 'flex', flex: 'none', ...style }} className="tableToolbar">
-      <div
-        className="currentlyDisplayed"
-        style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}
-      >
-        <span className="numbers">
-          {`Showing ${((page - 1) * pageSize + 1).toLocaleString()} - ${Math.min(
-            page * pageSize,
-            total,
-          ).toLocaleString()}`}
-        </span>{' '}
-        <span className="ofTotal">of {total?.toLocaleString()}</span>{' '}
-        <span className="type">{pluralize(type, isPlural ? 2 : 1)}</span>
-      </div>
-      {customHeaderContent || null}
-
-      {showFilterInput && (
-        <div className="group">
-          <TextFilter
-            InputComponent={InputComponent}
-            value={filterVal}
-            placeholder={filterInputPlaceholder}
-            onChange={({ value, generateNextSQON }) => {
-              setFilterVal(value);
-              debouncedOnFilterChange({ value, generateNextSQON });
-            }}
-          />
-        </div>
-      )}
-
-      <div className="group">
-        {allowTogglingColumns &&
+    <div className="tableToolbar">
+      <div className="tableToolbar__plugins">
+        {/* {allowTogglingColumns &&
           (enableDropDownControls ? (
             <MultiSelectDropDown
               buttonAriaLabelClosed={`Open column selection menu`}
@@ -183,7 +152,7 @@ const TableToolbar = ({
             >
               {columnDropdownText}
             </DropDown>
-          ))}
+          ))} */}
 
         {multipleExporters ? ( // check if we're given more than one custom exporter
           <div className="buttonWrapper">
@@ -236,17 +205,9 @@ const TableToolbar = ({
           // else, use a custom function if any is given, or use the default saveTSV if the flag is on
           singleExporter && (
             <div className="buttonWrapper">
-              <button
+              <Button
+                icon={<DownloadOutlined />}
                 disabled={exporter?.[0]?.requiresRowSelection && !hasSelectedRows}
-                css={css`
-                  display: flex;
-                  min-height: 16;
-                  white-space: nowrap;
-
-                  &:not(:disabled):hover {
-                    cursor: pointer;
-                  }
-                `}
                 onClick={() => {
                   (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
                     singleExporter(
@@ -268,11 +229,37 @@ const TableToolbar = ({
                 }}
               >
                 {exportTSVText}
-              </button>
+              </Button>
             </div>
           )
         )}
         {customActions}
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div className="tableToolbar__pagination-display">
+          <span className="numbers">
+            {`Showing ${((page - 1) * pageSize + 1).toLocaleString()} - ${Math.min(
+              page * pageSize,
+              total,
+            ).toLocaleString()}`}
+          </span>{' '}
+          <span className="ofTotal">of {total?.toLocaleString()}</span>{' '}
+        </div>
+
+        {showFilterInput && (
+          <div className="tableToolbar__filter">
+            <TextFilter
+              InputComponent={InputComponent}
+              value={filterVal}
+              placeholder={filterInputPlaceholder}
+              onChange={({ value, generateNextSQON }) => {
+                setFilterVal(value);
+                debouncedOnFilterChange({ value, generateNextSQON });
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
