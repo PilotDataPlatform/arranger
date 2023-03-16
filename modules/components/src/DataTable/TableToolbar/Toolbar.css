@@ -1,4 +1,58 @@
-.currentlyDisplayed > span:not(:first-child) {
+@import '../../../public/themeStyles/constants.css';
+
+.tableToolbar {
+  padding: 14px 19px 12px 15px;
+  background: #fff;
+  display: flex;
+  flex: none;
+}
+
+.tableToolbar .buttonWrapper {
+  display: flex;
+}
+
+.tableToolbar .buttonWrapper button {
+  display: flex;
+  background: none;
+  border: none;
+}
+
+.tableToolbar .inputWrapper {
+  border: none;
+}
+
+.tableToolbar .group {
+  margin-left: 10px;
+  display: flex;
+}
+
+.tableToolbar .group > .ant-input-affix-wrapper {
+  padding: 1px 8px;
+  border-radius: 6px;
+}
+.tableToolbar .group > .ant-input-affix-wrapper .ant-input-prefix {
+  margin-right: 5px;
+}
+.tableToolbar .group > .ant-input-affix-wrapper .ant-input-prefix .anticon-search {
+  color: var(--font-color-light);
+  font-size: 12px;
+  margin-top: 1px;
+}
+.tableToolbar .group > .ant-input-affix-wrapper .ant-input::placeholder {
+  color: var(--font-color-light);
+  font-size: 12px;
+  font-style: italic;
+}
+
+.tableToolbar__pagination-display {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--font-color-primary);
+  display: flex;
+  align-items: center;
+}
+
+.tableToolbar__pagination-display > span:not(:first-child) {
   margin-left: 3px;
 }
 

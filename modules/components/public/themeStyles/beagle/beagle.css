@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700');
 @import url('https://use.fontawesome.com/releases/v5.0.6/css/all.css');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import '../constants.css';
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, ‘Segoe UI’, Roboto, ‘Helvetica Neue’, Arial,
@@ -303,46 +304,6 @@ body {
 /**************************************/
 /*** styling for the Table Toolbar ****/
 /**************************************/
-.tableToolbar {
-  padding: 14px 19px 12px 15px;
-  background: #fff;
-}
-
-.tableToolbar .buttonWrapper {
-  display: flex;
-}
-
-.tableToolbar .buttonWrapper button {
-  display: flex;
-  background: none;
-  border: none;
-}
-
-.tableToolbar .inputWrapper {
-  border: none;
-}
-
-.tableToolbar .group {
-  margin-left: 10px;
-  display: flex;
-}
-
-.tableToolbar .group > * {
-  background-color: none;
-  display: flex;
-  border: solid 1px #cacbcf;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.tableToolbar .group > :first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-.tableToolbar .group > :last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
 
 .range-wrapper {
   min-height: 2.7rem;
