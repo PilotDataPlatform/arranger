@@ -18,7 +18,7 @@
 }
 
 .searchTable.ant-table-wrapper .ant-table-thead > tr > th {
-  padding: 10px 12px;
+  padding: 6px 16px 4px 16px;
   color: var(--font-color-primary);
   background: none;
   border-bottom: 1px solid #edf1f4;
@@ -42,7 +42,9 @@
 .searchTable
   .ant-table-thead
   > tr
-  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not(
+    [colspan]
+  )::before {
   display: none;
 }
 

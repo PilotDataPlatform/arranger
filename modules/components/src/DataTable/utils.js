@@ -40,7 +40,7 @@ const PILOT_TABLE_COLUMNS = [
     title: (titleProps) => (
       <ColumnTitle title={<FileOutlined />} field="type" titleProps={titleProps} />
     ),
-    width: '4%',
+    width: '5%',
     order: 1,
   },
   {
@@ -73,7 +73,7 @@ const PILOT_TABLE_COLUMNS = [
     width: '10%',
     order: 5,
   },
-  { field: 'zone', title: 'Destination', width: '20%', order: 6 },
+  { field: 'zone', title: 'Destination', width: '19%', order: 6 },
 ];
 
 const normalizeSearchTableColumns = ({
