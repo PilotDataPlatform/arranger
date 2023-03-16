@@ -62,7 +62,7 @@
 }
 
 .column-title__container .column-title__icon--active {
-  color: #1677ff;
+  color: var(--primary-color-light-1);
 }
 
 /* Pagination */
@@ -92,10 +92,18 @@
 }
 
 .searchTable .ant-table-pagination .ant-pagination-item-active > a {
-  color: #1677ff;
+  color: var(--primary-color-light-1);
 }
 
 .searchTable .ant-table-pagination .ant-pagination-disabled :where(.anticon-left, .anticon-right) {
   color: #a5b0b6;
   opacity: 0.6;
+}
+
+.searchTable .ant-table-pagination .ant-pagination-item-link .ant-pagination-item-link-icon {
+  color: var(--primary-color-light-1);
+}
+
+.searchTable .ant-table-pagination .ant-pagination-options-size-changer .ant-select-selector {
+  border-color: var(--primary-color-light-1) !important;
 }
