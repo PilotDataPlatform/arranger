@@ -15,6 +15,11 @@ class DataTableWithToolbar extends React.Component {
     let page = this.props.page;
     let sorted = props.config.defaultSorted || [];
     let selectedTableRows = [];
+    const fetchDataParams = {
+      config: { ...this.props.config, sort: sorted },
+      sqon: this.props.sqon,
+      queryName: 'table',
+    };
 
     this.state = {
       defaultPageSize: pageSize,
@@ -24,6 +29,7 @@ class DataTableWithToolbar extends React.Component {
       sorted,
       selectedTableRows,
       searchResults: { data: [], total: 0 },
+      fetchDataParams,
     };
   }
 
@@ -31,6 +37,24 @@ class DataTableWithToolbar extends React.Component {
     // sets page to 1 when sort / facted search changes
     if (!isEqual(nextProps.sqon, this.props.sqon)) {
       this.setState({ page: this.state.defaultPage });
+    }
+  }
+
+  // searchTable depends on this.state.fetchDataParams and sets this.state.searchResults, will cause infinite render without this method
+  componentDidUpdate(prevProps, prevState) {
+    const currentFetchParams = {
+      config: { ...this.props.config, sort: this.state.sorted },
+      sqon: this.props.sqon,
+      queryName: 'table',
+    };
+    const prevFetchParams = {
+      config: { ...prevProps.config, sort: prevState.sorted },
+      sqon: prevProps.sqon,
+      queryName: 'table',
+    };
+
+    if (!isEqual(currentFetchParams, prevFetchParams)) {
+      this.setState({ fetchDataParams: currentFetchParams });
     }
   }
 
@@ -113,27 +137,26 @@ class DataTableWithToolbar extends React.Component {
           columns={config.columns}
           projectCode={projectCode}
           fetchData={fetchData}
-          fetchDataParams={{ config, sqon, queryName: 'table' }}
+          fetchDataParams={this.state.fetchDataParams}
           searchResults={searchResults}
           setTableData={(searchResults) => this.setState({ searchResults })}
           defaultPageSize={defaultPageSize}
           pageSize={pageSize}
           onPaginationChange={(pageSize) => {
             onPaginationChange(pageSize);
-            this.setState((prevState) => ({ ...prevState, pageSize }));
+            this.setState({ pageSize });
           }}
           page={page}
           onPageChange={(page) => {
-            this.setState((prevState) => ({ ...prevState, page }));
+            this.setState({ page });
             onPageChange(page);
           }}
           defaultSorted={config.defaultSorted}
           onSortedChange={(sorted) => {
-            this.setState((prevState) => ({
-              ...prevState,
+            this.setState({
               sorted,
               pageSize: this.state.defaultPageSize,
-            }));
+            });
             onSortedChange(sorted);
           }}
           selectedTableRows={selectedTableRows}
