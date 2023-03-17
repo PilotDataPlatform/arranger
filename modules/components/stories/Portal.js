@@ -2,7 +2,14 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { injectGlobal } from 'emotion';
 
-import { Arranger, GetProjects, Aggregations, CurrentSQON, Table } from '../src/Arranger';
+import {
+  Arranger,
+  GetProjects,
+  Aggregations,
+  ArrangerHeader,
+  CurrentSQON,
+  Table,
+} from '../src/Arranger';
 import State from '../src/State';
 import { StyleProvider, AVAILABLE_THEMES } from '../src/ThemeSwitcher';
 import {
@@ -88,27 +95,30 @@ const ChooseProject = ({ index, projectId, update, projects }) => {
 
 const Portal = ({ style, ...props }) => {
   return (
-    <div style={{ display: 'flex', ...style }}>
-      <Aggregations
-        componentProps={{
-          getTermAggProps: () => ({
-            maxTerms: 3,
-          }),
-        }}
-        {...props}
-      />
-      <div
-        css={`
-          position: relative;
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-        `}
-      >
-        <CurrentSQON {...props} />
-        <Table {...props} />
+    <>
+      <ArrangerHeader />
+      <div style={{ display: 'flex', ...style }}>
+        <Aggregations
+          componentProps={{
+            getTermAggProps: () => ({
+              maxTerms: 3,
+            }),
+          }}
+          {...props}
+        />
+        <div
+          css={`
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+          `}
+        >
+          <CurrentSQON {...props} />
+          <Table {...props} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

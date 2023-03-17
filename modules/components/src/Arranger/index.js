@@ -1,6 +1,7 @@
 import TextHighlight from '../TextHighlight';
 
 export { default as Arranger } from './Arranger';
+export { default as ArrangerHeader } from './ArrangerHeader';
 export { default as GetProjects } from './GetProjects';
 export {
   default as Aggregations,

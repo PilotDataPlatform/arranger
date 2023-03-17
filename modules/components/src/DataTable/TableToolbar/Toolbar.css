@@ -1,7 +1,7 @@
 @import '../../../public/themeStyles/constants.css';
 
 .tableToolbar {
-  padding: 4px 16px 2px 16px;
+  padding: 4px 16px 2px 10px;
   background: #fff;
   display: flex;
   flex: none;
