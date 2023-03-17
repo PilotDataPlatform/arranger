@@ -27,22 +27,26 @@ export const AggregationsListDisplay = ({
   },
   getCustomItems = ({ aggs }) => [], // Array<{index: number, component: Component | Function}>
   customFacets = [],
+  removeAggs = ['zone'],
 }) => {
+  aggs = aggs.filter((agg) => !removeAggs.find((removeAgg) => removeAgg === agg.field));
   const aggComponentInstances =
     data &&
     aggs
-      .map((agg) => ({
-        ...agg,
-        ...data[graphqlField].aggregations[agg.field],
-        ...data[graphqlField].extended.find((x) => x.field.replace(/\./g, '__') === agg.field),
-        onValueChange: ({ sqon, value }) => {
-          onValueChange(value);
-          setSQON(sqon);
-        },
-        key: agg.field,
-        sqon,
-        containerRef,
-      }))
+      .map((agg) => {
+        return {
+          ...agg,
+          ...data[graphqlField].aggregations[agg.field],
+          ...data[graphqlField].extended.find((x) => x.field.replace(/\./g, '__') === agg.field),
+          onValueChange: ({ sqon, value }) => {
+            onValueChange(value);
+            setSQON(sqon);
+          },
+          key: agg.field,
+          sqon,
+          containerRef,
+        };
+      })
       .map((agg) => {
         const customContent =
           customFacets.find((x) => x.content.field === agg.field)?.content || {};
@@ -75,6 +79,7 @@ export const AggregationsList = ({
   onValueChange = () => {},
   setSQON,
   sqon,
+  setAggregations,
   projectId,
   projectCode,
   graphqlField,
@@ -98,6 +103,7 @@ export const AggregationsList = ({
     index={graphqlField}
     sqon={sqon}
     aggs={aggs}
+    setAggregations={setAggregations}
     render={({ data }) =>
       AggregationsListDisplay({
         data,
@@ -133,6 +139,7 @@ const Aggregations = ({
   onValueChange = () => {},
   setSQON,
   sqon,
+  setAggregations,
   projectId,
   projectCode,
   graphqlField,
@@ -163,6 +170,7 @@ const Aggregations = ({
               <AggregationsList
                 onValueChange={onValueChange}
                 setSQON={setSQON}
+                setAggregations={setAggregations}
                 style={style}
                 Wrapper={Wrapper}
                 containerRef={containerRef}

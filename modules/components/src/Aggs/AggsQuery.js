@@ -11,6 +11,7 @@ export default ({ index = '', aggs = [], sqon = null, api = defaultApi, ...props
     <Query
       renderError
       name={`${capitalize(index)}AggregationsQuery`}
+      index={index}
       variables={{
         fields: aggs.map((x) => x.field.replace(/__/g, '.')),
         sqon,

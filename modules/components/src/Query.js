@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isEqual, debounce } from 'lodash';
+import { isEqual, debounce, conforms } from 'lodash';
 import path from 'path';
 import defaultApi from './utils/api';
 import { defaultProps } from 'recompose';
@@ -39,6 +39,8 @@ class Query extends Component {
         error: errors ? { errors } : null,
         loading: false,
       });
+
+      this.props.setAggregations(data[this.props.index].aggregations);
     } catch (error) {
       this.setState({ data: null, error: error.message, loading: false });
     }

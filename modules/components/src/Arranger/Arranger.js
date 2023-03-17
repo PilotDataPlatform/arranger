@@ -12,6 +12,7 @@ class Arranger extends React.Component {
     this.state = {
       selectedTableRows: [],
       sqon: null,
+      aggregations: [],
     };
   }
 
@@ -52,10 +53,6 @@ class Arranger extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log(this.selectedTableRows);
-  }
-
   render() {
     const {
       index,
@@ -67,12 +64,13 @@ class Arranger extends React.Component {
       component,
       api = defaultApi,
     } = this.props;
-    const { sqon, selectedTableRows } = this.state;
+    const { sqon, selectedTableRows, aggregations } = this.state;
 
     const childProps = {
       api,
       sqon,
       selectedTableRows,
+      aggregations,
       projectId,
       projectCode,
       index,
@@ -80,6 +78,7 @@ class Arranger extends React.Component {
       fetchData: this.fetchData,
       setSQON: (sqon) => this.setState({ sqon }),
       setSelectedTableRows: (selectedTableRows) => this.setState({ selectedTableRows }),
+      setAggregations: (aggregations) => this.setState({ aggregations }),
     };
 
     if (component) {

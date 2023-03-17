@@ -29,16 +29,33 @@ const ZoneTab = ({ handleClick, currentZone, zoneLabel, zoneTotal }) => {
   );
 };
 
-const ArrangerHeader = ({ title = 'Search', tooltipTitle = 'test tooltip' }) => {
-  const [currentZone, setCurrentZone] = useState('greenroom'); // TO BE DERIVED FROM PROPS
+const ArrangerHeader = ({
+  title = 'Search',
+  tooltipTitle = 'test tooltip',
+  setSQON,
+  sqon,
+  aggregations,
+}) => {
+  const [currentZone, setCurrentZone] = useState('');
+  const [zoneData, setZoneData] = useState([]);
 
   const handleZoneChange = (value) => {
+    const zoneSqon = { op: 'in', content: { field: 'zone', value: [value] } };
+    // zone is a mutually exclusive filter
+    const sqonWithoutZone =
+      sqon?.content.filter((sqonObj) => sqonObj.content.field !== 'zone') ?? [];
+    const newSqon = sqonWithoutZone.length
+      ? { ...sqonWithoutZone, content: [...sqonWithoutZone.content, zoneSqon] }
+      : { op: 'and', content: [zoneSqon] };
+
     setCurrentZone(value);
+    setSQON(newSqon);
   };
 
   useEffect(() => {
-    // change currentZone when props updates
-  }, []);
+    const zoneData = aggregations.zone?.buckets;
+    setZoneData(zoneData);
+  }, [aggregations]);
 
   return (
     <div className="arranger-header">
@@ -49,18 +66,15 @@ const ArrangerHeader = ({ title = 'Search', tooltipTitle = 'test tooltip' }) => 
         </Tooltip>
       </p>
       <ul className="arranger-header__tabs">
-        <ZoneTab
-          handleClick={handleZoneChange}
-          currentZone={currentZone}
-          zoneLabel="greenroom"
-          zoneTotal={213}
-        />
-        <ZoneTab
-          handleClick={handleZoneChange}
-          currentZone={currentZone}
-          zoneLabel="core"
-          zoneTotal={123}
-        />
+        {zoneData?.map((data) => (
+          <ZoneTab
+            key={data.key}
+            handleClick={handleZoneChange}
+            currentZone={currentZone}
+            zoneLabel={data.key}
+            zoneTotal={data.doc_count}
+          />
+        ))}
       </ul>
     </div>
   );
