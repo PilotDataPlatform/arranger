@@ -114,7 +114,7 @@ const Portal = ({ style, ...props }) => {
             flex-direction: column;
           `}
         >
-          <CurrentSQON {...props} />
+          {/* <CurrentSQON {...props} /> */}
           <Table {...props} />
         </div>
       </div>
