@@ -9,12 +9,10 @@ const ZoneTab = ({ handleClick, currentZone, zoneLabel, zoneTotal }) => {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    if (currentZone) {
-      if (currentZone === zoneLabel) {
-        setIsActive(true);
-      } else {
-        setIsActive(false);
-      }
+    if (currentZone === zoneLabel) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
     }
   }, [currentZone]);
 
@@ -40,21 +38,43 @@ const ArrangerHeader = ({
   const [zoneData, setZoneData] = useState([]);
 
   const handleZoneChange = (value) => {
-    const zoneSqon = { op: 'in', content: { field: 'zone', value: [value] } };
-    // zone is a mutually exclusive filter
-    const sqonWithoutZone =
-      sqon?.content.filter((sqonObj) => sqonObj.content.field !== 'zone') ?? [];
-    const newSqon = sqonWithoutZone.length
-      ? { ...sqonWithoutZone, content: [...sqonWithoutZone.content, zoneSqon] }
-      : { op: 'and', content: [zoneSqon] };
+    let newSqon;
+    const sqonContent = sqon?.content.filter((sqonObj) => sqonObj.content.field !== 'zone');
 
-    setCurrentZone(value);
+    if (value === currentZone) {
+      if (zoneData.length === 1 && zoneData[0].key === value) {
+        return;
+      }
+      setCurrentZone('');
+      newSqon = sqonContent ? { ...sqon, content: [...sqonContent] } : null;
+    } else {
+      const zoneSqon = { op: 'in', content: { field: 'zone', value: [value] } };
+      // zone is a mutually exclusive filter
+      newSqon = sqonContent
+        ? { ...sqon, content: [...sqonContent, zoneSqon] }
+        : { op: 'and', content: [zoneSqon] };
+
+      setCurrentZone(value);
+    }
+
     setSQON(newSqon);
   };
 
   useEffect(() => {
-    const zoneData = aggregations.zone?.buckets;
+    const zoneData = aggregations.zone?.buckets
+      .map((zone, index) => {
+        if (zone.key === 'greenroom') {
+          return { ...zone, order: 0 };
+        }
+
+        return { ...zone, order: index + 1 };
+      })
+      .sort((a, b) => (a.order < b.order ? -1 : 1));
     setZoneData(zoneData);
+
+    if (zoneData?.length === 1) {
+      setCurrentZone(zoneData[0].key);
+    }
   }, [aggregations]);
 
   return (
