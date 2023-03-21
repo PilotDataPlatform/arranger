@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DataTable, { ColumnsState } from '../DataTable';
-import Spinner from 'react-spinkit';
+import { Spin } from 'antd';
 
 const Table = ({
   onFilterChange = () => {},
@@ -31,7 +31,7 @@ const Table = ({
       api={api}
       render={(columnState) => {
         return columnState.loading ? (
-          <Spinner fadeIn="full" name="circle" />
+          <Spin style={{ marginTop: '15%' }} />
         ) : (
           <DataTable
             {...{ ...props, api, showFilterInput, customHeaderContent }}

@@ -85,17 +85,19 @@ const ArrangerHeader = ({
           <QuestionCircleOutlined />
         </Tooltip>
       </p>
-      <ul className="arranger-header__tabs">
-        {zoneData?.map((data) => (
-          <ZoneTab
-            key={data.key}
-            handleClick={handleZoneChange}
-            currentZone={currentZone}
-            zoneLabel={data.key}
-            zoneTotal={data.doc_count}
-          />
-        ))}
-      </ul>
+      {zoneData?.length && (
+        <ul className="arranger-header__tabs">
+          {zoneData.map((data) => (
+            <ZoneTab
+              key={data.key}
+              handleClick={handleZoneChange}
+              currentZone={currentZone}
+              zoneLabel={data.key}
+              zoneTotal={data.doc_count}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
