@@ -162,6 +162,10 @@
   border-radius: 10px;
   border: 1px solid #cacbcf;
 }
+.aggregation-card .react-datepicker-wrapper input:focus {
+  border: var(--primary-color-light-1) solid 1px;
+  outline: none;
+}
 .facetContainer .react-datepicker-wrapper input {
   width: 130px;
 }

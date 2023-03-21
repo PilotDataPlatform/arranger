@@ -28,3 +28,7 @@
   padding: 2px 12px 0 12px;
   border-radius: 0;
 }
+
+.aggregation-bar .ant-btn:hover {
+  background-color: transparent;
+}

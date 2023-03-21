@@ -39,7 +39,9 @@
   max-height: 26px;
   align-self: center;
 }
-.tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper:focus {
+.tableToolbar .tableToolbar__filter .ant-input-affix-wrapper:focus,
+.tableToolbar .tableToolbar__filter .ant-input-affix-wrapper-focused,
+.tableToolbar .tableToolbar__filter .ant-input-affix-wrapper:hover {
   border-color: var(--primary-color-light-1);
 }
 
