@@ -24,7 +24,11 @@ export default ({
   ) : (
     <Component initialState={{ isCollapsed: false }}>
       {({ setState, state: { isCollapsed } }) => (
-        <div className="aggregation-card" ref={componentRef} {...dataFields}>
+        <div
+          className={`aggregation-card ${isCollapsed ? 'collapsed' : ''}`}
+          ref={componentRef}
+          {...dataFields}
+        >
           <div
             ref={headerRef}
             className={`header ${css`

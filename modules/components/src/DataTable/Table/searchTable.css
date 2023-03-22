@@ -1,5 +1,10 @@
 @import '../../../public/themeStyles/constants.css';
 
+.searchTable {
+  flex-grow: 1;
+  display: flex;
+}
+
 .searchTable.ant-table-wrapper .ant-table .ant-table-tbody {
   color: var(--font-color-primary);
 }

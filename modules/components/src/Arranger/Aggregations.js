@@ -1,5 +1,6 @@
 import React from 'react';
 import { sortBy } from 'lodash';
+import { Spin } from 'antd';
 
 import AggregrationBar from './AggregationBar';
 import { AggsState, AggsQuery } from '../Aggs';
@@ -157,7 +158,7 @@ const Aggregations = ({
   customFacets = [],
 }) => {
   return (
-    <Wrapper style={style} className={className}>
+    <Wrapper style={{ ...style, minWidth: '280px' }} className={className}>
       <AggsState
         api={api}
         projectId={projectId}
@@ -167,23 +168,27 @@ const Aggregations = ({
           return (
             <>
               <AggregrationBar aggs={aggs} onButtonClick={() => setSQON(null)} />
-              <AggregationsList
-                onValueChange={onValueChange}
-                setSQON={setSQON}
-                setAggregations={setAggregations}
-                style={style}
-                Wrapper={Wrapper}
-                containerRef={containerRef}
-                componentProps={componentProps}
-                api={api}
-                debounceTime={300}
-                projectId={projectId}
-                projectCode={projectCode}
-                graphqlField={graphqlField}
-                sqon={sqon}
-                aggs={aggs}
-                customFacets={customFacets}
-              />
+              {aggsState.loading ? (
+                <Spin style={{ display: 'block', margin: '35% auto 0 auto' }} />
+              ) : (
+                <AggregationsList
+                  onValueChange={onValueChange}
+                  setSQON={setSQON}
+                  setAggregations={setAggregations}
+                  style={style}
+                  Wrapper={Wrapper}
+                  containerRef={containerRef}
+                  componentProps={componentProps}
+                  api={api}
+                  debounceTime={300}
+                  projectId={projectId}
+                  projectCode={projectCode}
+                  graphqlField={graphqlField}
+                  sqon={sqon}
+                  aggs={aggs}
+                  customFacets={customFacets}
+                />
+              )}
             </>
           );
         }}

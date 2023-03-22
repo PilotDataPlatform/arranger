@@ -41,7 +41,7 @@ const getMappingTypeOfField = ({ mapping = {}, field = '' }) => {
 };
 
 export default class extends Component {
-  state = { aggs: [], temp: [], mapping: {} };
+  state = { aggs: [], temp: [], mapping: {}, loading: false };
 
   async componentDidMount() {
     this.fetchAggsState(this.props);
@@ -54,6 +54,7 @@ export default class extends Component {
   }
 
   fetchAggsState = debounce(async ({ graphqlField }) => {
+    this.setState({ loading: true });
     const { api = defaultApi } = this.props;
     try {
       let { data } = await api({
@@ -81,6 +82,7 @@ export default class extends Component {
     } catch (e) {
       // this.setState({ })
     }
+    this.setState({ loading: false });
   }, 300);
 
   save = debounce(async (state) => {
@@ -146,6 +148,7 @@ export default class extends Component {
         };
       }),
       saveOrder: this.saveOrder,
+      loading: this.state.loading,
     });
   }
 }

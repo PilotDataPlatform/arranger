@@ -6,16 +6,20 @@
 
 .aggregation-card {
   padding: 10px 20px;
-  margin-top: 5px;
-  margin-bottom: 5px;
   background: white;
   border-style: solid;
   border-color: var(--background-color-1);
   border-width: 1px 0 0 0;
   font-size: 12px;
 }
+.aggregations .aggregation-card:last-child {
+  border-bottom-left-radius: 6px;
+}
 .aggregation-card[data-type='keyword'] {
   min-height: 74px;
+}
+.aggregation-card[data-type='keyword'].collapsed {
+  min-height: unset;
 }
 .aggregations .aggregation-card:nth-child(2) {
   margin-top: 0;
@@ -26,11 +30,13 @@
 }
 .aggregation-card .title-wrapper {
   padding-top: 10px;
-  padding-bottom: 6px;
 }
 .aggregation-card .title-wrapper.collapsed {
   padding-bottom: 0px;
   border-bottom: none;
+}
+.aggregation-card[data-type='date'] .title-wrapper {
+  padding-bottom: 6px;
 }
 .aggregation-card .filter {
   position: absolute;

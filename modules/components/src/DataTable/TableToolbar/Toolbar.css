@@ -36,7 +36,8 @@
 .tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper {
   padding: 1px 8px 0.5px 8px;
   border-radius: 6px;
-  max-height: 26px;
+  height: 28px;
+  min-width: 235px;
   align-self: center;
 }
 .tableToolbar .tableToolbar__filter .ant-input-affix-wrapper:focus,

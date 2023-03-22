@@ -85,7 +85,7 @@ const ArrangerHeader = ({
           <QuestionCircleOutlined />
         </Tooltip>
       </p>
-      {zoneData?.length && (
+      {zoneData?.length ? (
         <ul className="arranger-header__tabs">
           {zoneData.map((data) => (
             <ZoneTab
@@ -97,7 +97,7 @@ const ArrangerHeader = ({
             />
           ))}
         </ul>
-      )}
+      ) : null}
     </div>
   );
 };

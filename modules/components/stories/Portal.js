@@ -106,17 +106,8 @@ const Portal = ({ style, ...props }) => {
           }}
           {...props}
         />
-        <div
-          css={`
-            position: relative;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-          `}
-        >
-          {/* <CurrentSQON {...props} /> */}
-          <Table {...props} />
-        </div>
+        {/* <CurrentSQON {...props} /> */}
+        <Table {...props} />
       </div>
     </>
   );

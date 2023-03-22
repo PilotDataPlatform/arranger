@@ -25,60 +25,69 @@ const Table = ({
   ...props
 }) => {
   return (
-    <ColumnsState
-      projectId={projectId}
-      graphqlField={graphqlField}
-      api={api}
-      render={(columnState) => {
-        return columnState.loading ? (
-          <Spin style={{ marginTop: '15%' }} />
-        ) : (
-          <DataTable
-            {...{ ...props, api, showFilterInput, customHeaderContent }}
-            InputComponent={InputComponent}
-            projectId={projectId}
-            projectCode={projectCode}
-            sqon={sqon}
-            config={{
-              ...columnState.state,
-              // generates a handy dictionary with all the available columns
-              allColumns: columnState.state.columns.reduce(
-                (columnsDict, column) => ({
-                  ...columnsDict,
-                  [column.field]: column,
-                }),
-                {},
-              ),
-              type: graphqlField,
-            }}
-            fetchData={fetchData(projectId)}
-            onColumnsChange={columnState.toggle}
-            onMultipleColumnsChange={columnState.toggleMultiple}
-            onFilterChange={({ generateNextSQON, value }) => {
-              onFilterChange(value);
-              setSQON(
-                generateNextSQON({
-                  sqon,
-                  fields: columnState.state.columns
-                    .filter((x) => fieldTypesForFilter.includes(x.extendedType) && x.show)
-                    .map((x) => x.field),
-                }),
-              );
-            }}
-            page={page}
-            pageSize={pageSize}
-            onPaginationChange={(pageSize) => {
-              onPaginationChange(pageSize);
-            }}
-            onPageChange={(currentPage) => {
-              onPageChange(currentPage);
-            }}
-            onSortedChange={(sorted) => onSortedChange(sorted)}
-            onSelectedTableRows={(selectedTableRows) => onSelectedTableRows(selectedTableRows)}
-          />
-        );
-      }}
-    />
+    <div
+      css={`
+        position: relative;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-bottom-right-radius: 6px;
+      `}
+    >
+      <ColumnsState
+        projectId={projectId}
+        graphqlField={graphqlField}
+        api={api}
+        render={(columnState) => {
+          return columnState.loading ? null : (
+            <DataTable
+              {...{ ...props, api, showFilterInput, customHeaderContent }}
+              InputComponent={InputComponent}
+              projectId={projectId}
+              projectCode={projectCode}
+              sqon={sqon}
+              config={{
+                ...columnState.state,
+                // generates a handy dictionary with all the available columns
+                allColumns: columnState.state.columns.reduce(
+                  (columnsDict, column) => ({
+                    ...columnsDict,
+                    [column.field]: column,
+                  }),
+                  {},
+                ),
+                type: graphqlField,
+              }}
+              fetchData={fetchData(projectId)}
+              onColumnsChange={columnState.toggle}
+              onMultipleColumnsChange={columnState.toggleMultiple}
+              onFilterChange={({ generateNextSQON, value }) => {
+                onFilterChange(value);
+                setSQON(
+                  generateNextSQON({
+                    sqon,
+                    fields: columnState.state.columns
+                      .filter((x) => fieldTypesForFilter.includes(x.extendedType) && x.show)
+                      .map((x) => x.field),
+                  }),
+                );
+              }}
+              page={page}
+              pageSize={pageSize}
+              onPaginationChange={(pageSize) => {
+                onPaginationChange(pageSize);
+              }}
+              onPageChange={(currentPage) => {
+                onPageChange(currentPage);
+              }}
+              onSortedChange={(sorted) => onSortedChange(sorted)}
+              onSelectedTableRows={(selectedTableRows) => onSelectedTableRows(selectedTableRows)}
+            />
+          );
+        }}
+      />
+    </div>
   );
 };
 
