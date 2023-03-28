@@ -70,6 +70,7 @@ export default ({
         setResultTotal(result.total);
       } catch (e) {
         console.log(e);
+        handleFetchDataError(e);
       }
       setLoading(false);
     })();

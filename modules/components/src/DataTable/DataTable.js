@@ -92,6 +92,7 @@ class DataTableWithToolbar extends React.Component {
       sqon,
       toolbarStyle,
       transformParams,
+      handleFetchDataError,
     } = this.props;
     const config = { ...this.props.config, sort: this.state.sorted };
     const { defaultPageSize, pageSize, page, searchResults } = this.state;
@@ -164,6 +165,7 @@ class DataTableWithToolbar extends React.Component {
             setSelectedTableRows(selectedTableRows);
             onSelectedTableRows(selectedTableRows);
           }}
+          handleFetchDataError={handleFetchDataError}
         />
       </>
     );

@@ -8,6 +8,7 @@ const Table = ({
   onPageChange = () => {},
   onSortedChange = () => {},
   onSelectedTableRows = () => {},
+  handleFetchDataError = () => {},
   projectId,
   projectCode,
   graphqlField,
@@ -32,6 +33,7 @@ const Table = ({
         flex-direction: column;
         background-color: white;
         border-bottom-right-radius: 6px;
+        border-bottom: 1px solid #f0f0f0;
       `}
     >
       <ColumnsState
@@ -82,6 +84,7 @@ const Table = ({
               }}
               onSortedChange={(sorted) => onSortedChange(sorted)}
               onSelectedTableRows={(selectedTableRows) => onSelectedTableRows(selectedTableRows)}
+              handleFetchDataError={handleFetchDataError}
             />
           );
         }}

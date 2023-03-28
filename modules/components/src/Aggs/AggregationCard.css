@@ -14,6 +14,7 @@
 }
 .aggregations .aggregation-card:last-child {
   border-bottom-left-radius: 6px;
+  border-width: 1px 0 1px 0;
 }
 .aggregation-card[data-type='keyword'] {
   min-height: 74px;
