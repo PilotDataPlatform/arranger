@@ -158,7 +158,10 @@ const Aggregations = ({
   customFacets = [],
 }) => {
   return (
-    <Wrapper style={{ ...style, minWidth: '280px' }} className={className}>
+    <Wrapper
+      style={{ ...style, minWidth: '280px', backgroundColor: 'white' }}
+      className={className}
+    >
       <AggsState
         api={api}
         projectId={projectId}

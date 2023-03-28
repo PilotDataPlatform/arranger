@@ -1,7 +1,6 @@
 import React from 'react';
 
 import DataTable, { ColumnsState } from '../DataTable';
-import { Spin } from 'antd';
 
 const Table = ({
   onFilterChange = () => {},

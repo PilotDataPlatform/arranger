@@ -7,6 +7,7 @@
   background-color: white;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  min-height: 43px;
 }
 
 .arranger-header__title {
