@@ -22,6 +22,7 @@ export default ({
   onSortedChange,
   selectedTableRows,
   onSelectedTableRows,
+  onFetchTableDataError,
 }) => {
   const [loading, setLoading] = useState(false);
   const [resultTotal, setResultTotal] = useState(0);
@@ -69,8 +70,7 @@ export default ({
         setTableData(result);
         setResultTotal(result.total);
       } catch (e) {
-        console.log(e);
-        handleFetchDataError(e);
+        onFetchTableDataError(e);
       }
       setLoading(false);
     })();

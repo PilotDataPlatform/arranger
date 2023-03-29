@@ -92,8 +92,8 @@ export default class extends Component {
         config,
       });
     } catch (e) {
-      console.warn(e);
-      // this.setState({ })
+      // console.warn(e);
+      this.props.onFetchColumnsError(e);
     }
   }, 300);
 

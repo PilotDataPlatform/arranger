@@ -8,7 +8,8 @@ const Table = ({
   onPageChange = () => {},
   onSortedChange = () => {},
   onSelectedTableRows = () => {},
-  handleFetchDataError = () => {},
+  onFetchTableDataError = () => {},
+  onFetchColumnsError = () => {},
   projectId,
   projectCode,
   graphqlField,
@@ -33,13 +34,13 @@ const Table = ({
         flex-direction: column;
         background-color: white;
         border-bottom-right-radius: 6px;
-        border-bottom: 1px solid #f0f0f0;
       `}
     >
       <ColumnsState
         projectId={projectId}
         graphqlField={graphqlField}
         api={api}
+        onFetchColumnsError={onFetchColumnsError}
         render={(columnState) => {
           return columnState.loading ? null : (
             <DataTable
@@ -84,7 +85,7 @@ const Table = ({
               }}
               onSortedChange={(sorted) => onSortedChange(sorted)}
               onSelectedTableRows={(selectedTableRows) => onSelectedTableRows(selectedTableRows)}
-              handleFetchDataError={handleFetchDataError}
+              onFetchTableDataError={onFetchTableDataError}
             />
           );
         }}

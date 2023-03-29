@@ -1,6 +1,7 @@
 import { ARRANGER_API } from './config';
 import urlJoin from 'url-join';
 import { addDownloadHttpHeaders } from './download';
+import { message } from 'antd';
 
 let alwaysSendHeaders = { 'Content-Type': 'application/json' };
 
@@ -24,6 +25,20 @@ const defaultApi = ({ endpoint = '', body, headers, method }) => {
     headers: { ...alwaysSendHeaders, ...headers, ...Token },
     body: JSON.stringify(body),
   }).then((r) => r.json());
+  // .catch((e) => {
+  //   const errorMsg =
+  //     'Something went wrong while attempting to retrieve data from arranger. Please try again later';
+
+  //   const existingMessage = document.querySelectorAll(
+  //     '.ant-message-notice .ant-message-error span',
+  //   );
+
+  //   console.log(existingMessage);
+
+  //   if (existingMessage?.innerText !== errorMsg) {
+  //     message.error(errorMsg, 3.5);
+  //   }
+  // });
 };
 
 export const graphql = (body) => api({ endpoint: 'graphql', body });

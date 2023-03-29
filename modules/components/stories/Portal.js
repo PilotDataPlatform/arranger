@@ -20,6 +20,7 @@ import {
   deleteValue,
   setValue,
 } from '../src/utils/config';
+import { message } from 'antd';
 
 injectGlobal`
   html,
@@ -94,6 +95,14 @@ const ChooseProject = ({ index, projectId, update, projects }) => {
 };
 
 const Portal = ({ style, ...props }) => {
+  const messageErrorHandler = (type) => {
+    return () => {
+      message.error(
+        `Something went wrong while retrieving ${type} data from arranger. Please try again later`,
+      );
+    };
+  };
+
   return (
     <>
       <ArrangerHeader setSQON={props.setSQON} sqon={props.sqon} aggregations={props.aggregations} />

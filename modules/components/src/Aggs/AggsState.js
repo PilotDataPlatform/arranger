@@ -80,7 +80,7 @@ export default class extends Component {
         mapping: data[graphqlField].mapping,
       });
     } catch (e) {
-      // this.setState({ })
+      this.props.onFetchAggsError(e);
     }
     this.setState({ loading: false });
   }, 300);

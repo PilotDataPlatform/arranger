@@ -138,6 +138,7 @@ export const AggregationsList = ({
  */
 const Aggregations = ({
   onValueChange = () => {},
+  onFetchAggsError = () => {},
   setSQON,
   sqon,
   setAggregations,
@@ -159,13 +160,19 @@ const Aggregations = ({
 }) => {
   return (
     <Wrapper
-      style={{ ...style, minWidth: '280px', backgroundColor: 'white' }}
+      style={{
+        ...style,
+        minWidth: '280px',
+        backgroundColor: 'white',
+        borderBottomLeftRadius: '6px',
+      }}
       className={className}
     >
       <AggsState
         api={api}
         projectId={projectId}
         graphqlField={graphqlField}
+        onFetchAggsError={onFetchAggsError}
         render={(aggsState) => {
           const aggs = aggsState.aggs.filter((x) => x.show);
           return (
