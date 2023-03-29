@@ -126,6 +126,7 @@ class DataTableWithToolbar extends React.Component {
           onMultipleColumnsChange={onMultipleColumnsChange}
           page={page}
           pageSize={pageSize}
+          projectCode={projectCode}
           selectedTableRows={selectedTableRows}
           showFilterInput={showFilterInput}
           sqon={sqon}

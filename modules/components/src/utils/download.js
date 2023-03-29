@@ -39,21 +39,34 @@ function createIFrame({ method, url, fields }) {
   return iFrame;
 }
 
-function download({ url, params, method = 'GET', body = {} }) {
-  const downloadKey = uuid();
+function download({ url, headers = {}, params, method = 'GET' }) {
+  const token = {
+    Authorization: `Bearer ${
+      process.env.STORYBOOK_ENV === 'dev' ? process.env.STORYBOOK_TOKEN : getCookie('AUTH')
+    }`,
+  };
 
-  const resolveOnDownload = () => Promise.resolve();
-
-  createIFrame({
+  return fetch(url, {
     method,
-    url,
-    fields: Object.entries({ params, httpHeaders, ...body, downloadKey })
-      .map(([key, value]) => toHtml(key, value))
-      .join('\n'),
-  });
-
-  return resolveOnDownload;
+    headers: { ...headers, ...token },
+    body: encodeURIComponent(JSON.stringify(params)),
+  }).then((r) => r.json());
 }
+// function download({ url, projectCode, params, method = 'GET', body = {} }) {
+//   const downloadKey = uuid();
+
+//   const resolveOnDownload = () => Promise.resolve();
+
+//   createIFrame({
+//     method,
+//     url,
+//     fields: Object.entries({ params, httpHeaders, ...body, downloadKey })
+//       .map(([key, value]) => toHtml(key, value))
+//       .join('\n'),
+//   });
+
+//   return resolveOnDownload;
+// }
 
 export const addDownloadHttpHeaders = (headers) => {
   httpHeaders = { ...httpHeaders, ...headers };

@@ -1,18 +1,20 @@
 import download from '../../utils/download';
 
-const useCustomisers = (extendedColumn) => ([customiserLabel, customiserValue]) =>
-  customiserValue && {
-    [customiserLabel]:
-      typeof customiserValue === 'function' ? customiserValue(extendedColumn) : customiserValue,
-  };
+const useCustomisers =
+  (extendedColumn) =>
+  ([customiserLabel, customiserValue]) =>
+    customiserValue && {
+      [customiserLabel]:
+        typeof customiserValue === 'function' ? customiserValue(extendedColumn) : customiserValue,
+    };
 
-const saveTSV = async ({ url, files = [], fileName, options = {} }) =>
-  download({
+const saveTSV = async ({ url, files = [], projectCode, identifiers, options = {} }) => {
+  return download({
     url,
     method: 'POST',
     ...options,
+    projectCode,
     params: {
-      fileName,
       files: files.map(({ allColumns, columns, exporterColumns = null, ...file }, i) => ({
         ...file,
         columns: exporterColumns // if the component gave you custom columns to show
@@ -47,9 +49,12 @@ const saveTSV = async ({ url, files = [], fileName, options = {} }) =>
             )
           : columns.filter((column) => column.show), // no custom columns, use admin's
       })),
+      project_code: projectCode,
+      identifiers,
       ...options.params,
     },
   });
+};
 
 const exporterProcessor = (exporter, allowTSVExport, exportTSVText) => {
   const exporterArray =

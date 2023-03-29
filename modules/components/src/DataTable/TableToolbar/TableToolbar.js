@@ -78,6 +78,7 @@ const TableToolbar = ({
   onMultipleColumnsChange,
   page = 0,
   pageSize = 0,
+  projectCode,
   selectedTableRows = [],
   setFilterVal,
   showFilterInput = true,
@@ -111,35 +112,129 @@ const TableToolbar = ({
   return (
     <div className="tableToolbar">
       <div className="tableToolbar__plugins">
-        {singleExporter ? (
-          <div className="buttonWrapper">
-            <Button
-              icon={<DownloadOutlined />}
-              disabled={exporter?.[0]?.requiresRowSelection && !hasSelectedRows}
-              onClick={() => {
-                (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
-                  singleExporter(
-                    transformParams({
-                      files: [
-                        {
-                          columns,
-                          fileName: exportTSVFilename || `${type}-table.tsv`,
-                          fileType: 'tsv',
-                          index: type,
-                          sqon: downloadSqon,
-                        },
-                      ],
-                      selectedTableRows,
-                      url: downloadUrl,
-                    }),
-                    download,
-                  );
+        {/* {allowTogglingColumns &&
+          (enableDropDownControls ? (
+            <MultiSelectDropDown
+              buttonAriaLabelClosed={`Open column selection menu`}
+              buttonAriaLabelOpen={`Close column selection menu`}
+              itemSelectionLegend={`Select columns to display`}
+              selectAllAriaLabel={`Select all columns`}
+              resetToDefaultAriaLabel={`Reset to default columns`}
+              itemToString={(i) => i.displayName || i.Header}
+              items={canChangeShowColumns}
+              defaultColumns={defaultColumns}
+              onChange={(item) => {
+                setFilterVal('');
+                onFilterChange({
+                  value: '',
+                  generateNextSQON: generateNextSQON(''),
+                });
+                onColumnsChange({ ...item, show: !item.show });
+              }}
+              onMultipleChange={(changes) => {
+                onMultipleColumnsChange(changes);
               }}
             >
-              {exportTSVText}
-            </Button>
+              {columnDropdownText}
+            </MultiSelectDropDown>
+          ) : (
+            <DropDown
+              aria-label={`Select columns`}
+              itemToString={(i) => i.Header}
+              items={canChangeShowColumns}
+              onChange={(item) => {
+                setFilterVal('');
+                onFilterChange({
+                  value: '',
+                  generateNextSQON: generateNextSQON(''),
+                });
+                onColumnsChange({ ...item, show: !item.show });
+              }}
+            >
+              {columnDropdownText}
+            </DropDown>
+          ))} */}
+
+        {multipleExporters ? ( // check if we're given more than one custom exporter
+          <div className="buttonWrapper">
+            <DropDown
+              aria-label={`Download options`}
+              itemToString={(i) =>
+                typeof i.exporterLabel === 'function' ? <i.exporterLabel /> : i.exporterLabel
+              }
+              hasSelectedRows={hasSelectedRows}
+              items={exporterArray}
+              onChange={({
+                exporterColumns,
+                exporterLabel,
+                exporterFileName,
+                exporterFunction,
+                exporterRequiresRowSelection,
+                exporterValueWhenEmpty: valueWhenEmpty,
+              }) =>
+                (exporterRequiresRowSelection && !hasSelectedRows) ||
+                exporterFunction?.(
+                  transformParams({
+                    files: [
+                      {
+                        allColumns,
+                        columns,
+                        exporterColumns,
+                        fileName: exporterFileName
+                          ? `${exporterFileName}${
+                              exporterFileName.toLowerCase().endsWith('.tsv') ? '' : '.tsv'
+                            }`
+                          : `${stringCleaner(exporterLabel.toLowerCase())}.tsv`,
+                        fileType: 'tsv',
+                        index: type,
+                        sqon: downloadSqon,
+                        valueWhenEmpty,
+                      },
+                    ],
+                    selectedTableRows,
+                    url: downloadUrl,
+                  }),
+                  download,
+                )
+              }
+              singleSelect={true}
+            >
+              {exporterLabel}
+            </DropDown>
           </div>
-        ) : null}
+        ) : (
+          // else, use a custom function if any is given, or use the default saveTSV if the flag is on
+          singleExporter && (
+            <div className="buttonWrapper">
+              <Button
+                icon={<DownloadOutlined />}
+                disabled={exporter?.[0]?.requiresRowSelection && !hasSelectedRows}
+                onClick={() => {
+                  (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
+                    singleExporter(
+                      transformParams({
+                        files: [
+                          {
+                            columns,
+                            fileName: exportTSVFilename || `${type}-table.tsv`,
+                            fileType: 'tsv',
+                            index: type,
+                            sqon: downloadSqon,
+                          },
+                        ],
+                        selectedTableRows,
+                        url: downloadUrl,
+                        projectCode,
+                        identifiers: selectedTableRows,
+                      }),
+                    );
+                }}
+              >
+                {exportTSVText}
+              </Button>
+            </div>
+          )
+        )}
         {customActions}
       </div>
 
