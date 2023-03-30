@@ -1,34 +1,33 @@
-import {PassThrough} from 'stream';
-import {buildQuery, esToSafeJsInt} from '@arranger/middleware';
-import {DOWNLOAD_STREAM_BUFFER_SIZE} from '../../config.js';
-import {graphql} from "graphql";
-import {arrangerAuthFilterDownload} from './authFilterDownload.js';
+import { PassThrough } from 'stream';
+import { buildQuery, esToSafeJsInt } from '@arranger/middleware';
+import { DOWNLOAD_STREAM_BUFFER_SIZE } from '../../config.js';
+import { graphql } from 'graphql';
+import { arrangerAuthFilterDownload } from './authFilterDownload.js';
 
-export function runQuery ( { project_id, esClient, query, schema, variables }) {
-    return graphql({
+export function runQuery({ project_id, esClient, query, schema, variables }) {
+  return graphql({
+    schema,
+    contextValue: {
       schema,
-      contextValue: {
-          schema,
-          es: esClient,
-          projectId: project_id
-      },
-      source: query,
-      variableValues: variables,
-  })
+      es: esClient,
+      projectId: project_id,
+    },
+    source: query,
+    variableValues: variables,
+  });
 }
 
-export async function getAllData ({
-                                      project_info,
-                                      params,
-                                      headers,
-                                      index,
-                                      columns = [],
-                                      sort = [],
-                                      sqon,
-                                      chunkSize = DOWNLOAD_STREAM_BUFFER_SIZE,
-                                      ...rest
-                                  }) {
-
+export async function getAllData({
+  project_info,
+  params,
+  headers,
+  index,
+  columns = [],
+  sort = [],
+  sqon,
+  chunkSize = DOWNLOAD_STREAM_BUFFER_SIZE,
+  ...rest
+}) {
   const stream = new PassThrough({ objectMode: true });
   const toHits = ({
     body: {
@@ -57,8 +56,8 @@ export async function getAllData ({
 
   const nestedFields = extended.filter(({ type }) => type === 'nested').map(({ field }) => field);
 
-  const es_schema = project_info.arranger_schema['schema']
-  sqon = arrangerAuthFilterDownload(params['project_code'], sqon, headers)
+  const es_schema = project_info.arranger_schema['schema'];
+  sqon = arrangerAuthFilterDownload(params, sqon, headers);
   const query = buildQuery({ nestedFields, filters: sqon });
 
   runQuery({

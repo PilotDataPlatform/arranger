@@ -7,18 +7,18 @@ const { defaults } = pkg;
 import { getAllData } from './utils/getAllData.js';
 import { dataToExportFormat } from './utils/dataToExportFormat.js';
 
-const convertDataToExportFormat = ({ project_info, params, headers, ctx, fileType }) => async (
-  args,
-) =>
-  (
-    await getAllData({
-      project_info,
-      params,
-      headers,
-      ctx,
-      ...args,
-    })
-  ).pipe(dataToExportFormat({ ...args, fileType }));
+const convertDataToExportFormat =
+  ({ project_info, params, headers, ctx, fileType }) =>
+  async (args) =>
+    (
+      await getAllData({
+        project_info,
+        params,
+        headers,
+        ctx,
+        ...args,
+      })
+    ).pipe(dataToExportFormat({ ...args, fileType }));
 
 const getFileStream = async ({
   project_info,
@@ -123,7 +123,7 @@ export function downloader(project_info) {
       const { params } = req.body;
       const requestHeaders = {
         ...req.headers,
-        Authorization: `Bearer ${process.env.STORYBOOK_TOKEN}`,
+        Authorization: `Bearer ${req.headers.authorization}`,
       };
       const { output, responseFileName, contentType } = await dataStream({
         project_info,
