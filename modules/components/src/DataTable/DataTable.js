@@ -98,6 +98,7 @@ class DataTableWithToolbar extends React.Component {
     const { defaultPageSize, pageSize, page, searchResults } = this.state;
 
     const url = downloadUrl || urlJoin(ARRANGER_API, projectId, 'download');
+    const configColumns = config.columns.filter((c) => c.show);
 
     return (
       <>
@@ -106,7 +107,7 @@ class DataTableWithToolbar extends React.Component {
           allowTSVExport={allowTSVExport}
           allowTogglingColumns={allowTogglingColumns}
           columnDropdownText={columnDropdownText}
-          columns={config.columns}
+          columns={configColumns}
           customActions={customActions}
           customHeaderContent={customHeaderContent}
           defaultColumns={config.defaultColumns}
@@ -136,7 +137,7 @@ class DataTableWithToolbar extends React.Component {
           type={config.type}
         />
         <SearchTable
-          columns={config.columns}
+          columns={configColumns}
           projectCode={projectCode}
           fetchData={fetchData}
           fetchDataParams={this.state.fetchDataParams}

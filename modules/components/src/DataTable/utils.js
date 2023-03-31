@@ -33,6 +33,7 @@ const ColumnTitle = ({ title, field, titleProps }) => {
   );
 };
 
+// source of truth from columnState api call
 const PILOT_TABLE_COLUMNS = [
   {
     field: 'type',
@@ -74,6 +75,7 @@ const PILOT_TABLE_COLUMNS = [
     order: 5,
   },
   { field: 'zone', title: 'Destination', width: '19%', order: 6 },
+  { field: 'identifier' },
 ];
 
 const normalizeSearchTableColumns = ({
@@ -87,7 +89,10 @@ const normalizeSearchTableColumns = ({
 
     resultingColumn.push({
       ...column,
-      ...(configColumn ?? {}),
+      ...configColumn,
+      // identifier used only to query table data
+      show: column.field !== 'identifier' ? configColumn.show : false,
+      fetch: column.field !== 'identifier' ? configColumn.show : true,
       dataIndex: column.field,
       key: column.field,
       render: searchTableType(column.field),
