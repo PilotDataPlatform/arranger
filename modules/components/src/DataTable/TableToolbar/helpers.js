@@ -51,7 +51,6 @@ const saveTSV = async ({ url, files = [], projectCode, identifiers, options = {}
       })),
       project_code: projectCode,
       identifiers,
-      ...options.params,
     },
   });
 };

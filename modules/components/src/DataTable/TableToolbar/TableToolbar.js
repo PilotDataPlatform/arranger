@@ -222,7 +222,6 @@ const TableToolbar = ({
                             sqon: downloadSqon,
                           },
                         ],
-                        selectedTableRows,
                         url: downloadUrl,
                         projectCode,
                         identifiers: selectedTableRows,

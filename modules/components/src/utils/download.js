@@ -48,25 +48,10 @@ function download({ url, headers = {}, params, method = 'GET' }) {
 
   return fetch(url, {
     method,
-    headers: { ...headers, ...token },
-    body: encodeURIComponent(JSON.stringify(params)),
+    headers: { 'Content-Type': 'application/json', ...headers, ...token },
+    body: JSON.stringify(params),
   }).then((r) => r.json());
 }
-// function download({ url, projectCode, params, method = 'GET', body = {} }) {
-//   const downloadKey = uuid();
-
-//   const resolveOnDownload = () => Promise.resolve();
-
-//   createIFrame({
-//     method,
-//     url,
-//     fields: Object.entries({ params, httpHeaders, ...body, downloadKey })
-//       .map(([key, value]) => toHtml(key, value))
-//       .join('\n'),
-//   });
-
-//   return resolveOnDownload;
-// }
 
 export const addDownloadHttpHeaders = (headers) => {
   httpHeaders = { ...httpHeaders, ...headers };
