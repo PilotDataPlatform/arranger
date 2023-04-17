@@ -1,9 +1,5 @@
 @import '../../public/themeStyles/constants.css';
 
-.aggregations {
-  border-right: 1px solid var(--background-color-1);
-}
-
 .aggregation-card {
   padding: 10px 20px;
   background: white;

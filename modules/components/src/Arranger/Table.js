@@ -34,6 +34,7 @@ const Table = ({
         flex-direction: column;
         background-color: white;
         border-bottom-right-radius: 6px;
+        border-left: 1px solid #f0f0f0;
       `}
     >
       <ColumnsState
