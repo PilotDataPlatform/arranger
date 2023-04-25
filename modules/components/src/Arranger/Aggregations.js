@@ -165,6 +165,7 @@ const Aggregations = ({
         minWidth: '280px',
         backgroundColor: 'white',
         borderBottomLeftRadius: '6px',
+        letterSpacing: '0.2px',
       }}
       className={className}
     >

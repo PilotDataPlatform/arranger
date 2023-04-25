@@ -20,6 +20,7 @@
 .aggregation-card .header {
   margin-top: -10px;
   background: white;
+  padding-left: 3px;
 }
 .aggregation-card .title-wrapper {
   padding-top: 10px;

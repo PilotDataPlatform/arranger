@@ -31,6 +31,7 @@
   background: none;
   border-bottom: 1px solid #edf1f4;
   border-top: 1px solid #edf1f4;
+  font-weight: 400;
 }
 
 .searchTable.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:first-child {

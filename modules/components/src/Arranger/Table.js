@@ -35,6 +35,7 @@ const Table = ({
         background-color: white;
         border-bottom-right-radius: 6px;
         border-left: 1px solid #f0f0f0;
+        letter-spacing: 0.2px;
       `}
     >
       <ColumnsState

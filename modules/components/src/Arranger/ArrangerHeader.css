@@ -3,11 +3,12 @@
 .arranger-header {
   display: flex;
   justify-content: space-between;
-  padding: 4px 16px;
+  padding: 4px 20px;
   background-color: white;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   min-height: 43px;
+  letter-spacing: 0.2px;
 }
 
 .arranger-header__title {

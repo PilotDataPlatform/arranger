@@ -1,61 +1,111 @@
-.react-datepicker__input-container {
-  width: 100%;
+:root {
+  --datepicker-accent-color: #3c7da6;
+  --datepicker-range-hover-border-color: #83adcc;
+}
+/* Below code overwrites ANTD styles to match Pilot  */
+/* ***** Rangepicker input ***** */
+.date-agg__wrapper {
+  padding-left: 3px;
 }
 
-.react-datepicker-wrapper input {
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  box-sizing: border-box;
-  font-size: 12px;
-  padding: 5px;
-  width: 100%;
+.date-agg__wrapper .ant-picker.ant-picker-focused,
+.date-agg__wrapper .ant-picker:hover {
+  border-color: var(--datepicker-accent-color) !important;
 }
 
-.react-datepicker__input-container .react-datepicker__close-icon::after {
-  background-color: #999;
-  border-radius: 30%;
-  height: 11px;
-  width: 11px;
+.date-agg__wrapper .ant-picker.ant-picker-range .ant-picker-active-bar {
+  background: var(--datepicker-accent-color);
 }
 
-.react-datepicker__day-name,
-.react-datepicker__day,
-.react-datepicker__time-name {
-  line-height: 1.4rem;
-  width: 1.5rem;
+/* ***** Calendar dropdown ***** */
+/* Header */
+.ant-picker-dropdown .ant-picker-header-view {
+  font-weight: 500;
+}
+.ant-picker-dropdown .ant-picker-header .ant-picker-header-super-prev-btn,
+.ant-picker-dropdown .ant-picker-header .ant-picker-header-prev-btn,
+.ant-picker-dropdown .ant-picker-header .ant-picker-header-next-btn,
+.ant-picker-dropdown .ant-picker-header .ant-picker-header-super-next-btn {
+  color: rgba(0, 0, 0, 0.25) !important;
 }
 
-.react-datepicker__current-month {
-  display: none;
+/* Selected date */
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single):not(
+    .ant-picker-cell-range-end
+  )
+  .ant-picker-cell-inner,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single):not(
+    .ant-picker-cell-range-start
+  )
+  .ant-picker-cell-inner {
+  border-radius: 0;
 }
 
-.react-datepicker__header__dropdown {
-  display: flex;
-  justify-content: center;
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: var(--datepicker-accent-color);
 }
 
-.react-datepicker__month-option--selected {
-  left: 10px;
+/* Current date */
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: var(--datepicker-accent-color) !important;
 }
 
-.react-datepicker__month-read-view,
-.react-datepicker__year-read-view {
-  border: none;
-  visibility: visible !important;
-  /* ^^ otherwise the current becomes invisible when dropdown is displayed */
-  width: fit-content;
+/* Date range background */
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-in-range::before,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-start:not(
+    .ant-picker-cell-range-start-single
+  )::before,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-end:not(
+    .ant-picker-cell-range-end-single
+  )::before {
+  background: #d8e3e6;
 }
 
-.react-datepicker__month-read-view--down-arrow {
-  display: none;
+/* Date range background on hover */
+.ant-picker-dropdown
+  .ant-picker-date-panel
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end
+  .ant-picker-cell-inner::after,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-start:not(
+    .ant-picker-cell-range-start-single
+  ).ant-picker-cell-range-hover-start::before,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end::before,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover::before,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-end:not(
+    .ant-picker-cell-range-end-single
+  ).ant-picker-cell-range-hover-end::before {
+  background-color: #b2d0e3;
 }
 
-.react-datepicker__year-read-view--down-arrow {
-  display: none;
+/* Date range hover  */
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-start.ant-picker-cell-range-start-single.ant-picker-cell-range-hover-start::after,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-hover::after,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-hover-end::after {
+  border-color: var(--datepicker-range-hover-border-color) !important;
 }
 
-.react-datepicker__month-read-view--selected-month,
-.react-datepicker__year-read-view--selected-year {
-  font-size: 0.9rem;
-  font-weight: bold;
+/* Add left border to first day of week when hovered */
+.ant-picker-dropdown
+  .ant-picker-content
+  tr
+  .ant-picker-cell-in-view.ant-picker-cell-range-hover:first-child::after {
+  border-left: 1px dashed var(--datepicker-range-hover-border-color) !important;
+}
+
+/* Add right border to last day of week when hovered */
+.ant-picker-dropdown
+  .ant-picker-content
+  tr
+  .ant-picker-cell-in-view.ant-picker-cell-range-hover:last-child::after {
+  border-right: 1px dashed var(--datepicker-range-hover-border-color) !important;
 }

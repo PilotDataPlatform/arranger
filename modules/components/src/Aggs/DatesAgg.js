@@ -1,6 +1,9 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
-import { css } from 'emotion';
+import { DatePicker } from 'antd';
+// import DatePicker from 'react-datepicker';
+// import dayjs from 'dayjs';
+import moment from 'moment';
+// import { css } from 'emotion';
 import { addDays, endOfDay, startOfDay, subDays } from 'date-fns';
 
 import { removeSQON, replaceSQON } from '../SQONView/utils';
@@ -11,6 +14,8 @@ import './DatesAgg.css';
 
 const dateFromSqon = (dateString) => new Date(dateString);
 const toSqonDate = (date) => date.valueOf();
+
+const { RangePicker } = DatePicker;
 
 const dateFormat = 'yyyy/MM/dd';
 const fieldPlaceholder = dateFormat.toUpperCase();
@@ -78,8 +83,14 @@ class DatesAgg extends React.Component {
     }
   };
 
+  // needs to be update to identify between start and end date from range picker
   handleDateChange = (limit) => (date) => {
     this.setState({ [`${limit}Date`]: date }, this.updateSqon);
+  };
+
+  disabledDate = (current) => {
+    // disable all dates after today
+    return current && current > moment().endOf('day');
   };
 
   render() {
@@ -101,57 +112,8 @@ class DatesAgg extends React.Component {
 
     return (
       <AggsWrapper dataFields={dataFields} {...{ displayName, WrapperComponent, collapsible }}>
-        <div
-          css={css`
-            align-items: center;
-            display: flex;
-            justify-content: space-around;
-            padding-left: 5px;
-          `}
-        >
-          <DatePicker
-            {...{ minDate, maxDate }}
-            aria-label={`Pick start date`}
-            className="start-date"
-            closeOnScroll
-            dateFormat={dateFormat}
-            disabled={!hasData}
-            isClearable
-            onChange={this.handleDateChange('start')}
-            openToDate={startDate || minDate}
-            placeholderText={fieldPlaceholder}
-            popperPlacement={facetView ? 'bottom-start' : 'top-start'}
-            selected={startDate}
-            showMonthDropdown
-            showYearDropdown
-            todayButton="Select Today"
-          />
-          <span
-            css={css`
-              font-size: 13px;
-              margin: 0 10px;
-              color: #595959;
-            `}
-          >
-            to
-          </span>
-          <DatePicker
-            {...{ minDate, maxDate }}
-            aria-label={`Pick end date`}
-            className="end-date"
-            closeOnScroll
-            dateFormat={dateFormat}
-            disabled={!hasData}
-            isClearable
-            onChange={this.handleDateChange('end')}
-            openToDate={endDate || maxDate}
-            placeholderText={fieldPlaceholder}
-            popperPlacement={facetView ? 'bottom-end' : 'top-start'}
-            selected={endDate}
-            showMonthDropdown
-            showYearDropdown
-            todayButton="Select Today"
-          />
+        <div className="date-agg__wrapper">
+          <RangePicker disabledDate={this.disabledDate} />
         </div>
       </AggsWrapper>
     );
