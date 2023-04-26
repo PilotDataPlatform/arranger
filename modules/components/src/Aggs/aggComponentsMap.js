@@ -122,6 +122,7 @@ const composedDatesAgg = ({ sqon, onValueChange, getDatesAggProps = () => ({}), 
         sqon,
       })
     }
+    sqon={sqon}
     {...{ ...rest, ...getDatesAggProps() }}
   />
 );
