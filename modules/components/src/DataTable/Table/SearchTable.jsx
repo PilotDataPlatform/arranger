@@ -90,7 +90,7 @@ export default ({
       loading={loading}
       columns={columns}
       dataSource={searchResults.data}
-      rowKey={(record) => record.identifier}
+      rowKey={(record) => `${record.id}`}
       rowSelection={rowSelection}
       onChange={onChange}
       pagination={{

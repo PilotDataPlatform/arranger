@@ -26,7 +26,7 @@ const ColumnTitle = ({ title, field, titleProps }) => {
   }
 
   return (
-    <div class="column-title__container">
+    <div className="column-title__container">
       <span>{title}</span>
       {sortIcon}
     </div>
@@ -41,7 +41,7 @@ const PILOT_TABLE_COLUMNS = [
     title: (titleProps) => (
       <ColumnTitle title={<FileOutlined />} field="type" titleProps={titleProps} />
     ),
-    width: '5%',
+    width: '6%',
     order: 1,
   },
   {
@@ -74,7 +74,7 @@ const PILOT_TABLE_COLUMNS = [
     width: '10%',
     order: 5,
   },
-  { field: 'zone', title: 'Destination', width: '19%', order: 6 },
+  { field: 'zone', title: 'Destination', width: '18%', order: 6 },
   { field: 'identifier' },
 ];
 
