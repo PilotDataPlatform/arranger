@@ -1,5 +1,3 @@
-import uuid from 'uuid';
-
 let httpHeaders = {};
 
 function getIFrameBody(iframe) {
@@ -46,18 +44,36 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function download({ url, headers = {}, params, method = 'GET' }) {
+async function download({ url, headers = {}, params, method = 'GET' }) {
   const token = {
     Authorization: `Bearer ${
       process.env.STORYBOOK_ENV === 'dev' ? process.env.STORYBOOK_TOKEN : getCookie('AUTH')
     }`,
   };
 
-  return fetch(url, {
+  const res = await fetch(url, {
     method,
     headers: { 'Content-Type': 'application/json', ...headers, ...token },
     body: JSON.stringify(params),
-  }).then((r) => r.json());
+  });
+  // convert response to blob and extract url
+  const blob = await res.blob(); // blob is a file-like object that contains raw data read as text or binary data
+  const downloadUrl = window.URL.createObjectURL(blob);
+  const fileName = params.files[0].fileName;
+
+  // create temporary download link and click it
+  const downloadLink = document.createElement('a');
+  downloadLink.href = downloadUrl;
+  downloadLink.setAttribute('download', fileName);
+  downloadLink.setAttribute('target', '_blank');
+
+  // add download link to dom and remove it after synthetic click
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+
+  // revoke url
+  window.URL.revokeObjectURL(downloadUrl);
 }
 
 export const addDownloadHttpHeaders = (headers) => {
