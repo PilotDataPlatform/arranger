@@ -224,7 +224,8 @@ const TableToolbar = ({
                         ],
                         url: downloadUrl,
                         projectCode,
-                        identifiers: selectedTableRows,
+                        // remove uuid prefix to correctly pass params to download endpoint
+                        identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]),
                       }),
                     );
                 }}

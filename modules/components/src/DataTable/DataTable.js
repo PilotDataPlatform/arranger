@@ -58,6 +58,16 @@ class DataTableWithToolbar extends React.Component {
     }
   }
 
+  setSearchResults = (searchResults) => {
+    // add uuid suffix to identifier to avoid duplicate keys from dirty data
+    const data = searchResults.data.map((row) => ({
+      ...row,
+      identifier: `${row.identifier}-uuid-${crypto.randomUUID()}`,
+    }));
+
+    this.setState({ searchResults: { ...searchResults, data } });
+  };
+
   render() {
     const {
       allowTogglingColumns = true,
@@ -142,7 +152,7 @@ class DataTableWithToolbar extends React.Component {
           fetchData={fetchData}
           fetchDataParams={this.state.fetchDataParams}
           searchResults={searchResults}
-          setTableData={(searchResults) => this.setState({ searchResults })}
+          setTableData={this.setSearchResults}
           defaultPageSize={defaultPageSize}
           pageSize={pageSize}
           onPaginationChange={(pageSize) => {

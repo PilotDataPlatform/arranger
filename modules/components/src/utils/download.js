@@ -56,6 +56,7 @@ async function download({ url, headers = {}, params, method = 'GET' }) {
     headers: { 'Content-Type': 'application/json', ...headers, ...token },
     body: JSON.stringify(params),
   });
+
   // convert response to blob and extract url
   const blob = await res.blob(); // blob is a file-like object that contains raw data read as text or binary data
   const downloadUrl = window.URL.createObjectURL(blob);

@@ -77,7 +77,9 @@ class Arranger extends React.Component {
       graphqlField,
       fetchData: this.fetchData,
       setSQON: (sqon) => this.setState({ sqon }),
-      setSelectedTableRows: (selectedTableRows) => this.setState({ selectedTableRows }),
+      setSelectedTableRows: (selectedTableRows) => {
+        this.setState({ selectedTableRows });
+      },
       setAggregations: (aggregations) => this.setState({ aggregations }),
     };
 
