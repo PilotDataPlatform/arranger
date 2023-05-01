@@ -39,7 +39,7 @@ const ArrangerHeader = ({
 
   const handleZoneChange = (value) => {
     let newSqon;
-    const sqonContent = sqon?.content.filter((sqonObj) => sqonObj.content.field !== 'zone');
+    const sqonContent = sqon?.content.find((sqonObj) => sqonObj.content.field !== 'zone');
 
     if (value === currentZone) {
       if (zoneData.length === 1 && zoneData[0].key === value) {
@@ -76,6 +76,14 @@ const ArrangerHeader = ({
       setCurrentZone(zoneData[0].key);
     }
   }, [aggregations]);
+
+  useEffect(() => {
+    const sqonZone = sqon?.content.find((sqonObj) => sqonObj.content.field === 'zone');
+
+    if (!sqonZone) {
+      setCurrentZone('');
+    }
+  }, [sqon]);
 
   return (
     <div className="arranger-header">
