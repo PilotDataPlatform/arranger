@@ -15,7 +15,10 @@ export function deleteValue(key) {
   delete localStorage[key];
 }
 
-export const ARRANGER_API = getValue('ARRANGER_API', 'http://arranger-server-filter.utility:6060/');
+export const ARRANGER_API = getValue(
+  'ARRANGER_API',
+  'https://api.dev.pilot.indocresearch.com/pilot/arranger',
+);
 export const ES_HOST = getValue('ES_HOST', 'http://localhost:9200');
 export const PROJECT_ID = getValue('PROJECT_ID', null);
 export const ACTIVE_INDEX = getValue('ACTIVE_INDEX', null);
