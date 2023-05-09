@@ -241,7 +241,7 @@ const TableToolbar = ({
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div className="tableToolbar__pagination-display">
           <span className="numbers">
-            {`Showing ${((page - 1) * pageSize + 1).toLocaleString()} - ${Math.min(
+            {`Showing ${total > 0 ? ((page - 1) * pageSize + 1).toLocaleString() : 0} - ${Math.min(
               page * pageSize,
               total,
             ).toLocaleString()}`}
