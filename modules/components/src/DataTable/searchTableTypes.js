@@ -43,6 +43,9 @@ const renderText = (text) => text;
 const renderZone = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
 const renderFileSize = (text) => {
+  if (text === 0) {
+    return '';
+  }
   return getFileSize(text);
 };
 
@@ -50,41 +53,7 @@ const renderDate = (text) => {
   return dateHandler({ value: text });
 };
 
-const renderIcon = (_, record) => {
-  if (record.type === 'file') {
-    const fileExtension = record.name.split('.').length > 1 ? record.name.split('.').at(-1) : null;
-    if (fileExtension) {
-      switch (fileExtension) {
-        case 'zip':
-          return <FileZipOutlined />;
-        case 'doc':
-          return <FileZipOutlined />;
-        case 'pdf':
-          return <FileImageOutlined />;
-        case 'jpg':
-          return <FileImageOutlined />;
-        case 'img':
-          return <FileImageOutlined />;
-        case 'jpeg':
-          return <FileImageOutlined />;
-        case 'png':
-          return <FileImageOutlined />;
-        case 'svg':
-          return <FileImageOutlined />;
-        default:
-          return <FileOutlined />;
-      }
-    }
-
-    if (record.name.includes('imaging') || record.name.includes('image')) {
-      return <FileImageOutlined />;
-    }
-
-    return <FileOutlined />;
-  }
-
-  return <FolderOutlined />;
-};
+const renderIcon = (_, record) => (record.type === 'file' ? <FileOutlined /> : <FolderOutlined />);
 
 export default function renderField(field) {
   switch (field) {
