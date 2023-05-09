@@ -45,6 +45,13 @@ export default ({
     }
   };
 
+  const rowSelection = {
+    selectedRowKeys: selectedTableRows,
+    onChange: (rowKeys) => {
+      onSelectedTableRows(rowKeys);
+    },
+  };
+
   useEffect(() => {
     (async function () {
       setLoading(true);
@@ -75,13 +82,6 @@ export default ({
       setLoading(false);
     })();
   }, [fetchDataParams, page, pageSize]);
-
-  const rowSelection = {
-    selectedRowKeys: selectedTableRows,
-    onChange: (rowKeys) => {
-      onSelectedTableRows(rowKeys);
-    },
-  };
 
   return (
     <Table

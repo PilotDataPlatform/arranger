@@ -22,16 +22,15 @@
 
 /* Head */
 .searchTable.ant-table-wrapper .ant-table-thead {
-  background: transparent;
+  background: #fafafa;
 }
 
 .searchTable.ant-table-wrapper .ant-table-thead > tr > th {
-  padding: 6px 16px 4px 16px;
+  padding: 10px 16px 8px 16px;
   color: var(--font-color-primary);
   background: none;
   border-bottom: 1px solid #edf1f4;
   border-top: 1px solid #edf1f4;
-  font-weight: 400;
 }
 
 .searchTable.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:first-child {
@@ -57,21 +56,17 @@
   display: none;
 }
 
-.searchTable .ant-table-column-sorter {
-  display: none;
+.searchTable .ant-table-column-sorters {
+  justify-content: unset;
+}
+
+.searchTable .ant-table-column-title {
+  flex: unset;
 }
 
 .column-title__container {
   display: flex;
   align-items: center;
-}
-
-.column-title__container .column-title__icon {
-  margin-left: 7px;
-}
-
-.column-title__container .column-title__icon--active {
-  color: var(--primary-color-light-1);
 }
 
 /* Pagination */
