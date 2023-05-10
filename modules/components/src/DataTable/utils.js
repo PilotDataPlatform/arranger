@@ -24,7 +24,6 @@ const ColumnTitle = ({ title }) => {
 const PILOT_TABLE_COLUMNS = [
   {
     field: 'type',
-    sorter: true,
     title: <ColumnTitle title={<FileOutlined />} />,
     width: '6%',
     order: 1,
@@ -57,7 +56,7 @@ const PILOT_TABLE_COLUMNS = [
     width: '10%',
     order: 5,
   },
-  { field: 'zone', title: 'Destination', width: '18%', order: 6 },
+  { field: 'parent_path', title: 'Destination', width: '18%', order: 6 },
   { field: 'identifier' },
 ];
 

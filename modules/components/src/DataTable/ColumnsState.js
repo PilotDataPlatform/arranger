@@ -63,10 +63,11 @@ export default class extends Component {
       });
 
       const config = data[graphqlField].columnsState.state;
+      // default sort folders before files
       config.defaultSorted = [
         {
-          field: config.defaultSorted[0].id,
-          order: config.defaultSorted[0].desc ? 'desc' : 'asc',
+          field: 'type',
+          order: 'desc',
         },
       ];
       let {

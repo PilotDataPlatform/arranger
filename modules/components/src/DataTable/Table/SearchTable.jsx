@@ -93,6 +93,7 @@ export default ({
       rowKey={(record) => `${record.identifier}`}
       rowSelection={rowSelection}
       onChange={onChange}
+      showSorterTooltip={false}
       pagination={{
         current: page,
         pageSize,
