@@ -6,6 +6,7 @@ import { css } from 'emotion';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
+import CurrentSQON, { CurrentFacetFilters } from '../../Arranger/CurrentSQON';
 import DropDown, { MultiSelectDropDown } from '../../DropDown';
 import { addInSQON, currentFilterValue } from '../../SQONView/utils';
 import TextFilter, { generateNextSQON } from '../../TextFilter';
@@ -79,10 +80,13 @@ const TableToolbar = ({
   page = 0,
   pageSize = 0,
   projectCode,
+  projectId,
+  graphqlField,
   selectedTableRows = [],
   setFilterVal,
   showFilterInput = true,
   sqon = {},
+  setSQON,
   style,
   total,
   transformParams = (params) => params,
@@ -111,7 +115,11 @@ const TableToolbar = ({
 
   return (
     <div className="tableToolbar">
-      <div className="tableToolbar__plugins">
+      <div
+        className={`tableToolbar__plugins ${
+          sqon?.content?.length ? 'tableToolbar_plugins--active-filters' : ''
+        }`}
+      >
         {/* {allowTogglingColumns &&
           (enableDropDownControls ? (
             <MultiSelectDropDown
@@ -263,6 +271,23 @@ const TableToolbar = ({
           </div>
         )}
       </div>
+
+      <CurrentSQON
+        sqon={sqon}
+        setSQON={setSQON}
+        graphqlField={graphqlField}
+        projectId={projectId}
+        projectCode={projectCode}
+        renderCurrentSQON={(props) => <CurrentFacetFilters {...props} />}
+      />
+
+      {/* <CurrentSQON
+        sqon={sqon}
+        setSQON={setSQON}
+        graphqlField={graphqlField}
+        projectId={projectId}
+        projectCode={projectCode}
+      /> */}
     </div>
   );
 };

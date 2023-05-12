@@ -8,6 +8,7 @@ import {
   Aggregations,
   ArrangerHeader,
   CurrentSQON,
+  CurrentFacetFilters,
   Table,
 } from '../src/Arranger';
 import State from '../src/State';

@@ -50,7 +50,9 @@ const Table = ({
               InputComponent={InputComponent}
               projectId={projectId}
               projectCode={projectCode}
+              setSQON={setSQON}
               sqon={sqon}
+              graphqlField={graphqlField}
               config={{
                 ...columnState.state,
                 // generates a handy dictionary with all the available columns

@@ -86,6 +86,7 @@ class DataTableWithToolbar extends React.Component {
       exportTSVText,
       fetchData,
       filterInputPlaceholder,
+      graphqlField,
       InputComponent,
       onColumnsChange = () => {},
       onMultipleColumnsChange = () => {},
@@ -100,6 +101,7 @@ class DataTableWithToolbar extends React.Component {
       setSelectedTableRows = () => {},
       showFilterInput = true,
       sqon,
+      setSQON,
       toolbarStyle,
       transformParams,
       onFetchTableDataError,
@@ -138,9 +140,12 @@ class DataTableWithToolbar extends React.Component {
           page={page}
           pageSize={pageSize}
           projectCode={projectCode}
+          projectId={projectId}
+          graphqlField={graphqlField}
           selectedTableRows={selectedTableRows}
           showFilterInput={showFilterInput}
           sqon={sqon}
+          setSQON={setSQON}
           style={toolbarStyle}
           total={searchResults.total}
           transformParams={transformParams}

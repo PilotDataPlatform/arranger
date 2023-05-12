@@ -4,13 +4,18 @@
   padding: 4px 16px 2px 10px;
   background: #fff;
   display: flex;
+  justify-content: space-between;
   flex: none;
+  flex-wrap: wrap;
   border-top: 1px solid var(--background-color-1);
 }
 
 .tableToolbar__plugins {
   flex-grow: 1;
 }
+/* .tableToolbar_plugins--active-filters {
+  flex-grow: unset;
+} */
 .tableToolbar__plugins .buttonWrapper {
   display: flex;
 }
@@ -66,6 +71,7 @@
   color: var(--font-color-primary);
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .tableToolbar__pagination-display > span:not(:first-child) {
