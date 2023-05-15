@@ -6,7 +6,8 @@ import { css } from 'emotion';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
-import CurrentSQON, { CurrentFacetFilters } from '../../Arranger/CurrentSQON';
+import CurrentSQON from '../../Arranger/CurrentSQON';
+import CurrentFacetFilters from './FilterBar';
 import DropDown, { MultiSelectDropDown } from '../../DropDown';
 import { addInSQON, currentFilterValue } from '../../SQONView/utils';
 import TextFilter, { generateNextSQON } from '../../TextFilter';
@@ -280,14 +281,6 @@ const TableToolbar = ({
         projectCode={projectCode}
         renderCurrentSQON={(props) => <CurrentFacetFilters {...props} />}
       />
-
-      {/* <CurrentSQON
-        sqon={sqon}
-        setSQON={setSQON}
-        graphqlField={graphqlField}
-        projectId={projectId}
-        projectCode={projectCode}
-      /> */}
     </div>
   );
 };
