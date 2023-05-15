@@ -83,16 +83,7 @@ const enhance = compose(
 );
 
 // Portal version of SQON
-const FacetFilters = ({
-  sqon,
-  FieldCrumb,
-  ValueCrumb,
-  Clear,
-  isExpanded,
-  expanded,
-  setExpanded,
-  onLessClicked,
-}) => {
+const FacetFilters = ({ sqon, FieldCrumb, ValueCrumb, isExpanded, onLessClicked }) => {
   const sqonContent = sqon?.content || [];
   const isEmpty = sqonContent.length === 0;
 
@@ -122,7 +113,8 @@ const FacetFilters = ({
                   ),
                 })}
                 <Op>{(op === 'in' && isSingleValue) || op === 'filter' ? 'is' : op}</Op>
-                {(isExpanded(valueSQON) ? value : take(value, 2)).map((value, i) =>
+                {/* {(isExpanded(valueSQON) ? value : take(value, 2)).map((value, i) => */}
+                {value.map((value, i) =>
                   ValueCrumb({
                     field,
                     key: value,
@@ -162,16 +154,16 @@ const FacetFilters = ({
                           ),
                   }),
                 )}
-                {value.length > 2 && !isExpanded(valueSQON) && (
-                  <span className="filter-more" onClick={() => onLessClicked(valueSQON)}>
-                    {'\u2026'}
-                  </span>
+                {/* {value.length > 2 && !isExpanded(valueSQON) && (
+                  <button className="filter-more" onClick={() => onLessClicked(valueSQON)}>
+                    ...
+                  </button>
                 )}
                 {isExpanded(valueSQON) && (
-                  <div className="filter-less" onClick={() => onLessClicked(valueSQON)}>
-                    Less
-                  </div>
-                )}
+                  <button className="filter-less" onClick={() => onLessClicked(valueSQON)}>
+                    -
+                  </button>
+                )} */}
                 {i < sqonContent.length - 1 && <Op>{sqon.op}</Op>}
               </Row>
             );
