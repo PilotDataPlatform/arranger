@@ -67,7 +67,7 @@ export default ({
       const options = {
         ...fetchDataParams,
         first: resultsRemainingParam,
-        offset: page - 1,
+        offset: (page - 1) * 10,
         sort: fetchDataParams.config.sort,
         projectCode,
       };
