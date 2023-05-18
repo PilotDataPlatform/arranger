@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { truncate } from 'lodash';
+import { format } from 'date-fns';
 import { Row } from '../../Flex';
 import { enhance } from '../../SQONView/index';
 import { toggleSQON, replaceFilterSQON } from '../../SQONView/utils';
@@ -62,7 +63,6 @@ const FacetFilters = ({ sqon, FieldCrumb, ValueCrumb }) => {
                   ),
                 })}
                 <Op>{(op === 'in' && isSingleValue) || op === 'filter' ? 'is' : op}</Op>
-                {/* {(isExpanded(valueSQON) ? value : take(value, 2)).map((value, i) => */}
                 {value.map((value, i) =>
                   ValueCrumb({
                     field,
