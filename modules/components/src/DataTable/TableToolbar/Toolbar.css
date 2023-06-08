@@ -30,7 +30,10 @@
 .tableToolbar__plugins .buttonWrapper .ant-btn:hover {
   color: var(--primary-color-light-1);
 }
-
+.tableToolbar__plugins .buttonWrapper .ant-btn:disabled {
+  background-color: transparent;
+  opacity: 0.5;
+}
 .tableToolbar .inputWrapper {
   border: none;
 }

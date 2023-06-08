@@ -3,7 +3,7 @@ import { compose, withProps, withPropsOnChange, withState } from 'recompose';
 import { debounce } from 'lodash';
 import { css } from 'emotion';
 
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 import CurrentSQON from '../../Arranger/CurrentSQON';
@@ -215,32 +215,43 @@ const TableToolbar = ({
           // else, use a custom function if any is given, or use the default saveTSV if the flag is on
           singleExporter && (
             <div className="buttonWrapper">
-              <Button
-                icon={<DownloadOutlined />}
-                disabled={exporter?.[0]?.requiresRowSelection && !hasSelectedRows}
-                onClick={() => {
-                  (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
-                    singleExporter(
-                      transformParams({
-                        files: [
-                          {
-                            columns,
-                            fileName: exportTSVFilename || `${type}-table.tsv`,
-                            fileType: 'tsv',
-                            index: type,
-                            sqon: downloadSqon,
-                          },
-                        ],
-                        url: downloadUrl,
-                        projectCode,
-                        // remove uuid prefix to correctly pass params to download endpoint
-                        identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]),
-                      }),
-                    );
-                }}
-              >
-                {exportTSVText}
-              </Button>
+              {(exporter?.[0]?.requiresRowSelection || !exporter) && !hasSelectedRows ? (
+                <Tooltip
+                  title="Please select file(s) to download"
+                  placement="topRight"
+                  overlayInnerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+                >
+                  <Button icon={<DownloadOutlined />} disabled>
+                    {exportTSVText}
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Button
+                  icon={<DownloadOutlined />}
+                  onClick={() => {
+                    (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
+                      singleExporter(
+                        transformParams({
+                          files: [
+                            {
+                              columns,
+                              fileName: exportTSVFilename || `${type}-table.tsv`,
+                              fileType: 'tsv',
+                              index: type,
+                              sqon: downloadSqon,
+                            },
+                          ],
+                          url: downloadUrl,
+                          projectCode,
+                          // remove uuid prefix to correctly pass params to download endpoint
+                          identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]),
+                        }),
+                      );
+                  }}
+                >
+                  {exportTSVText}
+                </Button>
+              )}
             </div>
           )
         )}

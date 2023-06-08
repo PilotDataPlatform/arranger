@@ -18,6 +18,7 @@ export const AggregationsListDisplay = ({
   aggs,
   graphqlField,
   setSQON,
+  setSelectedTableRows,
   sqon,
   containerRef,
   componentProps = {
@@ -42,6 +43,7 @@ export const AggregationsListDisplay = ({
           onValueChange: ({ sqon, value }) => {
             onValueChange(value);
             setSQON(sqon);
+            setSelectedTableRows([]);
           },
           key: agg.field,
           sqon,
@@ -79,6 +81,7 @@ export const AggregationsListDisplay = ({
 export const AggregationsList = ({
   onValueChange = () => {},
   setSQON,
+  setSelectedTableRows,
   sqon,
   setAggregations,
   projectId,
@@ -112,6 +115,7 @@ export const AggregationsList = ({
         aggs,
         graphqlField,
         setSQON,
+        setSelectedTableRows,
         sqon,
         containerRef,
         componentProps,
@@ -140,6 +144,7 @@ const Aggregations = ({
   onValueChange = () => {},
   onFetchAggsError = () => {},
   setSQON,
+  setSelectedTableRows,
   sqon,
   setAggregations,
   projectId,
@@ -185,6 +190,7 @@ const Aggregations = ({
                 <AggregationsList
                   onValueChange={onValueChange}
                   setSQON={setSQON}
+                  setSelectedTableRows={setSelectedTableRows}
                   setAggregations={setAggregations}
                   style={style}
                   Wrapper={Wrapper}
