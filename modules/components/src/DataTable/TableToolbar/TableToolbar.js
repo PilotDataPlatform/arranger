@@ -217,6 +217,7 @@ const TableToolbar = ({
             <div className="buttonWrapper">
               {(exporter?.[0]?.requiresRowSelection || !exporter) && !hasSelectedRows ? (
                 <Tooltip
+                  overlayClassName="arranger-download-tooltip"
                   title="Please select file(s) to download"
                   placement="topRight"
                   overlayInnerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
