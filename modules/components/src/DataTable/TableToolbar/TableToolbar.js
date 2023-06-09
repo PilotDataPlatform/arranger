@@ -215,44 +215,31 @@ const TableToolbar = ({
           // else, use a custom function if any is given, or use the default saveTSV if the flag is on
           singleExporter && (
             <div className="buttonWrapper">
-              {(exporter?.[0]?.requiresRowSelection || !exporter) && !hasSelectedRows ? (
-                <Tooltip
-                  overlayClassName="arranger-download-tooltip"
-                  title="Please select file(s) to download"
-                  placement="topRight"
-                  overlayInnerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
-                >
-                  <Button icon={<DownloadOutlined />} disabled>
-                    {exportTSVText}
-                  </Button>
-                </Tooltip>
-              ) : (
-                <Button
-                  icon={<DownloadOutlined />}
-                  onClick={() => {
-                    (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
-                      singleExporter(
-                        transformParams({
-                          files: [
-                            {
-                              columns,
-                              fileName: exportTSVFilename || `${type}-table.tsv`,
-                              fileType: 'tsv',
-                              index: type,
-                              sqon: downloadSqon,
-                            },
-                          ],
-                          url: downloadUrl,
-                          projectCode,
-                          // remove uuid prefix to correctly pass params to download endpoint
-                          identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]),
-                        }),
-                      );
-                  }}
-                >
-                  {exportTSVText}
-                </Button>
-              )}
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={() => {
+                  (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
+                    singleExporter(
+                      transformParams({
+                        files: [
+                          {
+                            columns,
+                            fileName: exportTSVFilename || `${type}-table.tsv`,
+                            fileType: 'tsv',
+                            index: type,
+                            sqon: downloadSqon,
+                          },
+                        ],
+                        url: downloadUrl,
+                        projectCode,
+                        // remove uuid prefix to correctly pass params to download endpoint
+                        identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]), // if no selected rows, empty array will download all files within selected facets
+                      }),
+                    );
+                }}
+              >
+                {exportTSVText}
+              </Button>
             </div>
           )
         )}
