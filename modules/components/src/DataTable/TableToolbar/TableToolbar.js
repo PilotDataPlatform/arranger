@@ -216,7 +216,7 @@ const TableToolbar = ({
           // else, use a custom function if any is given, or use the default saveTSV if the flag is on
           singleExporter && (
             <div className="buttonWrapper">
-              <Tooltip title={tooltipTitle}>
+              <Tooltip title={tooltipTitle} overlayClassName="arranger__download-tooltip">
                 <Button
                   icon={<DownloadOutlined />}
                   onClick={() => {
