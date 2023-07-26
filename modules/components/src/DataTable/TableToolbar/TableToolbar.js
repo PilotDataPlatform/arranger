@@ -71,8 +71,9 @@ const TableToolbar = ({
   exporter = null,
   exporterLabel = 'Download',
   exportTSVFilename = '',
-  exportTSVText = 'Download Metadata',
-  filterInputPlaceholder = 'Filter',
+  exportTSVText = 'Download',
+  tooltipTitle = 'Download search table (TSV)',
+  filterInputPlaceholder = 'Type to filter by text',
   filterVal,
   InputComponent,
   onColumnsChange,
@@ -215,31 +216,33 @@ const TableToolbar = ({
           // else, use a custom function if any is given, or use the default saveTSV if the flag is on
           singleExporter && (
             <div className="buttonWrapper">
-              <Button
-                icon={<DownloadOutlined />}
-                onClick={() => {
-                  (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
-                    singleExporter(
-                      transformParams({
-                        files: [
-                          {
-                            columns,
-                            fileName: exportTSVFilename || `${type}-table.tsv`,
-                            fileType: 'tsv',
-                            index: type,
-                            sqon: downloadSqon,
-                          },
-                        ],
-                        url: downloadUrl,
-                        projectCode,
-                        // remove uuid prefix to correctly pass params to download endpoint
-                        identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]), // if no selected rows, empty array will download all files within selected facets
-                      }),
-                    );
-                }}
-              >
-                {exportTSVText}
-              </Button>
+              <Tooltip title={tooltipTitle}>
+                <Button
+                  icon={<DownloadOutlined />}
+                  onClick={() => {
+                    (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
+                      singleExporter(
+                        transformParams({
+                          files: [
+                            {
+                              columns,
+                              fileName: exportTSVFilename || `${type}-table.tsv`,
+                              fileType: 'tsv',
+                              index: type,
+                              sqon: downloadSqon,
+                            },
+                          ],
+                          url: downloadUrl,
+                          projectCode,
+                          // remove uuid prefix to correctly pass params to download endpoint
+                          identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]), // if no selected rows, empty array will download all files within selected facets
+                        }),
+                      );
+                  }}
+                >
+                  {exportTSVText}
+                </Button>
+              </Tooltip>
             </div>
           )
         )}

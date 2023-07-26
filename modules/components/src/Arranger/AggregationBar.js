@@ -4,7 +4,7 @@ import { FilterOutlined } from '@ant-design/icons';
 
 import './AggregationBar.css';
 
-const AggregrationBar = ({ title = 'Filter', buttonText = 'Clear All', onButtonClick, aggs }) => {
+const AggregrationBar = ({ title = 'Filters', buttonText = 'Clear All', onButtonClick, aggs }) => {
   if (!aggs?.length) {
     return null;
   }

@@ -5,6 +5,14 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import './ArrangerHeader.css';
 
+const transformZoneLabel = (zoneLabel) => {
+  if (zoneLabel === 'greenroom') {
+    return 'Green Room';
+  }
+
+  return zoneLabel[0].toUpperCase() + zoneLabel.slice(1);
+};
+
 const ZoneTab = ({ handleClick, currentZone, zoneLabel, zoneTotal }) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -21,7 +29,7 @@ const ZoneTab = ({ handleClick, currentZone, zoneLabel, zoneTotal }) => {
       onClick={() => handleClick(zoneLabel)}
       className={isActive ? 'arranger-header__filter-zone active' : 'arranger-header__filter-zone'}
     >
-      {zoneLabel[0].toUpperCase() + zoneLabel.slice(1)}
+      {transformZoneLabel(zoneLabel)}
       <span className="filter-zone__number">{zoneTotal}</span>
     </li>
   );

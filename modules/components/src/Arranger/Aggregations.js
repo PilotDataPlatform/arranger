@@ -32,6 +32,8 @@ export const AggregationsListDisplay = ({
   removeAggs = ['zone'],
 }) => {
   aggs = aggs.filter((agg) => !removeAggs.find((removeAgg) => removeAgg === agg.field));
+  console.log('aggs', aggs);
+  console.log('data', data);
   const aggComponentInstances =
     data &&
     aggs

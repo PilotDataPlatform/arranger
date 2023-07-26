@@ -141,13 +141,21 @@ const TermAgg = ({
     ...(type && { 'data-type': type }),
   };
 
+  const getDisplayName = (displayName) => {
+    if (displayName === 'Template Name') {
+      return 'Attribute Template';
+    }
+
+    return displayName;
+  };
+
   return (
     <AggsWrapper
       componentRef={aggWrapperRef}
       headerRef={aggHeaderRef}
       stickyHeader
       dataFields={dataFields}
-      {...{ displayName, WrapperComponent, collapsible }}
+      {...{ displayName: getDisplayName(displayName), WrapperComponent, collapsible }}
       ActionIcon={
         <SearchOutlined
           className="search-icon"
