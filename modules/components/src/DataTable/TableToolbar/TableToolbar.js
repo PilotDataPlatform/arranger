@@ -117,12 +117,23 @@ const TableToolbar = ({
 
   return (
     <div className="tableToolbar">
-      <div
-        className={`tableToolbar__plugins ${
-          sqon?.content?.length ? 'tableToolbar_plugins--active-filters' : ''
-        }`}
-      >
-        {/* {allowTogglingColumns &&
+      <div className="tableToolbar__pagination-display">
+        <span className="numbers">
+          {`Showing ${total > 0 ? ((page - 1) * pageSize + 1).toLocaleString() : 0} - ${Math.min(
+            page * pageSize,
+            total,
+          ).toLocaleString()}`}
+        </span>{' '}
+        <span className="ofTotal">of {total?.toLocaleString()}</span>{' '}
+      </div>
+
+      <div className="tableToolbar__page-plugin-filter">
+        <div
+          className={`tableToolbar__plugins ${
+            sqon?.content?.length ? 'tableToolbar_plugins--active-filters' : ''
+          }`}
+        >
+          {/* {allowTogglingColumns &&
           (enableDropDownControls ? (
             <MultiSelectDropDown
               buttonAriaLabelClosed={`Open column selection menu`}
@@ -165,99 +176,88 @@ const TableToolbar = ({
             </DropDown>
           ))} */}
 
-        {multipleExporters ? ( // check if we're given more than one custom exporter
-          <div className="buttonWrapper">
-            <DropDown
-              aria-label={`Download options`}
-              itemToString={(i) =>
-                typeof i.exporterLabel === 'function' ? <i.exporterLabel /> : i.exporterLabel
-              }
-              hasSelectedRows={hasSelectedRows}
-              items={exporterArray}
-              onChange={({
-                exporterColumns,
-                exporterLabel,
-                exporterFileName,
-                exporterFunction,
-                exporterRequiresRowSelection,
-                exporterValueWhenEmpty: valueWhenEmpty,
-              }) =>
-                (exporterRequiresRowSelection && !hasSelectedRows) ||
-                exporterFunction?.(
-                  transformParams({
-                    files: [
-                      {
-                        allColumns,
-                        columns,
-                        exporterColumns,
-                        fileName: exporterFileName
-                          ? `${exporterFileName}${
-                              exporterFileName.toLowerCase().endsWith('.tsv') ? '' : '.tsv'
-                            }`
-                          : `${stringCleaner(exporterLabel.toLowerCase())}.tsv`,
-                        fileType: 'tsv',
-                        index: type,
-                        sqon: downloadSqon,
-                        valueWhenEmpty,
-                      },
-                    ],
-                    selectedTableRows,
-                    url: downloadUrl,
-                  }),
-                  download,
-                )
-              }
-              singleSelect={true}
-            >
-              {exporterLabel}
-            </DropDown>
-          </div>
-        ) : (
-          // else, use a custom function if any is given, or use the default saveTSV if the flag is on
-          singleExporter && (
+          {multipleExporters ? ( // check if we're given more than one custom exporter
             <div className="buttonWrapper">
-              <Tooltip title={tooltipTitle} overlayClassName="arranger__download-tooltip">
-                <Button
-                  icon={<DownloadOutlined />}
-                  onClick={() => {
-                    (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
-                      singleExporter(
-                        transformParams({
-                          files: [
-                            {
-                              columns,
-                              fileName: exportTSVFilename || `${type}-table.tsv`,
-                              fileType: 'tsv',
-                              index: type,
-                              sqon: downloadSqon,
-                            },
-                          ],
-                          url: downloadUrl,
-                          projectCode,
-                          // remove uuid prefix to correctly pass params to download endpoint
-                          identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]), // if no selected rows, empty array will download all files within selected facets
-                        }),
-                      );
-                  }}
-                >
-                  {exportTSVText}
-                </Button>
-              </Tooltip>
+              <DropDown
+                aria-label={`Download options`}
+                itemToString={(i) =>
+                  typeof i.exporterLabel === 'function' ? <i.exporterLabel /> : i.exporterLabel
+                }
+                hasSelectedRows={hasSelectedRows}
+                items={exporterArray}
+                onChange={({
+                  exporterColumns,
+                  exporterLabel,
+                  exporterFileName,
+                  exporterFunction,
+                  exporterRequiresRowSelection,
+                  exporterValueWhenEmpty: valueWhenEmpty,
+                }) =>
+                  (exporterRequiresRowSelection && !hasSelectedRows) ||
+                  exporterFunction?.(
+                    transformParams({
+                      files: [
+                        {
+                          allColumns,
+                          columns,
+                          exporterColumns,
+                          fileName: exporterFileName
+                            ? `${exporterFileName}${
+                                exporterFileName.toLowerCase().endsWith('.tsv') ? '' : '.tsv'
+                              }`
+                            : `${stringCleaner(exporterLabel.toLowerCase())}.tsv`,
+                          fileType: 'tsv',
+                          index: type,
+                          sqon: downloadSqon,
+                          valueWhenEmpty,
+                        },
+                      ],
+                      selectedTableRows,
+                      url: downloadUrl,
+                    }),
+                    download,
+                  )
+                }
+                singleSelect={true}
+              >
+                {exporterLabel}
+              </DropDown>
             </div>
-          )
-        )}
-        {customActions}
-      </div>
-
-      <div className="tableToolbar__page-count-filter">
-        <div className="tableToolbar__pagination-display">
-          <span className="numbers">
-            {`Showing ${total > 0 ? ((page - 1) * pageSize + 1).toLocaleString() : 0} - ${Math.min(
-              page * pageSize,
-              total,
-            ).toLocaleString()}`}
-          </span>{' '}
-          <span className="ofTotal">of {total?.toLocaleString()}</span>{' '}
+          ) : (
+            // else, use a custom function if any is given, or use the default saveTSV if the flag is on
+            singleExporter && (
+              <div className="buttonWrapper">
+                <Tooltip title={tooltipTitle} overlayClassName="arranger__download-tooltip">
+                  <Button
+                    icon={<DownloadOutlined />}
+                    onClick={() => {
+                      (exporter?.[0]?.requiresRowSelection && !hasSelectedRows) ||
+                        singleExporter(
+                          transformParams({
+                            files: [
+                              {
+                                columns,
+                                fileName: exportTSVFilename || `${type}-table.tsv`,
+                                fileType: 'tsv',
+                                index: type,
+                                sqon: downloadSqon,
+                              },
+                            ],
+                            url: downloadUrl,
+                            projectCode,
+                            // remove uuid prefix to correctly pass params to download endpoint
+                            identifiers: selectedTableRows.map((id) => id.split('-uuid-')[0]), // if no selected rows, empty array will download all files within selected facets
+                          }),
+                        );
+                    }}
+                  >
+                    {exportTSVText}
+                  </Button>
+                </Tooltip>
+              </div>
+            )
+          )}
+          {customActions}
         </div>
 
         {showFilterInput && (

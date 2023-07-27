@@ -9,15 +9,13 @@
   flex-wrap: wrap;
   border-top: 1px solid var(--background-color-1);
 }
-
-.tableToolbar__plugins {
-  flex-grow: 1;
-  padding-bottom: 6px;
-  padding-left: 10px;
+.tableToolbar__pagination-display {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  padding-bottom: 4px;
 }
-/* .tableToolbar_plugins--active-filters {
-  flex-grow: unset;
-} */
+
 .tableToolbar__plugins .buttonWrapper {
   display: flex;
 }
@@ -25,7 +23,7 @@
   border: none;
   color: var(--font-color-primary);
   box-shadow: none;
-  padding: 4px 8px;
+  padding: 4px 8px 3px 8px;
 }
 .tableToolbar__plugins .buttonWrapper .ant-btn:hover {
   color: var(--primary-color-light-1);
@@ -38,19 +36,19 @@
   border: none;
 }
 
-.tableToolbar .tableToolbar__page-count-filter {
+.tableToolbar .tableToolbar__page-plugin-filter {
   display: flex;
   justify-content: flex-end;
   padding: 0 16px 6px 18px;
 }
 
 .tableToolbar .tableToolbar__filter {
-  margin-left: 16px;
+  margin-left: 28px;
   display: flex;
 }
 
 .tableToolbar .tableToolbar__filter > .ant-input-affix-wrapper {
-  padding: 1px 8px 0.5px 8px;
+  padding: 1px 8px 1px 8px;
   border-radius: 6px;
   height: 28px;
   min-width: 235px;
