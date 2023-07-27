@@ -23,8 +23,6 @@ const defaultApi = ({ endpoint = '', body, headers, method }) => {
     }`,
   };
 
-  console.log('Token', Token);
-
   return fetch(urlJoin(ARRANGER_API, endpoint), {
     method: method || 'POST',
     headers: { ...alwaysSendHeaders, ...headers, ...Token },
