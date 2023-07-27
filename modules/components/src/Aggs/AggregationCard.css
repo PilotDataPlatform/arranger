@@ -8,6 +8,10 @@
   border-width: 1px 0 0 0;
   font-size: 12px;
 }
+/* first card after aggregation header */
+.aggregation-card:nth-child(2) {
+  border: none;
+}
 .aggregation-card[data-type='keyword'] {
   min-height: 74px;
 }
@@ -67,16 +71,14 @@
   cursor: pointer;
   font-size: 14px;
   font-weight: 100;
-  position: absolute;
   transition: all 0.5s;
-  right: 0;
-  top: 10px;
   transform: rotate(90deg);
+  margin-right: 6px;
 }
 .aggregation-card .action-icon {
   cursor: pointer;
   position: absolute;
-  right: 24px;
+  right: 1px;
   top: 11px;
   color: var(--font-color-primary);
 }
