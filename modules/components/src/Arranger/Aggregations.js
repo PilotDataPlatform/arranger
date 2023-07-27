@@ -5,6 +5,7 @@ import { Spin } from 'antd';
 import AggregrationBar from './AggregationBar';
 import { AggsState, AggsQuery } from '../Aggs';
 import aggComponents from '../Aggs/aggComponentsMap.js';
+import ZoneTabs from './ZoneTabs';
 
 export { AggsWrapper } from '../Aggs';
 
@@ -32,8 +33,6 @@ export const AggregationsListDisplay = ({
   removeAggs = ['zone'],
 }) => {
   aggs = aggs.filter((agg) => !removeAggs.find((removeAgg) => removeAgg === agg.field));
-  console.log('aggs', aggs);
-  console.log('data', data);
   const aggComponentInstances =
     data &&
     aggs
@@ -149,6 +148,7 @@ const Aggregations = ({
   setSelectedTableRows,
   sqon,
   setAggregations,
+  aggregations,
   projectId,
   projectCode,
   graphqlField,
@@ -185,7 +185,13 @@ const Aggregations = ({
           const aggs = aggsState.aggs.filter((x) => x.show);
           return (
             <>
-              <AggregrationBar aggs={aggs} onButtonClick={() => setSQON(null)} />
+              <AggregrationBar
+                aggs={aggs}
+                onButtonClick={() => setSQON(null)}
+                setSQON={setSQON}
+                sqon={sqon}
+                aggregations={aggregations}
+              />
               {aggsState.loading ? (
                 <Spin style={{ display: 'block', margin: '35% auto 0 auto' }} />
               ) : (

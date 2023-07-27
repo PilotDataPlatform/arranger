@@ -97,7 +97,7 @@ const ChooseProject = ({ index, projectId, update, projects }) => {
 const Portal = ({ style, ...props }) => {
   return (
     <>
-      <ArrangerHeader setSQON={props.setSQON} sqon={props.sqon} aggregations={props.aggregations} />
+      <ArrangerHeader />
       <div style={{ display: 'flex', ...style }}>
         <Aggregations
           componentProps={{

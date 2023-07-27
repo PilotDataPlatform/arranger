@@ -1,6 +1,14 @@
 @import '../../public/themeStyles/constants.css';
 
 .aggregation-bar {
+  border: 1px solid var(--background-color-1);
+}
+
+.aggregation-bar .zone-tabs {
+  margin: 8px 4px;
+}
+
+.aggregation-bar__filter {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8,19 +16,19 @@
   background-color: #e6f5ff;
 }
 
-.aggregation-bar__title {
+.filter__title {
   display: flex;
   align-items: center;
   color: var(--primary-color-1);
 }
 
-.aggregation-bar__title p {
+.filter__title p {
   margin: 0 0 0 8px;
   font-size: 12px;
   font-weight: 500;
 }
 
-.aggregation-bar .ant-btn-text {
+.aggregation-bar__filter .ant-btn-text {
   font-size: 12px;
   color: var(--font-color-primary);
   border: none;
@@ -29,6 +37,49 @@
   border-radius: 0;
 }
 
-.aggregation-bar .ant-btn:hover {
+.aggregation-bar__filter .ant-btn:hover {
   background-color: transparent;
+}
+
+/* Zone tab styles */
+.zone-tabs {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  color: var(--font-color-primary);
+}
+
+.zone-tabs__zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 50%;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.zone-tabs__zone[data-zone='greenroom'] {
+  flex-basis: 55%;
+}
+
+.zone-tabs__filter-number {
+  font-size: 15px;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.zone-tabs__zone.active {
+  background-color: var(--primary-color-light-1);
+  color: var(--white);
+}
+
+.zone-tabs__zone.active > .zone-tabs__filter-number {
+  font-weight: 500;
 }
