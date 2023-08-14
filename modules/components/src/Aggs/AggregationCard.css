@@ -64,7 +64,7 @@
   background: white;
 }
 .aggregation-card .arrow.collapsed {
-  transform: rotate(0deg);
+  transform: rotate(0deg) translateY(2px);
 }
 .aggregation-card .arrow {
   color: var(--font-color-primary);
@@ -72,7 +72,7 @@
   font-size: 14px;
   font-weight: 100;
   transition: all 0.5s;
-  transform: rotate(90deg);
+  transform: rotate(90deg) translateY(1px);
   margin-right: 6px;
 }
 .aggregation-card .action-icon {
