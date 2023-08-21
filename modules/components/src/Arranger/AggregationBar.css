@@ -8,7 +8,7 @@
   margin: 6px 4px;
 }
 
-.aggregation-bar__filter {
+.aggregation-bar__clear-filters {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,7 +28,7 @@
   font-weight: 500;
 }
 
-.aggregation-bar__filter .ant-btn-text {
+.aggregation-bar__clear-filters .ant-btn-text {
   font-size: 12px;
   color: var(--font-color-primary);
   border: none;
@@ -37,8 +37,47 @@
   border-radius: 0;
 }
 
-.aggregation-bar__filter .ant-btn:hover {
+.aggregation-bar__clear-filters .ant-btn:hover {
   background-color: transparent;
+}
+
+.aggregation-bar .aggregation-bar__filter {
+  padding: 8px 10px;
+}
+
+.aggregation-bar .aggregation-bar__filter > .ant-input-affix-wrapper {
+  padding: 1px 8px 1px 8px;
+  border-radius: 6px;
+  height: 30px;
+  min-width: 237px;
+  align-self: center;
+}
+.aggregation-bar .aggregation-bar__filter .ant-input-affix-wrapper:focus,
+.aggregation-bar .aggregation-bar__filter .ant-input-affix-wrapper-focused,
+.aggregation-bar .aggregation-bar__filter .ant-input-affix-wrapper:hover {
+  border-color: var(--primary-color-light-1);
+}
+
+.aggregation-bar .aggregation-bar__filter > .ant-input-affix-wrapper .ant-input-prefix {
+  margin-right: 5px;
+}
+.aggregation-bar
+  .aggregation-bar__filter
+  > .ant-input-affix-wrapper
+  .ant-input-prefix
+  .anticon-search {
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  margin-top: 1px;
+}
+.aggregation-bar .aggregation-bar__filter > .ant-input-affix-wrapper .ant-input {
+  color: rgba(0, 0, 0, 0.5);
+}
+.aggregation-bar .aggregation-bar__filter > .ant-input-affix-wrapper .ant-input::placeholder {
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  font-family: Arial;
+  font-style: italic;
 }
 
 /* Zone tab styles */
@@ -57,16 +96,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 50%;
+  flex: 1 1 auto;
   border-radius: 6px;
   padding: 3px 8px;
   font-size: 13px;
   cursor: pointer;
   user-select: none;
-}
-
-.zone-tabs__zone[data-zone='greenroom'] {
-  flex-basis: 55%;
 }
 
 .zone-tabs__filter-number {
