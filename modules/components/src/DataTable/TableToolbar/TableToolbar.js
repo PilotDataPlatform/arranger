@@ -1,7 +1,5 @@
 import React from 'react';
-import { compose, withProps, withPropsOnChange, withState } from 'recompose';
-import { debounce } from 'lodash';
-import { css } from 'emotion';
+import { compose, withProps } from 'recompose';
 
 import { Button, Tooltip } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -9,8 +7,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import CurrentSQON from '../../Arranger/CurrentSQON';
 import CurrentFacetFilters from './FilterBar';
 import DropDown, { MultiSelectDropDown } from '../../DropDown';
-import { addInSQON, currentFilterValue } from '../../SQONView/utils';
-import TextFilter, { generateNextSQON } from '../../TextFilter';
+import { generateNextSQON } from '../../TextFilter';
 import download from '../../utils/download';
 import stringCleaner from '../../utils/stringCleaner';
 import exporterProcessor from './helpers';
@@ -20,13 +17,6 @@ const enhance = compose(
   withProps(({ columns }) => ({
     canChangeShowColumns: columns.filter((column) => column.canChangeShow),
   })),
-  withPropsOnChange(['onFilterChange'], ({ onFilterChange = () => {} }) => ({
-    debouncedOnFilterChange: debounce(onFilterChange, 300),
-  })),
-  withState('filterVal', 'setFilterVal', ''),
-  withPropsOnChange(['sqon'], ({ sqon, setFilterVal }) => {
-    if (!currentFilterValue(sqon)) setFilterVal('');
-  }),
 );
 
 /** Advanced Implementation details ****** (TODO: move to TS)
@@ -56,16 +46,10 @@ const enhance = compose(
 
 const TableToolbar = ({
   allColumns = [],
-  allowTogglingColumns = true,
   allowTSVExport = true,
-  canChangeShowColumns,
-  columnDropdownText = 'Show columns',
   columns,
   customActions = null,
-  debouncedOnFilterChange,
-  defaultColumns,
   downloadUrl,
-  enableDropDownControls = false,
   enableSelectedTableRowsExporterFilter = false,
   selectedRowsFilterPropertyName = 'file_autocomplete',
   exporter = null,
@@ -73,23 +57,14 @@ const TableToolbar = ({
   exportTSVFilename = '',
   exportTSVText = 'Download',
   tooltipTitle = 'Download search table (TSV)',
-  filterInputPlaceholder = 'Type to filter by text',
-  filterVal,
-  InputComponent,
-  onColumnsChange,
-  onFilterChange,
-  onMultipleColumnsChange,
   page = 0,
   pageSize = 0,
   projectCode,
   projectId,
   graphqlField,
   selectedTableRows = [],
-  setFilterVal,
-  showFilterInput = true,
   sqon = {},
   setSQON,
-  style,
   total,
   transformParams = (params) => params,
   type = '',
@@ -133,49 +108,6 @@ const TableToolbar = ({
             sqon?.content?.length ? 'tableToolbar_plugins--active-filters' : ''
           }`}
         >
-          {/* {allowTogglingColumns &&
-          (enableDropDownControls ? (
-            <MultiSelectDropDown
-              buttonAriaLabelClosed={`Open column selection menu`}
-              buttonAriaLabelOpen={`Close column selection menu`}
-              itemSelectionLegend={`Select columns to display`}
-              selectAllAriaLabel={`Select all columns`}
-              resetToDefaultAriaLabel={`Reset to default columns`}
-              itemToString={(i) => i.displayName || i.Header}
-              items={canChangeShowColumns}
-              defaultColumns={defaultColumns}
-              onChange={(item) => {
-                setFilterVal('');
-                onFilterChange({
-                  value: '',
-                  generateNextSQON: generateNextSQON(''),
-                });
-                onColumnsChange({ ...item, show: !item.show });
-              }}
-              onMultipleChange={(changes) => {
-                onMultipleColumnsChange(changes);
-              }}
-            >
-              {columnDropdownText}
-            </MultiSelectDropDown>
-          ) : (
-            <DropDown
-              aria-label={`Select columns`}
-              itemToString={(i) => i.Header}
-              items={canChangeShowColumns}
-              onChange={(item) => {
-                setFilterVal('');
-                onFilterChange({
-                  value: '',
-                  generateNextSQON: generateNextSQON(''),
-                });
-                onColumnsChange({ ...item, show: !item.show });
-              }}
-            >
-              {columnDropdownText}
-            </DropDown>
-          ))} */}
-
           {multipleExporters ? ( // check if we're given more than one custom exporter
             <div className="buttonWrapper">
               <DropDown
@@ -259,20 +191,6 @@ const TableToolbar = ({
           )}
           {customActions}
         </div>
-
-        {showFilterInput && (
-          <div className="tableToolbar__filter">
-            <TextFilter
-              InputComponent={InputComponent}
-              value={filterVal}
-              placeholder={filterInputPlaceholder}
-              onChange={({ value, generateNextSQON }) => {
-                setFilterVal(value);
-                debouncedOnFilterChange({ value, generateNextSQON });
-              }}
-            />
-          </div>
-        )}
       </div>
 
       <CurrentSQON

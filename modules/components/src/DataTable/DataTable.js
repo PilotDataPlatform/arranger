@@ -74,7 +74,6 @@ class DataTableWithToolbar extends React.Component {
       allowTSVExport = true,
       columnDropdownText,
       customActions = null,
-      customHeaderContent = null,
       data = null,
       downloadUrl = '',
       enableDropDownControls = false,
@@ -85,9 +84,7 @@ class DataTableWithToolbar extends React.Component {
       exportTSVFilename,
       exportTSVText,
       fetchData,
-      filterInputPlaceholder,
       graphqlField,
-      InputComponent,
       onColumnsChange = () => {},
       onMultipleColumnsChange = () => {},
       onFilterChange,
@@ -99,10 +96,8 @@ class DataTableWithToolbar extends React.Component {
       projectCode,
       selectedTableRows = [],
       setSelectedTableRows = () => {},
-      showFilterInput = true,
       sqon,
       setSQON,
-      toolbarStyle,
       transformParams,
       onFetchTableDataError,
     } = this.props;
@@ -121,7 +116,6 @@ class DataTableWithToolbar extends React.Component {
           columnDropdownText={columnDropdownText}
           columns={configColumns}
           customActions={customActions}
-          customHeaderContent={customHeaderContent}
           defaultColumns={config.defaultColumns}
           downloadUrl={url}
           enableDropDownControls={enableDropDownControls}
@@ -131,9 +125,6 @@ class DataTableWithToolbar extends React.Component {
           exportTSVText={exportTSVText}
           exporter={exporter}
           exporterLabel={exporterLabel}
-          filterInputPlaceholder={filterInputPlaceholder}
-          InputComponent={InputComponent}
-          keyField={config.keyField}
           onColumnsChange={onColumnsChange}
           onFilterChange={onFilterChange}
           onMultipleColumnsChange={onMultipleColumnsChange}
@@ -143,10 +134,8 @@ class DataTableWithToolbar extends React.Component {
           projectId={projectId}
           graphqlField={graphqlField}
           selectedTableRows={selectedTableRows}
-          showFilterInput={showFilterInput}
           sqon={sqon}
           setSQON={setSQON}
-          style={toolbarStyle}
           total={searchResults.total}
           transformParams={transformParams}
           type={config.type}

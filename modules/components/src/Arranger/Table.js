@@ -20,7 +20,6 @@ const Table = ({
   fieldTypesForFilter = ['text', 'keyword'],
   api,
   showFilterInput = true,
-  customHeaderContent = null,
   page = 1,
   pageSize = 10,
   ...props
@@ -48,7 +47,7 @@ const Table = ({
         render={(columnState) => {
           return columnState.loading ? null : (
             <DataTable
-              {...{ ...props, api, showFilterInput, customHeaderContent }}
+              {...{ ...props, api, showFilterInput }}
               projectId={projectId}
               projectCode={projectCode}
               setSQON={setSQON}
