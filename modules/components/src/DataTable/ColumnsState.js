@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { debounce, sortBy } from 'lodash';
+import { debounce } from 'lodash';
 
 import defaultApi from '../utils/api';
 
@@ -41,6 +41,29 @@ export default class extends Component {
     if (this.props.graphqlField !== next.graphqlField) {
       this.fetchColumnsState(next);
     }
+  }
+
+  generateColumnState(config, extended) {
+    return config
+      ? {
+          loading: false,
+          state: {
+            ...config,
+            columns: config.columns.map((column) => {
+              const extendedField = extended.find((e) => e.field === column.field);
+              return {
+                ...column,
+                Header: extendedField?.displayName || column.field,
+                extendedType: extendedField?.type,
+                isArray: extendedField?.isArray,
+                show: column.show,
+                extendedDisplayValues: extendedField?.displayValues,
+              };
+            }),
+            defaultColumns: config.columns.filter((column) => column.show),
+          },
+        }
+      : { loading: true, state: { config: null } };
   }
 
   fetchColumnsState = debounce(async ({ graphqlField }) => {
@@ -92,6 +115,10 @@ export default class extends Component {
         extended,
         config,
       });
+
+      this.props.setArrangerState({
+        columnState: this.generateColumnState(config, extended),
+      });
     } catch (e) {
       // console.warn(e);
       this.props.onFetchColumnsError(e);
@@ -100,25 +127,6 @@ export default class extends Component {
 
   render() {
     let { config, extended } = this.state;
-    return config
-      ? this.props.render({
-          loading: false,
-          state: {
-            ...config,
-            columns: config.columns.map((column) => {
-              const extendedField = extended.find((e) => e.field === column.field);
-              return {
-                ...column,
-                Header: extendedField?.displayName || column.field,
-                extendedType: extendedField?.type,
-                isArray: extendedField?.isArray,
-                show: column.show,
-                extendedDisplayValues: extendedField?.displayValues,
-              };
-            }),
-            defaultColumns: config.columns.filter((column) => column.show),
-          },
-        })
-      : this.props.render({ loading: true, state: { config: null } });
+    return this.props.render(this.generateColumnState(config, extended));
   }
 }

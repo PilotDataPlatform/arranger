@@ -9,6 +9,7 @@ import {
   ArrangerHeader,
   CurrentSQON,
   CurrentFacetFilters,
+  ArrangerContextProvider,
   Table,
 } from '../src/Arranger';
 import State from '../src/State';
@@ -96,7 +97,7 @@ const ChooseProject = ({ index, projectId, update, projects }) => {
 
 const Portal = ({ style, ...props }) => {
   return (
-    <>
+    <ArrangerContextProvider>
       <ArrangerHeader />
       <div style={{ display: 'flex', ...style }}>
         <Aggregations
@@ -110,7 +111,7 @@ const Portal = ({ style, ...props }) => {
         {/* <CurrentSQON {...props} /> */}
         <Table {...props} />
       </div>
-    </>
+    </ArrangerContextProvider>
   );
 };
 

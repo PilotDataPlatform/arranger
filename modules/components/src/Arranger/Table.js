@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ArrangerStateContext } from './ArrangerContext';
 
 import DataTable, { ColumnsState } from '../DataTable';
 
@@ -18,13 +19,13 @@ const Table = ({
   sqon,
   fieldTypesForFilter = ['text', 'keyword'],
   api,
-  InputComponent,
   showFilterInput = true,
   customHeaderContent = null,
   page = 1,
   pageSize = 10,
   ...props
 }) => {
+  const { setArrangerState } = useContext(ArrangerStateContext);
   return (
     <div
       css={`
@@ -43,11 +44,11 @@ const Table = ({
         graphqlField={graphqlField}
         api={api}
         onFetchColumnsError={onFetchColumnsError}
+        setArrangerState={setArrangerState}
         render={(columnState) => {
           return columnState.loading ? null : (
             <DataTable
               {...{ ...props, api, showFilterInput, customHeaderContent }}
-              InputComponent={InputComponent}
               projectId={projectId}
               projectCode={projectCode}
               setSQON={setSQON}
