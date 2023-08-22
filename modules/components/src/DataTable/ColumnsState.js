@@ -66,6 +66,7 @@ export default class extends Component {
       : { loading: true, state: { config: null } };
   }
 
+  // fetches available columns from graphql
   fetchColumnsState = debounce(async ({ graphqlField }) => {
     const { api = defaultApi } = this.props;
     try {

@@ -53,6 +53,7 @@ export default class extends Component {
     }
   }
 
+  // fetches the available aggregations from graphql
   fetchAggsState = debounce(async ({ graphqlField }) => {
     this.setState({ loading: true });
     const { api = defaultApi } = this.props;
