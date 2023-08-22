@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose, withState } from 'recompose';
 import { isEmpty, orderBy, partition, truncate } from 'lodash';
 import { SearchOutlined } from '@ant-design/icons';
@@ -84,6 +84,7 @@ const enhance = compose(
   withState('stateIsExclude', 'setIsExclude', false),
   withState('stateShowingSearch', 'setShowingSearch', false),
   withState('searchText', 'setSearchText', ''),
+  withState('toggleSelectDeselect', 'setToggleSelectDeselect', false),
 );
 
 const TermAgg = ({
@@ -103,6 +104,7 @@ const TermAgg = ({
   constructEntryId = ({ value }) => value,
   valueCharacterLimit,
   observableValueInFocus = null,
+  onValueChange,
   WrapperComponent,
   highlightText,
   constructBucketItemClassName = () => '',
@@ -125,7 +127,10 @@ const TermAgg = ({
   setShowingSearch,
   searchText,
   setSearchText,
+  sqon,
   InputComponent = Input,
+  toggleSelectDeselect,
+  setToggleSelectDeselect,
   type,
 }) => {
   const decoratedBuckets = decorateBuckets({ buckets, searchText });
@@ -148,6 +153,47 @@ const TermAgg = ({
 
     return displayName;
   };
+
+  useEffect(() => {
+    if (toggleSelectDeselect) {
+      const bucketValues = decoratedBuckets.map((b) => b.key);
+      const selectAllBucket = {
+        op: 'in',
+        content: { field: dotField, value: bucketValues },
+      };
+      let newSqon;
+      if (Object.is(sqon, null)) {
+        newSqon = toggleSQON(
+          {
+            op: 'and',
+            content: [selectAllBucket],
+          },
+          sqon,
+        );
+      } else {
+        const fieldSelected = sqon.content.find((agg) => agg.content.field === dotField); // check if current field has a bucket selected
+        if (!fieldSelected) {
+          newSqon = { ...sqon, content: [...sqon.content, selectAllBucket] };
+        } else {
+          // if field is selected, remove it from content
+          const filterOutCurrentField = sqon.content.filter(
+            (agg) => agg.content.field !== dotField,
+          );
+          newSqon = { ...sqon, content: [...filterOutCurrentField, selectAllBucket] };
+        }
+      }
+      onValueChange({ sqon: newSqon });
+    } else {
+      // sqon is null on first render as no buckets are selected
+      if (!Object.is(sqon, null)) {
+        const filterOutCurrentField = sqon.content.filter((agg) => agg.content.field !== dotField);
+        const newSqon = filterOutCurrentField.length
+          ? { ...sqon, content: filterOutCurrentField }
+          : null; // null since no buckets are selected
+        onValueChange({ sqon: newSqon });
+      }
+    }
+  }, [toggleSelectDeselect]);
 
   return (
     <AggsWrapper
@@ -196,6 +242,23 @@ const TermAgg = ({
       <>
         {headerTitle && <div className={`header`}>{headerTitle}</div>}
         <div className={`bucket`}>
+          <span className="bucket-item toggle-all" merge="toggle">
+            <div
+              onClick={() => {
+                setToggleSelectDeselect(!toggleSelectDeselect);
+              }}
+            >
+              <input
+                readOnly
+                type="checkbox"
+                checked={toggleSelectDeselect}
+                aria-label={`Select All and Deselect All Buckets in ${displayName}`}
+                id={`select-deselect-all-${displayName}`}
+                name={`select-deselect-all-${displayName}`}
+              />
+              <span className="textHighlight">Select All / Deselect All</span>
+            </div>
+          </span>
           {decoratedBuckets.slice(0, showingMore ? Infinity : maxTerms).map((bucket, i, array) => (
             <Content
               id={constructEntryId({

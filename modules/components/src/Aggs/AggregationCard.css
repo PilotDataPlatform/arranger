@@ -135,6 +135,9 @@
   padding-bottom: 5px;
   cursor: pointer;
 }
+.aggregation-card .bucket-item.toggle-all {
+  align-items: center;
+}
 .aggregation-card .bucket-item .bucket-count {
   border-radius: 2px;
   background-color: var(--background-color-2);

@@ -28,6 +28,8 @@ const composedTermAgg = ({ sqon, onValueChange, getTermAggProps = () => ({}), ..
         currentSQON: sqon,
       })
     }
+    onValueChange={onValueChange}
+    sqon={sqon}
     {...{ ...rest, ...getTermAggProps() }}
   />
 );
