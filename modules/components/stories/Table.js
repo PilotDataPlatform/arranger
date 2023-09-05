@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { compose, withState } from 'recompose';
 import { orderBy, get } from 'lodash';
 import jsonPath from 'jsonpath/jsonpath.min';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import columnsToGraphql from '@pilotdataplatform/arranger-mapping-utils/dist/utils/columnsToGraphql';
 import DataTable, { Table, TableToolbar, getSingleValue } from '../src/DataTable';
@@ -104,14 +104,14 @@ const dummyData = Array(1000)
       .fill()
       .map(() => ({
         node: {
-          primary_site: uuid(),
+          primary_site: uuidv4(),
         },
       }));
     return {
       access: Math.random() > 0.5 ? 'controlled' : 'open',
-      file_id: uuid(),
-      file_name: uuid(),
-      data_type: uuid(),
+      file_id: uuidv4(),
+      file_name: uuidv4(),
+      data_type: uuidv4(),
       file_size: Math.floor(Math.random() * 10000000),
       cases: {
         hits: {

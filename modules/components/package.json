@@ -7,11 +7,12 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
+    "start": "webpack-dev-server .",
     "prepare": "rm -rf dist && mkdir dist && babel src --out-dir dist --copy-files",
     "watch": "babel src --out-dir dist --copy-files --watch",
     "build-storybook": "build-storybook -s ./public",
     "storybook": "start-storybook -p 8080 -c .storybook -s ./public",
-    "dashboard": "STORYBOOK_DASHBOARD=true STORYBOOK_ENV=dev start-storybook -p 6061 -c .storybook -s ./public",
+    "dashboard": "STORYBOOK_DASHBOARD=true STORYBOOK_ENV=dev start-storybook -p 3000 -c .storybook -s ./public",
     "portal": "STORYBOOK_PORTAL=true start-storybook -p 7070 -c .storybook -s ./public",
     "test": "jest",
     "flow": "flow",
@@ -39,11 +40,14 @@
     "@babel/preset-flow": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@babel/register": "^7.18.9",
+    "@react-keycloak/web": "^3.4.0",
     "@storybook/addon-actions": "^3.3.8",
     "@storybook/addon-options": "^3.3.11",
     "@storybook/react": "^3.3.3",
     "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.5",
     "babel-plugin-emotion": "^9.2.11",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^4.1.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.42.0",
@@ -51,9 +55,17 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.6.1",
     "flow-bin": "^0.62.0",
+    "html-webpack-plugin": "^5.5.3",
+    "keycloak-js": "^21.0.1",
+    "process": "^0.11.10",
     "react": "^16.12.0",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.3.0",
-    "storybook-router": "^0.3.3"
+    "storybook-router": "^0.3.3",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "peerDependencies": {
     "react": "^16.12.0",
@@ -66,6 +78,7 @@
     "antd": "^5.1.7",
     "classnames": "^2.2.5",
     "convert-units": "^2.3.4",
+    "css-loader": "^6.8.1",
     "date-fns": "^2.21.1",
     "dayjs": "^1.11.7",
     "downshift": "^1.23.2",
@@ -76,7 +89,9 @@
     "husky": "^4.3.0",
     "jsonpath": "^1.0.0",
     "lodash": "^4.17.20",
+    "moment": "^2.29.4",
     "normalize-url": "^1.9.1",
+    "path-browserify": "^1.0.1",
     "pluralize": "^7.0.0",
     "prettier": "^2.1.2",
     "pretty-quick": "^3.0.2",
@@ -99,7 +114,7 @@
     "semantic-ui-react": "^0.77.2",
     "url-join": "^4.0.0",
     "url-parse": "^1.2.0",
-    "uuid": "^3.2.1"
+    "uuid": "^9.0.0"
   },
   "jest": {
     "moduleNameMapper": {
