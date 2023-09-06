@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ReactKeycloakProvider as KeycloakProvider } from '@react-keycloak/web';
+import { Spin } from 'antd';
+import './keycloak.css';
 
 import { keycloak } from './config';
 import { tokenTimer } from './tokenTimer';
@@ -62,7 +64,11 @@ const KeyCloakMiddleWare = ({ children }) => {
         checkLoginIframe: false,
       }}
     >
-      {!isKeycloakReady ? <div>Loading Keycloak...</div> : children}
+      {!isKeycloakReady ? (
+        <Spin className="keycloak__loading" tip="Loading Keycloak" size="large" />
+      ) : (
+        children
+      )}
     </KeycloakProvider>
   );
 };

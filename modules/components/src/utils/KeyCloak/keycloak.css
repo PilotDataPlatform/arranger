@@ -1,0 +1,8 @@
+.keycloak__loading {
+  display: block;
+  margin: 35vh auto 0 auto;
+}
+
+.keycloak__loading .ant-spin-text {
+  margin-top: 4px;
+}
