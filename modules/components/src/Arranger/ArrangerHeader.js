@@ -12,7 +12,7 @@ const ArrangerHeader = ({ title = 'Search', tooltipTitle = DEFAULT_TOOLTIP }) =>
   <div className="arranger-header">
     <p className="arranger-header__title">
       {title}
-      <Tooltip title={tooltipTitle}>
+      <Tooltip title={tooltipTitle} overlayClassName="arranger__header-tooltip">
         <QuestionCircleOutlined />
       </Tooltip>
     </p>
