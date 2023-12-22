@@ -21,6 +21,6 @@
 }
 .arranger-header__title .anticon-question-circle {
   font-size: 11px;
-  margin-left: 6px;
+  margin-left: 6px !important;
   color: var(--font-color-light);
 }
