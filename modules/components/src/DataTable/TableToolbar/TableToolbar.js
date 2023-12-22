@@ -12,6 +12,7 @@ import download from '../../utils/download';
 import stringCleaner from '../../utils/stringCleaner';
 import exporterProcessor from './helpers';
 import './Toolbar.css';
+import moment from 'moment';
 
 const enhance = compose(
   withProps(({ columns }) => ({
@@ -90,6 +91,29 @@ const TableToolbar = ({
         }
       : sqon;
 
+  const downloadColumns = [
+    ...columns,
+    {
+      field: 'zone',
+      title: 'Destination',
+      width: '19%',
+      order: 6,
+      accessor: 'zone',
+      show: true,
+      type: 'string',
+      sortable: false,
+      canChangeShow: true,
+      query: null,
+      jsonPath: null,
+      Header: 'Zone',
+      extendedType: 'keyword',
+      isArray: false,
+      extendedDisplayValues: {},
+      dataIndex: 'zone',
+      key: 'zone',
+    },
+  ];
+
   return (
     <div className="tableToolbar">
       <div className="tableToolbar__pagination-display">
@@ -131,7 +155,7 @@ const TableToolbar = ({
                       files: [
                         {
                           allColumns,
-                          columns,
+                          columns: downloadColumns,
                           exporterColumns,
                           fileName: exporterFileName
                             ? `${exporterFileName}${
@@ -168,8 +192,12 @@ const TableToolbar = ({
                           transformParams({
                             files: [
                               {
-                                columns,
-                                fileName: exportTSVFilename || `${type}-table.tsv`,
+                                columns: downloadColumns,
+                                fileName:
+                                  exportTSVFilename ||
+                                  `${type}-table-${moment().format('YYYY-MM-DD')}-${moment().format(
+                                    'HH-mm-ss',
+                                  )}.tsv`,
                                 fileType: 'tsv',
                                 index: type,
                                 sqon: downloadSqon,
