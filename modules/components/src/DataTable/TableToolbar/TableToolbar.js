@@ -92,7 +92,13 @@ const TableToolbar = ({
       : sqon;
 
   const downloadColumns = [
-    ...columns,
+    ...columns.map((c) => {
+      if (c.field === 'size') {
+        c.Header = 'Size (bytes)';
+      }
+
+      return c;
+    }),
     {
       field: 'zone',
       title: 'Destination',
@@ -113,6 +119,8 @@ const TableToolbar = ({
       key: 'zone',
     },
   ];
+
+  const defaultFileName = 'pilotsearch';
 
   return (
     <div className="tableToolbar">
@@ -195,9 +203,9 @@ const TableToolbar = ({
                                 columns: downloadColumns,
                                 fileName:
                                   exportTSVFilename ||
-                                  `${type}-table-${moment().format('YYYY-MM-DD')}-${moment().format(
-                                    'HH-mm-ss',
-                                  )}.tsv`,
+                                  `${defaultFileName}-table-${moment().format(
+                                    'YYYY-MM-DD',
+                                  )}-${moment().format('HH-mm-ss')}.tsv`,
                                 fileType: 'tsv',
                                 index: type,
                                 sqon: downloadSqon,
