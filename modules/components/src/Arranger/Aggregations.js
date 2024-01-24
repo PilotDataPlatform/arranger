@@ -5,7 +5,6 @@ import { Spin } from 'antd';
 import AggregrationBar from './AggregationBar';
 import { AggsState, AggsQuery } from '../Aggs';
 import aggComponents from '../Aggs/aggComponentsMap.js';
-import ZoneTabs from './ZoneTabs';
 
 export { AggsWrapper } from '../Aggs';
 
