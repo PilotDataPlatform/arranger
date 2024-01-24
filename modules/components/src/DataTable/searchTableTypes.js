@@ -55,6 +55,14 @@ const renderDate = (text) => {
 
 const renderIcon = (_, record) => (record.type === 'file' ? <FileOutlined /> : <FolderOutlined />);
 
+const renderParentPath = (path) => {
+  if (path.includes('shared')) {
+    return path.replace('shared', 'Project Folder');
+  }
+
+  return path;
+};
+
 export default function renderField(field) {
   switch (field) {
     case 'size':
@@ -65,6 +73,8 @@ export default function renderField(field) {
       return renderIcon;
     case 'zone':
       return renderZone;
+    case 'parent_path':
+      return renderParentPath;
     default:
       return renderText;
   }
