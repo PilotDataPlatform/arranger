@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import './ArrangerContext.css';
 
 export const ArrangerStateContext = createContext({
   arrangerState: { columnState: {}, aggregationState: {} },
@@ -13,11 +14,11 @@ const ArrangerStateContextProvider = ({ children }) => {
   };
 
   return (
-    <>
+    <div className="arranger-context">
       <ArrangerStateContext.Provider value={{ arrangerState, setArrangerState: setState }}>
         {children}
       </ArrangerStateContext.Provider>
-    </>
+    </div>
   );
 };
 
