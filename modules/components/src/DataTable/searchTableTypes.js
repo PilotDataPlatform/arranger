@@ -60,6 +60,10 @@ const renderParentPath = (path) => {
     return path.replace('shared', 'Project Folder');
   }
 
+  if (path?.includes('namefolder/')) {
+    return path.replace('namefolder/', '');
+  }
+
   return path;
 };
 
