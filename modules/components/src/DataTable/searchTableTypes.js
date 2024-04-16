@@ -56,12 +56,8 @@ const renderDate = (text) => {
 const renderIcon = (_, record) => (record.type === 'file' ? <FileOutlined /> : <FolderOutlined />);
 
 const renderParentPath = (path) => {
-  if (path?.includes('shared')) {
-    return path.replace('shared', 'Project Folder');
-  }
-
   if (path?.includes('namefolder/')) {
-    return path.replace('namefolder/', '');
+    return path.replace('namefolder/', 'users/');
   }
 
   return path;
