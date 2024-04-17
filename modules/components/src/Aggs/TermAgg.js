@@ -71,7 +71,11 @@ const MoreOrLessButton = ({ howManyMore, isMore, onClick }) => (
 
 const decorateBuckets = ({ buckets, searchText }) => {
   const namedFilteredBuckets = buckets
-    .map((b) => ({ ...b, name: b.key_as_string || b.key }))
+    .map((b) => {
+      const key = b.key_as_string || b.key;
+      const name = key.trim() === 'project_folder' ? 'shared' : key;
+      return { ...b, name: name };
+    })
     .filter((b) => !searchText || internalTranslateSQONValue(b.name).match(strToReg(searchText)));
   const [missing, notMissing] = partition(namedFilteredBuckets, {
     name: '__missing__',
@@ -133,7 +137,7 @@ const TermAgg = ({
   setToggleSelectDeselect,
   type,
 }) => {
-  const decoratedBuckets = decorateBuckets({ buckets, searchText });
+  const decoratedBuckets = decorateBuckets({ buckets, searchText }); // aggs response has the bucket key which contains all the values
   const dotField = field.replace(/__/g, '.');
   const isExclude = externalIsExclude({ field: dotField }) || stateIsExclude;
   const hasSearchHit =
