@@ -4,14 +4,14 @@ import axios from 'axios';
 import memoize from 'memoizee';
 
 import {
-    AUTH_SERVICE,
-    AUTH_SERVICE_PAGE_SIZE,
-    MEMOIZE_TIMEOUT, METADATA_SERVICE, METADATA_SERVICE_PAGE_SIZE
+  AUTH_SERVICE,
+  AUTH_SERVICE_PAGE_SIZE,
+  MEMOIZE_TIMEOUT,
+  METADATA_SERVICE,
+  METADATA_SERVICE_PAGE_SIZE,
 } from './config.js';
 
-import {
-    ProjectFolder
-} from './sqonModels.js'
+import { ProjectFolder } from './sqonModels.js';
 
 /**
  * Function will read sqon json files
@@ -19,21 +19,19 @@ import {
  * @returns A Promise for JSON of sqon
  */
 async function readFile(path) {
-    try {
-        return new Promise((resolve, reject) => {
-            fs.readFile(path, 'utf8', function(err, data) {
-                if (err) {
-                    reject(err);
-                }
-                resolve(JSON.parse(data));
-            });
-        });
-
-    } catch (error) {
-        console.error(error)
-        throw Error('Failed to read sqon model')
-    }
-
+  try {
+    return new Promise((resolve, reject) => {
+      fs.readFile(path, 'utf8', function (err, data) {
+        if (err) {
+          reject(err);
+        }
+        resolve(JSON.parse(data));
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    throw Error('Failed to read sqon model');
+  }
 }
 
 /**
@@ -42,30 +40,28 @@ async function readFile(path) {
  * @returns Username and respective keycloak realm roles
  */
 export function decodeToken(request) {
-    try {
-        // decode token
-        const decoded = jwt_decode(request.headers.authorization);
+  try {
+    // decode token
+    const decoded = jwt_decode(request.headers.authorization);
 
-        if ((!decoded['preferred_username']) || (!decoded['realm_access']['roles'])) {
-            throw Error('Invalid decoded token format')
-        }
-
-        // get user roles
-        const user_roles = decoded['realm_access']['roles'];
-
-        // get username
-        const username = decoded['preferred_username'];
-
-        return {
-            'username': username,
-            'roles': user_roles
-        }
-
-    } catch (error) {
-        console.error(error)
-        throw Error('Failed to decode token')
+    if (!decoded['preferred_username'] || !decoded['realm_access']['roles']) {
+      throw Error('Invalid decoded token format');
     }
 
+    // get user roles
+    const user_roles = decoded['realm_access']['roles'];
+
+    // get username
+    const username = decoded['preferred_username'];
+
+    return {
+      username: username,
+      roles: user_roles,
+    };
+  } catch (error) {
+    console.error(error);
+    throw Error('Failed to decode token');
+  }
 }
 
 /**
@@ -75,28 +71,28 @@ export function decodeToken(request) {
  * @returns role associated with project_code (e.g., testproject-collaborator)
  */
 function UserRoleCheck(project_code, user_roles) {
-    try {
-        if (user_roles.filter((s) => s.includes('admin-role')).length !== 0 || user_roles.filter((s) => s.includes('platform-admin')).length !== 0 ||
-            user_roles.filter((s) => s.includes(`${project_code}-admin`)).length !== 0) {
-            return 'admin';
-        }
-        // extract role that contains project
-        const project_role = user_roles.filter((s) => s.includes(project_code))
-        if (project_role.length !== 0) {
-            const filtered_project = project_role[0].split('-')[0]
-            if (filtered_project === project_code) {
-                return project_role[0].split("-").pop()
-            }
-        } else {
-            return null;
-        }
-
-    } catch (error) {
-        console.error(error)
-        throw Error(`Failed to check realm roles against project ${project_code}`)
-
+  try {
+    if (
+      user_roles.filter((s) => s.includes('admin-role')).length !== 0 ||
+      user_roles.filter((s) => s.includes('platform-admin')).length !== 0 ||
+      user_roles.filter((s) => s.includes(`${project_code}-admin`)).length !== 0
+    ) {
+      return 'admin';
     }
-
+    // extract role that contains project
+    const project_role = user_roles.filter((s) => s.includes(project_code));
+    if (project_role.length !== 0) {
+      const filtered_project = project_role[0].split('-')[0];
+      if (filtered_project === project_code) {
+        return project_role[0].split('-').pop();
+      }
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw Error(`Failed to check realm roles against project ${project_code}`);
+  }
 }
 
 /**
@@ -108,45 +104,42 @@ function UserRoleCheck(project_code, user_roles) {
  * @returns An array of non user-accessible project folders for a project
  */
 
-const getProjectFolders = async (project_code = '', token = '',page = 0, data = []) => {
-    try {
-        const zones = {0:'greenroom', 1:'core'}
-        const request_data = {
-          params: {
-            type: 'project_folder',
-            container_code: project_code,
-            status: 'ACTIVE',
-            page: page,
-            page_size: METADATA_SERVICE_PAGE_SIZE
-          },
-          paramsSerializer: {
-            indexes: null // by default: false
-          },
-           headers: {
-                "Authorization" : `${token}`
+const getProjectFolders = async (project_code = '', token = '', page = 0, data = []) => {
+  try {
+    const zones = { 0: 'greenroom', 1: 'core' };
+    const request_data = {
+      params: {
+        type: 'project_folder',
+        container_code: project_code,
+        status: 'ACTIVE',
+        page: page,
+        page_size: METADATA_SERVICE_PAGE_SIZE,
+      },
+      paramsSerializer: {
+        indexes: null, // by default: false
+      },
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
 
-            }
+    const url = `${METADATA_SERVICE}/v1/items/search`;
+    const response = await axios.get(url, request_data);
+    page++;
+    if (response.data.result.length !== 0) {
+      for (const entry of response.data.result) {
+        data.push({ name: entry.name, zone: zones[entry.zone] });
+      }
     }
-
-        const url = `${METADATA_SERVICE}/v1/items/search`;
-        const response = await axios.get(url, request_data);
-        page++;
-        if (response.data.result.length !== 0){
-            for (const entry of response.data.result) {
-                data.push({"name":entry.name, "zone":zones[entry.zone]});
-            }
-        }
-        if (response.data.num_of_pages > page) {
-            return getProjectFolders(project_code, token, page, data);
-        }
-        return data;
-    } catch (error) {
-        console.error(error.message)
-        throw Error(`Failed to call metadata service`);
+    if (response.data.num_of_pages > page) {
+      return getProjectFolders(project_code, token, page, data);
     }
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`Failed to call metadata service`);
+  }
 };
-
-
 
 /**
  * Function will call auth service to obtain rbac permissions for a project
@@ -157,19 +150,19 @@ const getProjectFolders = async (project_code = '', token = '',page = 0, data = 
  */
 
 const getPermissions = async (project_code, page = 0, data = []) => {
-    try {
-        const url = `${AUTH_SERVICE}/v1/permissions/metadata?page=${page}&page_size=${AUTH_SERVICE_PAGE_SIZE}&order_by=category&order_type=asc&project_code=${project_code}`;
-        const response = await axios.get(url);
-        page++;
-        data.push(...response.data.result);
-        if (response.data.num_of_pages > page) {
-            return getPermissions(project_code, page, data);
-        }
-        return data;
-    } catch (error) {
-        console.error(error.message)
-        throw Error(`Failed to call auth service`);
+  try {
+    const url = `${AUTH_SERVICE}/v1/permissions/metadata?page=${page}&page_size=${AUTH_SERVICE_PAGE_SIZE}&order_by=category&order_type=asc&project_code=${project_code}`;
+    const response = await axios.get(url);
+    page++;
+    data.push(...response.data.result);
+    if (response.data.num_of_pages > page) {
+      return getPermissions(project_code, page, data);
     }
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`Failed to call auth service`);
+  }
 };
 
 /**
@@ -181,51 +174,49 @@ const getPermissions = async (project_code, page = 0, data = []) => {
  */
 
 const getRBAC = async (project_code, user_roles, token) => {
-    try {
-        // define base RBAC
-        const permitted = {
-            file_in_own_namefolder: [],
-            file_any: [],
-            project_folders_accessible: []
-        };
+  try {
+    // define base RBAC
+    const permitted = {
+      file_in_own_namefolder: [],
+      file_any: [],
+      project_folders_accessible: [],
+    };
 
-        // check if user has role associated with project
-        const validated_role = UserRoleCheck(project_code, user_roles);
-        if (validated_role == null) {
-            return {
-                "role": null,
-                "permissions": permitted
-            }
+    // check if user has role associated with project
+    const validated_role = UserRoleCheck(project_code, user_roles);
+    if (validated_role == null) {
+      return {
+        role: null,
+        permissions: permitted,
+      };
+    }
+    // obtain permissions for project role from auth service
+    const rbac = await getPermissions(project_code);
+    // filter permissions based on realm role
+    for (const entry of rbac) {
+      if (entry.operation === 'view' && entry.category === 'Data Operation Permissions') {
+        if (entry.permissions[validated_role]) {
+          permitted[entry.resource].push(entry.zone);
         }
-        // obtain permissions for project role from auth service
-        const rbac = await getPermissions(project_code);
-        // filter permissions based on realm role
-        for (const entry of rbac) {
-            if (entry.operation === 'view' && entry.category === 'Data Operation Permissions') {
-                if (entry.permissions[validated_role]) {
-                    permitted[entry.resource].push(entry.zone);
-                }
-            }
-        }
-
-        // obtain project folders a user has access to
-        const projectFolders = await getProjectFolders(project_code, token);
-        if (projectFolders.length !== 0) {
-            for (const folder of projectFolders) {
-                    permitted['project_folders_accessible'].push(folder)
-                }
-        }
-
-        return {
-            "role": validated_role,
-            "permissions": permitted
-        };
-
-    } catch (error) {
-        console.error(error)
-        throw Error(`Cannot retrieve RBAC info for project ${project_code}`)
+      }
     }
 
+    // obtain project folders a user has access to
+    const projectFolders = await getProjectFolders(project_code, token);
+    if (projectFolders.length !== 0) {
+      for (const folder of projectFolders) {
+        permitted['project_folders_accessible'].push(folder);
+      }
+    }
+
+    return {
+      role: validated_role,
+      permissions: permitted,
+    };
+  } catch (error) {
+    console.error(error);
+    throw Error(`Cannot retrieve RBAC info for project ${project_code}`);
+  }
 };
 
 /**
@@ -237,64 +228,63 @@ const getRBAC = async (project_code, user_roles, token) => {
  */
 
 const buildSQON = async (role_metadata, project_code, username) => {
-    try {
-        // extract role and permissions
-        const role = role_metadata['role']
-        const permissions = role_metadata['permissions']
+  try {
+    // extract role and permissions
+    const role = role_metadata['role'];
+    const permissions = role_metadata['permissions'];
 
-        // read in base sqon
-        const base_sqon = await readFile('./models/base_sqon.json');
+    // read in base sqon
+    const base_sqon = await readFile('./models/base_sqon.json');
 
-        // if user does not have any permissions, return no data
-        if (permissions['file_any'].length === 0 && permissions['file_in_own_namefolder'].length === 0 && permissions['project_folders_accessible'].length === 0) {
-            base_sqon['content'][0]['content']['field'] = 'no_permissions'
-            return base_sqon
-        }
-
-        // assign project to sqon
-        base_sqon['content'][0]['content']['value'] = [project_code];
-        if (role === 'admin') {
-            return base_sqon;
-        }
-
-        // assign permissions to sqon
-        if (permissions['file_any'].length !== 0) {
-            for (const p of permissions['file_any']) {
-                let others_sqon = await readFile('./models/others_sqon.json');
-                others_sqon['content'][1]['content']['value'] = [p];
-                base_sqon['content'][1]['content'].push(others_sqon);
-            }
-        }
-        if (permissions['file_in_own_namefolder'].length !== 0) {
-            for (const p of permissions['file_in_own_namefolder']) {
-                let owner_sqon = await readFile('./models/owner_sqon.json');
-                owner_sqon['content'][0]['content']['value'] = [`namefolder/${username}*`];
-                owner_sqon['content'][1]['content']['value'] = [p];
-                base_sqon['content'][1]['content'].push(owner_sqon);
-            }
-        }
-
-
-        // project folders accessible, select these only. User does not have access to all name folders in any zone
-        if (permissions['project_folders_accessible'].length !== 0) {
-            const projectFolder = new ProjectFolder();
-            for (const p of permissions['project_folders_accessible']){
-                const sqon = projectFolder.generateAccessibleSQON(p.zone, p.name);
-                base_sqon['content'][1]['content'].push(sqon);
-            }
-        }
-
-        // return sqon with user permissions in place
-        return base_sqon;
-
-
-    } catch (error) {
-        console.error(error)
-        throw Error(`Cannot build SQON for project ${project_code}`)
+    // if user does not have any permissions, return no data
+    if (
+      permissions['file_any'].length === 0 &&
+      permissions['file_in_own_namefolder'].length === 0 &&
+      permissions['project_folders_accessible'].length === 0
+    ) {
+      base_sqon['content'][0]['content']['field'] = 'no_permissions';
+      return base_sqon;
     }
 
-};
+    // assign project to sqon
+    base_sqon['content'][0]['content']['value'] = [project_code];
+    if (role === 'admin') {
+      return base_sqon;
+    }
 
+    // assign permissions to sqon
+    if (permissions['file_any'].length !== 0) {
+      for (const p of permissions['file_any']) {
+        let others_sqon = await readFile('./models/others_sqon.json');
+        others_sqon['content'][1]['content']['value'] = [p];
+        base_sqon['content'][1]['content'].push(others_sqon);
+      }
+    }
+    if (permissions['file_in_own_namefolder'].length !== 0) {
+      for (const p of permissions['file_in_own_namefolder']) {
+        let owner_sqon = await readFile('./models/owner_sqon.json');
+        owner_sqon['content'][0]['content']['value'] = [`users/${username}*`];
+        owner_sqon['content'][1]['content']['value'] = [p];
+        base_sqon['content'][1]['content'].push(owner_sqon);
+      }
+    }
+
+    // project folders accessible, select these only. User does not have access to all name folders in any zone
+    if (permissions['project_folders_accessible'].length !== 0) {
+      const projectFolder = new ProjectFolder();
+      for (const p of permissions['project_folders_accessible']) {
+        const sqon = projectFolder.generateAccessibleSQON(p.zone, p.name);
+        base_sqon['content'][1]['content'].push(sqon);
+      }
+    }
+
+    // return sqon with user permissions in place
+    return base_sqon;
+  } catch (error) {
+    console.error(error);
+    throw Error(`Cannot build SQON for project ${project_code}`);
+  }
+};
 
 /**
  * Function will create custom SQON filter, based on RBAC, for both query and aggregation results
@@ -306,13 +296,12 @@ const buildSQON = async (role_metadata, project_code, username) => {
  */
 
 export async function arrangerAuthFilter(project_code, username, user_roles, token) {
-    // get rbac permissions (if any)
-    const rbac = await getRBAC(project_code, user_roles, token);
+  // get rbac permissions (if any)
+  const rbac = await getRBAC(project_code, user_roles, token);
 
-    // build sqon
-    return await buildSQON(rbac, project_code, username);
+  // build sqon
+  return await buildSQON(rbac, project_code, username);
 }
-
 
 /**
  * Function will process incoming request to obtain SQON filter based on RBAC
@@ -325,16 +314,14 @@ export async function arrangerAuthFilter(project_code, username, user_roles, tok
  */
 
 export async function processRequest(project_code, username, request_body, realm_roles, token) {
-    return await arrangerAuthFilter(project_code, username, realm_roles, token)
-
-
+  return await arrangerAuthFilter(project_code, username, realm_roles, token);
 }
 
 // memoize processRequest function, based on project code, username, and request body parameters.
 // request body is passed in order to ensure specific facet selections and identifiers (during download) are cached
 
 export const memoizedProcess = memoize(processRequest, {
-    promise: true,
-    maxAge: MEMOIZE_TIMEOUT,
-    length: 3
-}) // length designates first 3 parameters are cached
+  promise: true,
+  maxAge: MEMOIZE_TIMEOUT,
+  length: 3,
+}); // length designates first 3 parameters are cached

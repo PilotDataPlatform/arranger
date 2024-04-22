@@ -1,23 +1,19 @@
 {
-   "op":"and",
-   "content":[
-      {
-         "op":"in",
-         "content":{
-            "field":"parent_path",
-            "value":[
-               "namefolder/user*"
-            ]
-         }
-      },
-      {
-         "op":"in",
-         "content":{
-            "field":"zonefilter",
-            "value":[
-               "greenroom"
-            ]
-         }
+  "op": "and",
+  "content": [
+    {
+      "op": "in",
+      "content": {
+        "field": "parent_path",
+        "value": ["users/user*"]
       }
-   ]
+    },
+    {
+      "op": "in",
+      "content": {
+        "field": "zonefilter",
+        "value": ["greenroom"]
+      }
+    }
+  ]
 }
