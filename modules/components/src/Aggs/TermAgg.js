@@ -73,8 +73,7 @@ const decorateBuckets = ({ buckets, searchText }) => {
   const namedFilteredBuckets = buckets
     .map((b) => {
       const key = b.key_as_string || b.key;
-      const name = key.trim() === 'project_folder' ? 'shared' : key;
-      return { ...b, name: name };
+      return { ...b, name: key };
     })
     .filter((b) => !searchText || internalTranslateSQONValue(b.name).match(strToReg(searchText)));
   const [missing, notMissing] = partition(namedFilteredBuckets, {
