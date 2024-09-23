@@ -122,7 +122,7 @@ jobs:
           fi
 
   trigger_pilot_dev_deployment:
-    needs: [build-and-push-docker-image, get-version]
+    needs: [build-and-push-sever-filter-image, get-version]
     runs-on: ubuntu-20.04
     if: github.event_name != 'pull_request'
     steps:
