@@ -3,12 +3,12 @@ name: CI pipeline server filter
 on:
   push:
     branches:
-      - patched-version
+      - pilot_develop
     paths:
       - 'modules/server-filter/**'
   pull_request:
     branches:
-      - patched-version
+      - pilot_develop
     paths:
       - 'modules/server-filter/**'
 
@@ -35,12 +35,12 @@ jobs:
         shell: bash
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
-          BASE_VERSION=`sed -n 's/^ *"version":.*"\([^"]*\)".*/\1/p' package.json`
+          BASE_VERSION=`sed -n 's/^ *"version":.*"\([^"]*\)".*/\1/p' modules/server-filter/package.json`
           echo "app_version=$BASE_VERSION" >> $GITHUB_OUTPUT
 
-  build-and-push-docker-image:
+  build-and-push-sever-filter-image:
     needs: [extract-branch-name, get-version]
-    if: ${{ needs.extract-branch-name.outputs.branch == 'patched-version'}}
+    if: ${{ needs.extract-branch-name.outputs.branch == 'pilot_develop'}}
     name: Build server filter Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
@@ -52,7 +52,7 @@ jobs:
       - name: Login to Github Packages
         uses: docker/login-action@v2
         with:
-          registry: pilotdataplatform.azurecr.io
+          registry: indocpilot.azurecr.io
           username: ${{ secrets.ACR_CLIENT }}
           password: ${{ secrets.ACR_SECRET }}
       - name: Docker metadata
@@ -61,11 +61,11 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            pilotdataplatform.azurecr.io/arranger/arranger-server
+            indocpilot.azurecr.io/arranger
           # generate Docker tags based on the following events/attributes
           sep-tags: ','
           tags: |
-            type=raw,prefix=arranger-server-filter-,suffix=,value=${{needs.get-version.outputs.app_version}}
+            type=raw,prefix=server-filter-,suffix=,value=${{needs.get-version.outputs.app_version}}
 #      - name: Image digest
 #        run: echo ${{ steps.meta.outputs.tags }}
       - name: Image digest
