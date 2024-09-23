@@ -40,7 +40,6 @@ jobs:
 
   build-and-push-admin-ui-image:
     needs: [extract-branch-name, get-version]
-    if: ${{ needs.extract-branch-name.outputs.branch == 'pilot_develop'}}
     name: Build admin ui Docker image and push to repositories
     runs-on: ubuntu-20.04
     steps:
