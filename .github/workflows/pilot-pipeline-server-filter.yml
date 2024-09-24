@@ -60,11 +60,11 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            indocpilot.azurecr.io/arranger
+            indocpilot.azurecr.io/arranger/arranger-server
           # generate Docker tags based on the following events/attributes
           sep-tags: ','
           tags: |
-            type=raw,prefix=server-filter-,suffix=,value=${{needs.get-version.outputs.app_version}}
+            type=raw,prefix=arranger-server-filter-,suffix=,value=${{needs.get-version.outputs.app_version}}
 #      - name: Image digest
 #        run: echo ${{ steps.meta.outputs.tags }}
       - name: Image digest
