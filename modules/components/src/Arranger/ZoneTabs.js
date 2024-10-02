@@ -62,7 +62,7 @@ const ZoneTab = ({ setSQON, sqon, aggregations }) => {
   };
 
   useEffect(() => {
-    const zoneData = aggregations.zone?.buckets
+    const zoneData = aggregations?.zone?.buckets
       .map((zone, index) => {
         if (zone.key === 'greenroom') {
           return { ...zone, order: 0 };

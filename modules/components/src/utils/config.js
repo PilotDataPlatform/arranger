@@ -17,7 +17,7 @@ export function deleteValue(key) {
 
 export const ARRANGER_API = getValue(
   'ARRANGER_API',
-  'https://api.dev.pilot.indocresearch.com/pilot/arranger',
+  'https://api.dev.indocpilot.io/pilot/arranger',
 );
 export const ES_HOST = getValue('ES_HOST', 'http://localhost:9200');
 export const PROJECT_ID = getValue('PROJECT_ID', null);

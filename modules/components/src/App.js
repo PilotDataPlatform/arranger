@@ -46,8 +46,8 @@ const App = () => {
       <StyleProvider selected="beagle" availableThemes={AVAILABLE_THEMES} />
       <Arranger
         disableSocket
-        graphqlField="pilotdevtestalias" // static
-        projectId="pilotdev" // static
+        graphqlField="devalias" // static
+        projectId="dev" // static
         projectCode="indoctestproject" // dynamic
         render={(props) => {
           return (
@@ -55,9 +55,7 @@ const App = () => {
               {!keycloak?.authenticated ? (
                 <ArrangerLogin />
               ) : (
-                <ArrangerComponents
-                  {...{ ...props, graphqlField: 'pilotdevtestalias', projectId: 'pilotdev' }}
-                />
+                <ArrangerComponents {...{ ...props, graphqlField: 'devalias', projectId: 'dev' }} />
               )}
             </>
           );
