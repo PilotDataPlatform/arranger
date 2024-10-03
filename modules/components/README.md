@@ -22,8 +22,9 @@ If you do not have a personal access token you will need to create one via githu
 ![Github personal access token creation](docs/images/github-personal-access-token.png)
 <br></br>
 
-
 Now we're ready to install the packages. Ensure you are in `modules/components` and input `npm install` in the terminal. If you encounter any issues with installing your packages, it is likely your token has expired. Create a new token and replace the old one in the `.npmrc` file. If this does not resolve your issue, the error message in the terminal should display a file path to inspect your logs for more detailed troubleshooting.
+
+Create .env file using .env.schema as an example, make sure the .env variable is updated with our current keycloak dev environment.
 
 Upon completing the installation, input `npm run start` to start up the local server. Once it loads you will be required to login with your dev environment credentials, or if you have an instance of the dev environment opened you will be logged in automatically.
 
