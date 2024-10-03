@@ -1,6 +1,6 @@
 {
   "name": "@pilotdataplatform/arranger-components",
-  "version": "1.5.10",
+  "version": "1.5.12",
   "description": "Data Portal Components",
   "main": "dist/index.js",
   "publishConfig": {
