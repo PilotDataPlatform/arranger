@@ -12,6 +12,8 @@ let aggFields = `
   }
 `;
 
+export const excludeQueryFields = ['created_time', 'last_updated_time'];
+
 export const queryFromAgg = ({ field, type }) =>
   type === 'Aggregations'
     ? `
@@ -138,15 +140,21 @@ export default class extends Component {
       update: this.update,
       aggs: this.state.temp.map((x) => {
         const type = getMappingTypeOfField({ field: x.field, mapping }) || x.type;
-        return {
+        const agg = {
           ...x,
           type,
-          query: queryFromAgg({
-            ...x,
-            type,
-          }),
           isTerms: type === 'Aggregations',
+          ...(!excludeQueryFields.some((excludeField) => excludeField === x.field)
+            ? {
+                query: queryFromAgg({
+                  ...x,
+                  type,
+                }),
+              }
+            : {}),
         };
+
+        return agg;
       }),
       saveOrder: this.saveOrder,
       loading: this.state.loading,
