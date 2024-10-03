@@ -1,3 +1,7 @@
+# UI Components
+
+This folder contains is the front end of the arranger project.
+
 ## Development Setup
 
 Make sure you are checked out in the `portal-ui` branch.
