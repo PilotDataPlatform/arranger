@@ -9,7 +9,7 @@ Make sure you are checked out in the `portal-ui` branch.
 Ensure you are using node version `14.19.0` and npm version `6.14.6`. To manage different versions of node, we recommend using a [node version manager.](https://github.com/tj/n)
 Please note Portal uses version node version `16.13.2` and npm version `9.1.2`
 
-Inside of `modules/components` you will need to create a file called `.npmrc`. This file is required to publish updates and properly installing the dependencies for this project.The `components` module is to be published in order for Portal to consume the latest changes. In this file you will need to add the following:
+Inside of `modules/components` you will need to create a file called `.npmrc`. This file is required to publish updates and properly installing the dependencies for this project. The same file also needs to be created in the root folder of the `Portal` project folder. The `components` module is to be published in order for Portal to consume the latest changes. In this file you will need to add the following:
 
 ```
 @pilotdataplatform:registry=https://npm.pkg.github.com
