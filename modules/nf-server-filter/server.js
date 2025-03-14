@@ -3,7 +3,7 @@ import cors from 'cors';
 import { Client } from '@elastic/elasticsearch';
 import { ApolloServer } from 'apollo-server-express';
 import { downloader } from './export/export-file.js';
-import { decodeToken, memoizedProcess } from './authFilter.js';
+import { processRequest } from './authFilter.js';
 import { ARRANGER_PROJECT_ID, ELASTICSEARCH, SERVER_PORT } from './config.js';
 
 // We need to pull the createProjectSchema method out of the arranger server dist because this gives us access to the `getServerSideFilter` method
@@ -11,7 +11,7 @@ import { createProjectSchema } from '@arranger/server/dist/startProject.js';
 
 // Manually create ES Client, as we need to give arranger access to it directly
 const esClient = new Client({
-    node: ELASTICSEARCH
+  node: ELASTICSEARCH,
 });
 
 /**
@@ -22,32 +22,12 @@ const esClient = new Client({
  */
 
 async function serverFilter(req, res, next) {
-    const invalid_sqon = {
-        "op": "and",
-        "content": [{
-            "op": "in",
-            "content": {
-                "field": "container_code",
-                "value": ["no_permissions"]
-            }
-        }]
-    }
-    try {
-        if ((!req.headers.authorization) || (!req.body.project_code)) {
-            req.sqon = invalid_sqon;
-        } else {
-            const decoded = decodeToken(req)
-            const project_code = req.body['project_code'];
-            const username = decoded['username']
-            const realm_roles = decoded['roles']
-            req.sqon = await memoizedProcess(project_code, username, JSON.stringify(req.body), realm_roles, req.headers.authorization)
-
-        }
-    } catch (error) {
-        console.error(`Failed to execute server filter: ${error.message} `)
-        req.sqon = invalid_sqon
-    }
-    next()
+  try {
+    req.sqon = await processRequest();
+  } catch (error) {
+    console.error(`Failed to execute server filter: ${error.message} `);
+  }
+  next();
 }
 
 /**
@@ -56,68 +36,69 @@ async function serverFilter(req, res, next) {
  * @returns a SQON filter to apply to the entire request and to all aggregations
  */
 function SQONFilter(context) {
-    return context.req.sqon
+  return context.req.sqon;
 }
 
 // Schema for server-side filtering
 const arrangerSchema = await createProjectSchema({
-    es: esClient,
-    id: ARRANGER_PROJECT_ID,
-    graphqlOptions: {},
-    enableAdmin: false,
-    getServerSideFilter: SQONFilter,
-})
+  es: esClient,
+  id: ARRANGER_PROJECT_ID,
+  graphqlOptions: {},
+  enableAdmin: false,
+  getServerSideFilter: SQONFilter,
+});
 
 // Schema for download functionality
 const arrangerSchemaDownload = await createProjectSchema({
-    es: esClient,
-    id: ARRANGER_PROJECT_ID,
-    graphqlOptions: {},
-    enableAdmin: false,
-})
+  es: esClient,
+  id: ARRANGER_PROJECT_ID,
+  graphqlOptions: {},
+  enableAdmin: false,
+});
 
 // Setup Apollo Server
 const server = new ApolloServer({
-    schema: arrangerSchema['schema'],
-    context: ({
-        req
-    }) => {
-        return {
-            es: esClient,
-            req,
-            projectId: ARRANGER_PROJECT_ID
-        };
-    }
-})
+  schema: arrangerSchema['schema'],
+  context: ({ req }) => {
+    return {
+      es: esClient,
+      req,
+      projectId: ARRANGER_PROJECT_ID,
+    };
+  },
+});
 
 // Setup express server
 const app = express();
 app.use(express.json()); // support json encoded bodies
 
 // Use serverFilter for incoming requests
-app.use(serverFilter)
+app.use(serverFilter);
 
 // Enable all CORS requests
-app.use(cors())
+app.use(cors());
 
 // Add Arranger middleware
 server.applyMiddleware({
-    app,
-    path: `/${ARRANGER_PROJECT_ID}/graphql`
+  app,
+  path: `/${ARRANGER_PROJECT_ID}/graphql`,
 });
 server.applyMiddleware({
-    app,
-    path: `/${ARRANGER_PROJECT_ID}/graphql/*`
+  app,
+  path: `/${ARRANGER_PROJECT_ID}/graphql/*`,
 });
 
 // Enable export file
-app.use(`/${ARRANGER_PROJECT_ID}/download`, downloader({
+app.use(
+  `/${ARRANGER_PROJECT_ID}/download`,
+  downloader({
     projectId: ARRANGER_PROJECT_ID,
     es: esClient,
-    arranger_schema: arrangerSchemaDownload
-}))
+    arranger_schema: arrangerSchemaDownload,
+  }),
+);
 
 // Start express server
 app.listen(SERVER_PORT, () => {
-    console.log(`Arranger server running on ${SERVER_PORT}`);
+  console.log(`Arranger server running on ${SERVER_PORT}`);
 });

@@ -1,9 +1,23 @@
 {
-   "op":"in",
-   "content":{
-      "field":"zonefilter",
-      "value":[
-         "zone"
-      ]
-   }
+   "op":"and",
+   "content":[
+      {
+         "op":"in",
+         "content":{
+            "field":"parent_path",
+            "value":[
+               "users/*"
+            ]
+         }
+      },
+      {
+         "op":"in",
+         "content":{
+            "field":"zonefilter",
+            "value":[
+               "zone"
+            ]
+         }
+      }
+   ]
 }

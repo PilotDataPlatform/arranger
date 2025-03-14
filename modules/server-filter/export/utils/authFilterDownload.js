@@ -6,9 +6,8 @@
  */
 export function arrangerAuthFilterDownload(req, params, sqon) {
     try {
-
         // add user-selected identifiers
-        if (params['identifiers'].length > 0) {
+        if (params['identifiers'] && params['identifiers'].length > 0) {
             const sqon_id = {
                 "op": "in",
                 "content": {
@@ -21,6 +20,17 @@ export function arrangerAuthFilterDownload(req, params, sqon) {
             }
             req.sqon.content.push(sqon_id)
         }
+        if (sqon !== null) {
+            if (sqon.content){
+                // add facet selections to sqon
+                for (const filter of sqon.content){
+                    req.sqon.content.push(filter)
+
+                }
+            }
+
+        }
+
         // return custom sqon
         return req.sqon
 
