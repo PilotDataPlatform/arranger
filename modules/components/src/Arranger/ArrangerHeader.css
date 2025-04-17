@@ -1,5 +1,3 @@
-@import '../../public/themeStyles/constants.css';
-
 .arranger-header {
   display: flex;
   justify-content: space-between;
@@ -19,8 +17,23 @@
   color: var(--primary-color-1);
   margin: 0;
 }
-.arranger-header__title .anticon-question-circle {
-  font-size: 11px;
+.arranger-header__title .anticon-info-circle {
+  font-size: 12px;
   margin-left: 6px !important;
   color: var(--font-color-light);
+}
+
+/* tooltip not within scope of css variables */
+.arranger-header__tooltip {
+  .ant-tooltip-arrow:before {
+    background-color: white !important;
+  }
+
+  .ant-tooltip-inner {
+    background-color: #ffffff;
+    color: #595959;
+    font-size: 12px;
+    line-height: 17px;
+    padding: 8px 12px;
+  }
 }

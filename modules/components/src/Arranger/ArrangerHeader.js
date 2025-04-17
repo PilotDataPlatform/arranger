@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Tooltip } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 import './ArrangerHeader.css';
 
@@ -12,8 +12,12 @@ const ArrangerHeader = ({ title = 'Search', tooltipTitle = DEFAULT_TOOLTIP }) =>
   <div className="arranger-header">
     <p className="arranger-header__title">
       {title}
-      <Tooltip title={tooltipTitle} overlayClassName="arranger__header-tooltip">
-        <QuestionCircleOutlined />
+      <Tooltip
+        title={tooltipTitle}
+        overlayClassName="arranger-header__tooltip"
+        placement="rightBottom"
+      >
+        <InfoCircleOutlined />
       </Tooltip>
     </p>
   </div>
