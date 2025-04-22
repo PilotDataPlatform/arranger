@@ -29,11 +29,11 @@
     background-color: white !important;
   }
 
-  .ant-tooltip-inner {
+  div.ant-tooltip-inner {
     background-color: #ffffff;
     color: #595959;
     font-size: 12px;
-    line-height: 17px;
-    padding: 8px 12px;
+    padding: 15px 25px;
+    line-height: 1.57;
   }
 }
