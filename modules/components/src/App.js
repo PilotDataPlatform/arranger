@@ -48,7 +48,7 @@ const App = () => {
         disableSocket
         graphqlField="devalias" // static
         projectId="dev" // static
-        projectCode="bd2siteproject" // dynamic
+        projectCode="tp01" // dynamic
         render={(props) => {
           return (
             <>
