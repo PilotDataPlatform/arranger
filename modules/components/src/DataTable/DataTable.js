@@ -89,6 +89,7 @@ class DataTableWithToolbar extends React.Component {
       onMultipleColumnsChange = () => {},
       onFilterChange,
       onPaginationChange,
+      CustomPagination,
       onPageChange,
       onSortedChange,
       onSelectedTableRows,
@@ -147,6 +148,7 @@ class DataTableWithToolbar extends React.Component {
           fetchDataParams={this.state.fetchDataParams}
           searchResults={searchResults}
           setTableData={this.setSearchResults}
+          CustomPagination={CustomPagination}
           defaultPageSize={defaultPageSize}
           pageSize={pageSize}
           onPaginationChange={(pageSize) => {

@@ -20,6 +20,7 @@ const Table = ({
   fieldTypesForFilter = ['text', 'keyword'],
   api,
   showFilterInput = true,
+  CustomPagination,
   page = 1,
   pageSize = 10,
   ...props
@@ -79,6 +80,7 @@ const Table = ({
                   }),
                 );
               }}
+              CustomPagination={CustomPagination}
               page={page}
               pageSize={pageSize}
               onPaginationChange={(pageSize) => {

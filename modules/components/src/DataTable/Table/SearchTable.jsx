@@ -13,6 +13,7 @@ export default ({
   fetchDataParams,
   searchResults,
   setTableData,
+  CustomPagination,
   defaultPageSize,
   pageSize,
   onPaginationChange,
@@ -88,27 +89,48 @@ export default ({
   }, [fetchDataParams, page, pageSize]);
 
   return (
-    <Table
-      className="searchTable"
-      tableLayout="fixed"
-      loading={loading}
-      columns={columns}
-      dataSource={searchResults.data}
-      rowKey={(record) => `${record.identifier}`}
-      rowSelection={rowSelection}
-      onChange={onChange}
-      showSorterTooltip={false}
-      pagination={{
-        current: page,
-        pageSize,
-        total: searchResults.total,
-        pageSizeOptions: [
-          defaultPageSize,
-          defaultPageSize * 2,
-          defaultPageSize * 4 + defaultPageSize,
-        ],
-        showSizeChanger: true,
-      }}
-    />
+    <>
+      <Table
+        className="searchTable"
+        tableLayout="fixed"
+        loading={loading}
+        columns={columns}
+        dataSource={searchResults.data}
+        rowKey={(record) => `${record.identifier}`}
+        rowSelection={rowSelection}
+        onChange={onChange}
+        showSorterTooltip={false}
+        pagination={
+          // custom pagination only used in portal to pass accessibility standards. local arranger uses ANTD's pagination
+          !CustomPagination
+            ? {
+                current: page,
+                pageSize,
+                total: searchResults.total,
+                pageSizeOptions: [
+                  defaultPageSize,
+                  defaultPageSize * 2,
+                  defaultPageSize * 4 + defaultPageSize,
+                ],
+                showSizeChanger: true,
+              }
+            : null
+        }
+      />
+      {/* CustomPagination provided by Portal */}
+      {CustomPagination && (
+        <CustomPagination
+          onChange={({ cur, pageSize }) => {
+            onPageChange(cur);
+            onPaginationChange(pageSize);
+          }}
+          total={resultTotal}
+          current={page}
+          pageSize={pageSize}
+          showPageSize={true}
+          mode="default"
+        />
+      )}
+    </>
   );
 };
