@@ -50,6 +50,10 @@ export default ({
     onChange: (rowKeys) => {
       onSelectedTableRows(rowKeys);
     },
+
+    getCheckboxProps: (record) => ({
+      'aria-label': `Select ${record.name}`,
+    }),
   };
 
   useEffect(() => {
