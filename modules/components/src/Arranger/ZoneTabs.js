@@ -25,6 +25,8 @@ const Zone = ({ handleClick, currentZone, zoneLabel, zoneTotal }) => {
     <li
       onClick={() => handleClick(zoneLabel)}
       className={isActive ? 'zone-tabs__zone active' : 'zone-tabs__zone'}
+      tabIndex={0}
+      aria-label={zoneLabel}
       key={zoneLabel}
       data-zone={zoneLabel}
     >
