@@ -5,7 +5,6 @@ import './searchTable.css';
 import { isEqual } from 'lodash';
 
 import usePrevious from '../../utils/usePrevious';
-import { none } from 'ramda';
 
 export default ({
   columns,
@@ -115,7 +114,7 @@ export default ({
                 ],
                 showSizeChanger: true,
               }
-            : { position: ['none'] }
+            : false
         }
       />
       {/* CustomPagination provided by Portal */}
