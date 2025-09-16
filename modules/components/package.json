@@ -7,7 +7,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
-    "start": "webpack-dev-server .",
+    "start": "webpack-dev-server . --port 3001",
     "prepare": "rm -rf dist && mkdir dist && babel src --out-dir dist --copy-files",
     "watch": "babel src --out-dir dist --copy-files --watch",
     "build-storybook": "build-storybook -s ./public",
