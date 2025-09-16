@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { compose, withState } from 'recompose';
 import { isEmpty, orderBy, partition, truncate } from 'lodash';
 import { SearchOutlined } from '@ant-design/icons';
@@ -136,6 +136,8 @@ const TermAgg = ({
   setToggleSelectDeselect,
   type,
 }) => {
+  const searchIconRef = useRef();
+
   const decoratedBuckets = decorateBuckets({ buckets, searchText }); // aggs response has the bucket key which contains all the values
   const dotField = field.replace(/__/g, '.');
   const isExclude = externalIsExclude({ field: dotField }) || stateIsExclude;
@@ -209,6 +211,14 @@ const TermAgg = ({
         <SearchOutlined
           className="search-icon"
           onClick={() => setShowingSearch(!stateShowingSearch)}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setShowingSearch(!stateShowingSearch);
+            }
+          }}
+          ref={searchIconRef}
         />
       }
       filters={[
@@ -220,6 +230,14 @@ const TermAgg = ({
                   value={searchText}
                   placeholder={searchPlaceholder}
                   onChange={({ target: { value } }) => setSearchText(value || '')}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      e.preventDefault();
+                      setShowingSearch(false);
+                      setSearchText('');
+                      searchIconRef.current.focus();
+                    }
+                  }}
                   setSearchText={setSearchText}
                   aria-label={`Search data`}
                 />
