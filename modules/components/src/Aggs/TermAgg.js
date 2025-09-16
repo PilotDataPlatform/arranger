@@ -64,9 +64,9 @@ const IncludeExcludeButton = ({
 );
 
 const MoreOrLessButton = ({ howManyMore, isMore, onClick }) => (
-  <div className={`showMore-wrapper ${isMore ? 'more' : 'less'}`} onClick={onClick}>
+  <button className={`showMore-wrapper ${isMore ? 'more' : 'less'}`} onClick={onClick}>
     {isMore ? `${howManyMore} More` : 'Less'}
-  </div>
+  </button>
 );
 
 const decorateBuckets = ({ buckets, searchText }) => {
