@@ -1,6 +1,12 @@
 import React from 'react';
 import { isEqual } from 'lodash';
 import { DatePicker } from 'antd';
+import {
+  RightOutlined,
+  LeftOutlined,
+  DoubleRightOutlined,
+  DoubleLeftOutlined,
+} from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { endOfDay, startOfDay, parseISO } from 'date-fns';
 
@@ -111,6 +117,10 @@ class DatesAgg extends React.Component {
             disabledDate={this.disabledDate}
             onChange={this.onDateChange}
             value={this.state.rangePickerDates}
+            nextIcon={<RightOutlined aria-label="Go to next month" />}
+            prevIcon={<LeftOutlined aria-label="Go to previous month" />}
+            superNextIcon={<DoubleRightOutlined aria-label="Go to next year" />}
+            superPrevIcon={<DoubleLeftOutlined aria-label="Go to previous year" />}
           />
         </div>
       </AggsWrapper>
